@@ -1,0 +1,18 @@
+body {
+  /*font-family: Helvetica, Arial, sans-serif;*/
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: white;
+  /*background: #2d2332;*/
+  background-image: url(../public/images/background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  overflow-x: hidden;
+}
+@media screen and (max-width: 800px) {
+  body{
+    background-image: url(../public/images/background_small.jpg);
+    background-position: center;
+  }
+}

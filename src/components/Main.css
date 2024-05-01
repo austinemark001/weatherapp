@@ -1,0 +1,121 @@
+.homeContainer{
+    margin: 0;
+    margin-top: 10vh;
+    font-size: calc(10px + (3vw + 5vh)/2);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.cityCont{
+    margin: 0;
+    padding: 0;
+    padding-top: 10vh;
+    font-size: calc(10px + (3vw + 5vh)/2);
+}
+
+.responseCont{
+    margin-top: 30vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.responseCont #responseStatus{
+    color: #f3f3f3;
+    font-size: 0.6em;
+}
+.responseCont .loadingCont{
+    margin: 0 1vw;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+.loadingCont div{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+    margin: 0 0.3vw;
+}
+.loadingCont .dot-3{
+    animation: dots 1s linear 1s infinite;
+}
+
+@keyframes dots {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.favoritesCont{
+    margin: 0;
+    padding-top: 10vh;
+    font-size: calc(10px + (3vw + 5vh)/2);
+}
+.favoritesCont #noFavorites{
+    align-self: center;
+    font-size: 0.7em;
+}
+.favoritesCont .favoritesList{
+    margin: 0;
+    padding: 0;
+    margin-top: 10vh;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.favoritesList .favorite{
+    display: grid;
+    grid-template-columns: auto auto;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 1vh 0;
+    padding: 2vh 2vw;
+    width: 50vw;
+    color: #fdfdfd;
+    border-radius: 10px;
+}
+.favorite h4{
+    font-size: 0.4em;
+}
+.favorite #favoriteTemp{
+    font-size: 1.2em;
+    margin: 3vh 0;
+}
+#favoriteTemp span{
+    font-size: 0.4em;
+}
+.favorite img{
+    width: 80px;
+}
+.favorite #favoriteText{
+    font-size: 0.4em;
+}
+
+
+@media screen and (max-width: 800px) {
+    .loadingCont div{
+        width: 6px;
+        height: 6px;
+    }
+    .favoritesList .favorite{
+        width: 80vw;
+    }
+    .favorite h4{
+        font-size: 0.47em;
+    }
+    .favorite img{
+        width: 45px;
+    }
+    .favorite #favoriteText{
+        font-size: 0.47em;
+    }
+}
+
