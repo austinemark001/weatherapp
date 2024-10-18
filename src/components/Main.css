@@ -1,8 +1,6 @@
 .homeContainer{
     margin: 0;
-    margin-top: 10vh;
-    font-size: calc(10px + (3vw + 5vh)/2);
-    min-height: 100vh;
+    padding: 0;
     display: flex;
     flex-direction: column;
 }
@@ -10,21 +8,28 @@
 .cityCont{
     margin: 0;
     padding: 0;
-    padding-top: 10vh;
-    font-size: calc(10px + (3vw + 5vh)/2);
+    padding-top: 15vh;
 }
 
 .responseCont{
-    margin-top: 30vh;
+    position: absolute;
+    top: 10vh;
+    left: 0;
+    margin: 0;
+    padding: 0;
     width: 100%;
+    z-index: 10;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 .responseCont #responseStatus{
+    background-color: rgb(179, 205, 228, 0.2);
+    padding: 2vh 5vw;
+    border-radius: 30px;
     color: #f3f3f3;
-    font-size: 0.6em;
+    font-size: 0.4em;
 }
 .responseCont .loadingCont{
     margin: 0 1vw;
@@ -52,10 +57,21 @@
     }
 }
 
+.noweather{
+    margin-top: 30vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.nowether img{
+    font-size: 0.3em;
+
+}
+
 .favoritesCont{
     margin: 0;
-    padding-top: 10vh;
-    font-size: calc(10px + (3vw + 5vh)/2);
+    padding-top: 15vh;
 }
 .favoritesCont #noFavorites{
     align-self: center;
@@ -85,6 +101,11 @@
 .favorite h4{
     font-size: 0.4em;
 }
+.favorite h4 span{
+    font-weight: lighter;
+    font-size: 0.85em;
+    opacity: 0.7;
+}
 .favorite #favoriteTemp{
     font-size: 1.2em;
     margin: 3vh 0;
@@ -98,7 +119,6 @@
 .favorite #favoriteText{
     font-size: 0.4em;
 }
-
 
 @media screen and (max-width: 800px) {
     .loadingCont div{
@@ -116,6 +136,13 @@
     }
     .favorite #favoriteText{
         font-size: 0.47em;
+    }
+    .responseCont{
+        top: 7vh;
+        padding: 0;
+    }
+    .responseCont #responseStatus{
+        padding: 2vh 7vw;
     }
 }
 

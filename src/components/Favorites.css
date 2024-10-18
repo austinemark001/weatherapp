@@ -1,0 +1,328 @@
+.favCont{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+}
+.favCont .favTop{
+    align-self: flex-start;
+    padding: 0 20vw;
+    padding-top: 10vh;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+    align-items:  center;
+    font-size: 0.35em;
+}
+.favTop p{
+    opacity: 0.9;
+}
+.favTop button{
+    justify-self: right;
+    margin-right: 15vw;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font-size: 0.8em;
+    opacity: 0.75;
+}
+
+.favCont #favresponse{
+    position: absolute;
+    top: 10vh;
+    background-color: rgb(179, 205, 228, 0.2);
+    padding: 2vh 5vw;
+    border-radius: 30px;
+    font-size: 0.36em;
+}
+
+.favCont .addCont{
+    min-width: 40vw;
+    min-height: 30vh;
+    padding: 3vh 5vw;
+    position: absolute;
+    top: 0;
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    z-index: 7;
+}
+.addCont .addContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1vw;
+    padding-bottom: 1vh;
+}
+.addContent button{
+    background-color: transparent;
+    border: none;
+    font-size: 0.25em;
+    cursor: pointer;
+}
+.addContent button img{
+    width: 30px;
+}
+
+.addContent .searchform{
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.searchform input{
+    font-size: 0.35em;
+    padding: 1.5vh 1vw;
+    /*background-color: rgba(0, 0, 0, 0.2);*/
+    background-color:  transparent;
+    outline: none;
+    border: none;
+    color: inherit;
+    border-radius: 15px;
+    width: 20vw;
+}
+.searchform button{
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    /*border: #ededed 1px solid;*/
+    border: none;
+    color: inherit;
+    font-size: 0.42em;
+    padding: 10px;
+}
+.searchform input[type='search']::-webkit-search-cancel-button{
+    display: none;
+    -webkit-appearance: none;
+}
+
+.addCont .searchresults{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.searchresults #searchresponse{
+    font-size: 0.4em;
+    opacity: 0.7;
+}
+
+.searchresults .searchlist{
+    list-style-type: none;
+    font-size: 0.38em;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+.searchlist li{
+    cursor: pointer;
+}
+.searchlist li span{
+    color: #fe9b33;
+}
+.searchlist li:hover{
+    opacity: 0.7;
+}
+
+.favCont .savedweatherlist{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5vh;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+.savedweatherlist .savedweather{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5vh;
+    width: 50vw;
+    padding: 0;
+}
+.savedweather .savedweatherdetails{
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 3vh 5vw;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    border-radius: 20px;
+}
+
+
+.savedweatherdetails .savedweathercurrent{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: flex-start;
+}
+
+.savedweathercurrent div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3vh;
+}
+.savedweathercurrent .savedcurrentlast{
+    justify-self: flex-end;
+    padding-right: 5vw;
+}
+.savedweathercurrent #savedtime{
+    font-size: 0.33em;
+}
+.savedweathercurrent #savedtemp{
+    font-size: 2em;
+    margin: 0;
+}
+.savedweathercurrent sup{
+    font-size: 0.5em;
+}
+.savedweathercurrent #savedlocation{
+    font-size: 0.7em;
+    margin: 0;
+}
+.savedweathercurrent #savedlocation span{
+    font-size: 0.5em;
+    opacity: 0.7;
+}
+.savedweathercurrent  #savedcondition{
+    font-size: 0.4em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.savedweathercurrent img{
+    width: 60px;
+}
+.savedweatherdetails .savedweatherforecast{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 9vw;
+}
+.savedweatherforecast p{
+   font-size: 0.33em;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   gap: 1vw;
+}
+.savedweatherforecast img{
+    width: 40px;
+}
+.savedweatherforecast #savedday{
+    opacity: 0.7;
+}
+.savedweatherforecast #savedforecastother{
+    gap: unset;
+}
+#savedforecastother img{
+    width: 20px;
+    margin: 0;
+    margin-left: 1vw;
+}
+.savedweather #removesaved{
+    align-self: flex-end;
+    color: inherit;
+    opacity: 0.7;
+    font-size: 0.25em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.favCont #refreshfav{
+    background-color: transparent;
+    color: inherit;
+    padding: 10px;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    font-size: 0.3em;
+    margin-bottom: 10vh;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+
+@media screen and (max-width: 800px) {
+    .favCont .favTop{
+        font-size: 0.45em;
+    }
+    .favCont .addCont{
+        min-width: 89.8vw;
+        min-height: 50vh;
+    }
+    .addContent button img{
+        width: 25px;
+    }
+    .searchform input{
+        width: 65vw;
+        font-size: 0.4em;
+    }
+    .searchform button{
+        font-size: 0.5em;
+    }
+    .searchresults #searchresponse{
+        font-size: 0.4em;
+    }
+    .searchresults .searchlist{
+        font-size: 0.4em;
+    }
+    .savedweatherlist .savedweather{
+        width: 99vw;
+    }
+    .savedweather .savedweatherdetails{
+        padding: 2vh 3vw;
+        width: 94%;
+        border-radius: unset;
+    }
+    .savedweathercurrent div{
+        gap: 2vh;
+    }
+    .savedweathercurrent #savedtime{
+        font-size: 0.43em;
+    }
+    .savedweathercurrent #savedtemp{
+        font-size: 1.7em;
+    }
+    .savedweathercurrent #savedcondition{
+        font-size: 0.48em;
+    }
+    .savedweathercurrent img{
+        width: 45px;
+    }
+    .savedweatherforecast p{
+        font-size: 0.4em;
+    }
+    .savedweatherforecast p img{
+        width: 25px;
+    }
+    .savedweatherforecast #savedforecastother img{
+        width: 15px;
+    }
+    .savedweather #removesaved{
+        font-size: 0.3em;
+    }
+    .favCont #refreshfav{
+        width: 70px;
+        height: 70px;
+        font-size: 0.34em;
+    }
+}

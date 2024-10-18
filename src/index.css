@@ -1,18 +1,31 @@
+@font-face {
+  font-family: 'Roboto';
+  src: url('../public/fonts/Roboto-Light.ttf') format(truetype);
+}
+
 body {
-  /*font-family: Helvetica, Arial, sans-serif;*/
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  color: white;
-  /*background: #2d2332;*/
-  background-image: url(../public/images/background.jpg);
+  font-family: 'Roboto', sans-serif;
+ 
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   margin: 0;
   overflow-x: hidden;
+  font-size: calc(10px + (3vw + 5vh) / 2);
 }
+
+body.dark{
+  color: #fdfdfd;
+  background-color: #001b2e;
+}
+body.light{
+  color: #100c0d;
+  background-color: #f7f1ed;
+}
+
 @media screen and (max-width: 800px) {
   body{
-    background-image: url(../public/images/background_small.jpg);
+    /*background-image: url(../public/images/background_small.jpg);*/
     background-position: center;
   }
 }

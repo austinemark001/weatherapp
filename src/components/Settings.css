@@ -1,0 +1,122 @@
+.settingCont{
+    margin: 0;
+    padding: 0;
+    padding-top: 15vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10vh;
+}
+.settingCont .settingscontent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 30vw;
+}
+.settingscontent h3{
+    font-size: 0.5em;
+    opacity: 0.7;
+    font-weight: lighter;
+    
+}
+.settingscontent p{
+    font-size: 0.4em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.settingscontent span{
+    opacity: 0.8;
+    font-size: 0.8em;
+}
+.settingscontent #changeunit{
+    color: #fe9b33;
+    cursor: pointer;
+}
+#changeunit:hover{
+    color: #4cdd84;
+}
+
+.settingCont .aboutcontent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 20vw;
+}
+.aboutcontent h3{
+    font-size: 0.5em;
+    opacity: 0.7;
+    font-weight: lighter;
+}
+.aboutcontent img{
+    width: 15vw;
+}
+.aboutcontent h4{
+    font-size: 0.45em;
+    opacity: 0.7;
+    font-weight: lighter;
+}
+.aboutcontent p{
+    font-size: 0.35em;
+}
+.aboutcontent a{
+    text-decoration: none;
+    color: #359dce;
+}
+
+
+.myfooter{
+    margin: 0;
+    padding: 0;
+    margin-top: 3vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.myfooter .socialLinks{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+}
+.socialLinks li{
+    margin: 1vh 2vw;
+}
+.socialLinks img{
+    width: 35px;
+}
+
+.myfooter #creator{
+    font-size: 0.35em;
+}
+.myfooter #creator a{
+    color: #359dce;
+}
+
+@media screen and (max-width: 800px) {
+    .settingCont .settingscontent{
+        padding: 0 10vw;
+    }
+    .settingscontent p{
+        font-size: 0.45em;
+        gap: 2vw;
+    }
+    .settingCont .aboutcontent{
+        padding: 0 10vw;
+    }
+    .aboutcontent img{
+        width: 40vw;
+    }
+    .aboutcontent p{
+        font-size: 0.4em;
+        line-height: 1.5;
+    }
+    .socialLinks img{
+        width: 20px;
+    }
+}

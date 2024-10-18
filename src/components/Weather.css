@@ -1,240 +1,305 @@
 .weatherDetails{
     margin: 0;
     padding: 0;
-    margin-top: 5vh;
+    padding-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    justify-content: center;
+    align-items: flex-start;
+}
+.weatherDetails h4{
+    font-size: 0.5em;
+    font-weight: lighter;
+    opacity: 0.7;
     display: flex;
     flex-direction: row;
-    flex-wrap:  wrap;
-    justify-content: center;
     align-items: center;
+    gap: 1vw;
 }
-.weatherDetails .mainDetails{
-    grid-column: 1;
-    display:  grid;
-    grid-template-columns: 15vw auto;
+.weatherDetails h4 img{
+    width: 35px;
+}
+.weatherDetails .currentCondition{
+    align-self: center;
     margin: 0;
-    justify-self: center;
+    min-width: 50vw;
+    padding: 10vh 10vw;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fdfdfd;
 }
-.mainDetails *{
-    margin: 1vh 0;
+.currentCondition *{
+    margin: 0;
+    padding: 0;
 }
-.mainDetails #currentLocation{
-    font-size: 0.55em;
+.currentCondition #currentlocation{
+    font-size: 1em;
     grid-column: 1 /span 2 ;
-}
-.mainDetails #currentTemp{
-    color: #fdeb46;
-    font-size: 1.5em;
-}
-#currentTemp span{
-    font-size: 0.4em;
-}
-.mainDetails #currentText{
-    font-size: 0.4em;
-    text-align: left;
-    align-self: center;
-    color: #46f0a1;
-}
-
-.mainDetails #currentIcon{
-    width: 200px;
-    grid-column: 1 /span 2;
-}
-.weatherDetails .dailyDetails{
-    grid-column: 2;
-    margin: 0;
     padding: 0;
-    margin-left: 10vw;
-}
-.dailyDetails .dailyList{
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.dailyList .dayDetails{
-    display: grid;
-    grid-template-columns: auto auto;
-    border-bottom: #46f0a1 1px dotted;
-    margin: 0;
-    padding: 2vh 3vw;
-    column-gap: 5vw;
-}
-.dayDetails p{
-    font-size: 0.35em;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    margin: 1vh 0;
-}
-.dayDetails p img{
-    width: 20px;
-    align-self: center;
-    justify-self: center;
     margin: 0;
 }
-.dayDetails #dayMain{
-    color: #fdeb46;
+#currentlocation span{
+    font-size: 0.4em;
+    opacity: 0.7;
 }
-.dayDetails #dayText img{
-    width: 45px;
+#currentlocation img{
+    width: 25px;
+    font-size: 0.23em;
+    color: rgb(83, 118, 146);
+    opacity: 0.7;
 }
-
-.weatherDetails .hourlyDetails{
-    margin: 0;
+.currentCondition #currenttemp{
+    font-size: 1.8em;
 }
-
-.hourlyDetails .hourlyList{
-    margin: 0;
-    width: 80vw;
-    list-style: none;
+#currenttemp sup{
+    font-size: 0.5em;
+}
+.currentCondition #currentcondition{
+    font-size: 0.4em;
     display: flex;
     flex-direction: row;
-    overflow-x: scroll;
-}
-.hourlyList .hourDetails{
-    margin: 1vh 2vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    gap: 1vw;
 }
-.hourDetails p{
-    font-size: 0.4em;
-    text-wrap: nowrap;
+
+
+.currentCondition #dayconditions{
+    font-size: 0.33em;
+    margin-top: 5vh;
 }
-.hourDetails #hourIcon{
-    width: 50px;
-}
-.hourDetails p img{
-    width: 20px;
+.dayCondition img{
+    width: 35px;
 }
 
 .weatherDetails .otherDetails{
     margin: 1vh 0;
     padding: 0;
-    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10vw;
+}
+
+
+.otherDetails h4 img{
+    width: 35px;
+}
+.otherDetails ul{
+    align-self: center;
+    list-style: none;
     display: grid;
     grid-template-columns: auto auto;
+    column-gap: 15vw;
+    row-gap: 5vh;
+    font-size: 0.35em;
 }
-.otherDetails div{
-    margin: 3vh 5vw;
-    padding: 0;
+.otherDetails li{
+    margin: 0;
+    padding: 3vh 2vw;
     display: flex;
     flex-direction: row;
+    gap: 1vw;
     text-align: center;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    /*background-color: rgb(83, 118, 146, 0.2);*/
+    border-radius: 20px;
+    width: 28vw;
 }
-.otherDetails div img{
+.otherDetails .light{
+    background: radial-gradient(circle at top left, #8ca9d3 0%, #8ca9d300 80%);
+}
+.otherDetails .dark{
+    background: radial-gradient(circle at top left, #3f3f3f 0%, #3f3f3f00 80%);
+}
+.otherDetails li img{
     width: 70px;
     margin: 0;
 }
+.otherDetails li span{
+    opacity: 0.6;
+    font-size: 0.9em;
+}
 
-.otherDetails div p{
-    font-size: 0.4em;
-    margin: 0 2vw;
+.weatherDetails .astro-container{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2vh;
 }
-.otherDetails .sunTrack, .moonTrack{
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 70vw;
-    grid-column: 1 /span 2;
-    min-height:  20vh;
+.astro-container h4{
+    align-self: flex-start;
+    padding-left: 10vw;
 }
-.moonTrack p{
-    color: #fafd4e;
-    font-weight: bold;
-    padding: 0 5vw;
+.astro-container h4 img{
+    width: 35px;
 }
-.sunTrack p{
-    color: #e40233;
-    font-weight: bold;
-    padding: 0 5vw;
+.astro-container .astro{
+    width: 90%;
+    height: 50vh;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.weatherDetails #addFavorite, #removeFavorite{
-    margin:  2vh 5vw;
-    padding: 1vh 4vw;
-    font-size: 0.4em;
-    background-color: #46f0a1;
-    border: none;
-    cursor: pointer;
+
+.astro .astro-position{
+    position: relative;
+    width: 78%;
+    height: 100%;
+    background-image: linear-gradient(#8ee0ee 40%, #0d0025 60%);
+    border-radius: 100% 100% 0 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    
 }
-#addFavorite:hover{
-    color: #e40233;
+
+.astro-position img{
+    position: absolute;
+    width: 2.4%;
+    padding: 0;
 }
-#removeFavorite:hover{
-    color: #e40233;
+.astro .astrobackground{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    filter: blur(10px);
 }
+
+.astro .astro-time{
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    left: 0;
+    font-size: 0.35em;
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+.astro-time #sunrise{
+    justify-self: left;
+    margin-left: 12%;
+    z-index: 3;
+    border-radius: 30px;
+}
+.astro-time #suntime{
+    justify-self: center;
+}
+.astro-time #sunset{
+    justify-self: right;
+    margin-right: 12%;
+    z-index: 3;
+    border-radius: 30px;
+}
+.astro-time span{
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
 
 @media screen and (max-width: 800px) {
-    .weatherDetails .mainDetails{
-        grid-template-columns:  50vw auto;
-    }
-    .mainDetails #currentLocation{
-        font-size: 0.65em;
-    }
-    .mainDetails #currentText{
-        font-size: 0.5em;
-    }
-    .mainDetails #currentIcon{
-        width: 100px;
-        justify-self: center;
-    }
-    .weatherDetails .dailyDetails{
-        grid-column: 1;
-        margin: 0;
-        margin-top: 3vh;
-    }
-    .dailyList .dayDetails{
-        padding: 2vh 6vw;
-    }
-    .dayDetails p{
-        font-size: 0.47em;
-    }
-    .dayDetails p img{
-        width: 15px;
-    }
-    .dayDetails #dayText img{
-        width: 35px;
-    }
-    .hourlyDetails .hourlyList{
-        width: 98vw;
+    .weatherDetails{
         padding: 0;
-        margin-top: 5vh;
+        gap: 4vh;
     }
-    .hourDetails p{
-        font-size: 0.45em;
+    .weatherDetails h4 img{
+        width: 20px;
     }
-    .hourDetails #hourIcon{
-        width: 35px;
-    }
-    .hourDetails p img{
-        width: 15px;
-    }
-    .weatherDetails .otherDetails{
-        column-gap: 4vw;
-    }
-    .otherDetails div{
-        margin: 3vh 0;
-    }
-    .otherDetails div img{
-        width: 35px;
-    }
-    .otherDetails div p{
-        font-size: 0.45em;
+    .weatherDetails .currentCondition{
+        padding: 5vh 0;
+        padding-top: 15vh;
+        border-radius: unset;
+        width: 100%;
+        grid-template-columns: auto;
         margin: 0;
-        margin-left: 2vw;
     }
-    .otherDetails .sunTrack, .moonTrack{
-        width: 98vw;
+    .currentCondition #currentlocation{
+        font-size: 0.9em;
+        align-self: flex-start;
+        padding-left: 5vw;
     }
-    .weatherDetails #addFavorite, #removeFavorite{
-        padding: 1vh 7vw;
-        font-size: 0.42em;
+    #currentlocation img{
+        width: 18px;
     }
+    .currentCondition #currenttemp{
+        padding-top: 20vh;
+        font-size: 2em;
+    }
+    .currentCondition #currentcondition{
+        font-size: 0.5em;
+        gap: 3vw;
+    }
+    #currentcondition img{
+        width: 35px;
+    }
+    .currentCondition #dayconditions{
+        font-size: 0.38em;
+        margin-top: 8vh;
+    }
+    
+    
+    .weatherDetails .otherDetails{
+        padding-left: 3vw;
+    }
+    .otherDetails ul{
+        padding: 0;
+        column-gap: 10vw;
+        font-size: 0.43em;
+    }
+    .otherDetails li{
+        width: 33vw;
+       flex-direction: column;
+       gap: 2vh;
+    }
+    .otherDetails li img{
+        width: 35px;
+    }
+    
+    .weatherDetails .astro-container{
+        margin-bottom: 1vh;
+    }
+    .astro-container h4{
+        padding-left: 3vw;
+    }
+    .astro-container .astro{
+        width: 100%;
+        height: 20vh;
+    }
+    .astro .astro-position{
+        width: 90%;
+    }
+    .astro-position img{
+        width: 5%;
+    }
+    .astro .astrobackground{
+        filter: blur(5px);
+        margin: 0;
+    }
+    .astro-path .astro-time{
+        font-size: 0.33em;
+    }
+    .astro-time #sunrise{
+        margin-left: 3%;
+    }
+    .astro-time #sunset{
+        margin-right: 3%;
+    }
+    
 }
 
