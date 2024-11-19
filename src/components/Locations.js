@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { getcodeDetails, toFahrenheit, convertlocaltime, truncateSentense, formatDate, truncateTextSentense } from "../weatherConfig";
-import './Favorites.css'
+import Weather from "./Weather";
+import './Locations.css'
 
-export default function Favorites({settings}){
+export default function Locations({settings}){
   const [savedlocations, setsavedlocations] = useState(JSON.parse(localStorage.getItem('savedlocations')) || []);
-  const [weatherdata, setweatherdata] = useState(JSON.parse(localStorage.getItem('savedlocationsweather')));
+  const [weatherdata, setweatherdata] = useState(JSON.parse(localStorage.getItem('savedlocations')));
   const [darkmode, setdarkmode] = useState(true);
   const [resstatus, setrestatus] = useState(false);
   const [issearch, setsearch] = useState(false);
@@ -151,57 +152,60 @@ export default function Favorites({settings}){
           </ul>
         </div>
       </div>}
-       {weatherdata && <div className="savedweatherlist" >
-         {weatherdata.map(weather => (<div key={weather.name} className="savedweather">
-          <div className="savedweatherdetails"style={{background: ` radial-gradient(circle at left, ${darkmode ? '#537692 0%, #53769200 80%': '#1887be 0%, #1887be00 80%'})`}} >
-           <div className="savedweathercurrent">
-             <div className="savedcurrentfirst"> 
-              <p id="savedtime">{convertlocaltime(weather.current.startTime)}</p>
-              <p id="savedtemp">{Math.round(settings.temp ==='celcius' ? `${weather.current.values.temperature}`: `${toFahrenheit(weather.current.values.temperature)}`)} <sup>°</sup></p> </div>
-             <div className="savedcurrentlast">
-             <p id="savedlocation">{weather.name},<span>{truncateSentense(weather.country)}</span> </p>
-             <p id="savedcondition"><img src={getcodeDetails[weather.current.values.weatherCode].iconday} alt="icon"/>
-             {getcodeDetails[weather.current.values.weatherCode].text} </p></div>
-            
-           </div>
-           <div className="savedweatherforecast">
-             {weather.daily.slice(0, 3).map(item=>(<div key={item.startTime}> <p id="savedday">{formatDate(item.startTime, weather.current.startTime)}</p> 
-             <p id="savedforecastcondition"><img src={getcodeDetails[item.values.weatherCode].iconday} alt="icon"/> {truncateTextSentense(getcodeDetails[item.values.weatherCode].text)} </p>
-             <p id="savedforecastother"> {Math.round(settings.temp ==='celcius' ? `${item.values.temperatureMax}`: `${toFahrenheit(item.values.temperatureMax)}`)}/
-             {Math.round(settings.temp ==='celcius' ? `${item.values.temperatureMin}`:`${toFahrenheit(item.values.temperatureMin)}`)}° 
-            <img src={`${process.env.PUBLIC_URL}/images/drop.png`}/>{item.values.precipitationProbability}%</p></div>))}
-           </div>
-           </div>
-           <button  id="removesaved" onClick={()=> removeLocation(weather.name)}>remove</button>
-         </div>))}
-       </div>}
-      {savedlocations.length > 0 && <button id="refreshfav" onClick={refresh} style={{border: `${darkmode ? '#eef3f9': '#100c0d'} 1px dotted`}}>refresh</button>}
+       
     </div>
   );
 };
 
+export function FetchWeather({location}){
+   const [responsestatus, setresponsestatus] = useState(false);
+   const [weatherData, setWeatherData] = useState(false);
 
-const fetchweather = async (lat, lon) =>{
-  try{
-     const response = await axios.get(`https://api.tomorrow.io/v4/timelines?`, {
-      headers: {'Content-Type': 'application/json'},
-      params: {
-        apikey: process.env.REACT_APP_WEATHER_API,
-        location: `${lat}, ${lon}`,
-        fields: ['temperature', 'temperatureMax', 'temperatureMin', 'weatherCode', 'precipitationProbability'],
-        timesteps: ['current', '1d'],
-        units: 'metric',
-        startTime: 'now',
-        endTime: 'nowPlus48h',
-        timezone: 'auto'
-      },})
-      const dt = await response.data.data;
-      return dt
-  }catch(err){
-    console.error('an error getting location data:', err)
-    return null
+   useEffect(()=>{
+    const getWeather = async(lat, lon) =>{
+      try {
+        responsestatus('refreshing')
+          requestInfo.location = `${lat}, ${lon}`;
+          const response = await axios.get('https://api.tomorrow.io/v4/timelines', {
+              headers: {'Content-Type': 'application/json'},
+              params: requestInfo,
+      
+          })
+          if(response.status === 200){
+              setWeatherData(response.data);
+              setresponsestatus('updated')
+              localStorage.setItem('savedWeather', JSON.stringify(response.data))
+          }
+      } catch (error) {
+         console.error('error with weather api', error)
+          setresponsestatus('error')
+      }finally{
+        setTimeout(()=>{setresponsestatus(false)}, 2000)
+      }
   }
+  getWeather()
+   },[])
+  return(
+    <div className="weather">
+      <div className="weatherResponse">refreshing</div>
+      <Weather weatherData={weatherData} locationName={location} />
+    </div>
+  )
 }
+
+
+const requestInfo = {
+  apikey: process.env.REACT_APP_WEATHER_API,
+  location: '',
+  fields: ['weatherCode','temperature', 'temperatureApparent', 'humidity', 'windSpeed', 'windDirection', 'precipitationProbability', 'precipitationType', 
+      'visibility', 'uvIndex', 'moonPhase', 'precipitationAccumulation','temperatureMax', 'temperatureMin', 'pressureSurfaceLevel', 'sunriseTime', 'sunsetTime'],
+  timesteps: ['current', '1h', '1d'],
+  units: 'metric',
+  startTime: 'now',
+  endTime: 'nowPlus120h',
+  timezone: 'auto'
+}
+
 
 
 

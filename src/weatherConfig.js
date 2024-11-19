@@ -2,95 +2,95 @@ const getcodeDetails = {
 
     1000: {text: 'clear', iconday: `${process.env.PUBLIC_URL}/images/icons/1000_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1000_night.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/clearday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/clearnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/clearday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/clearnight.jpg`
      },
     1100: {text: 'mostly clear', iconday: `${process.env.PUBLIC_URL}/images/icons/1100_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1100_night.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/mostlyclearday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/mostlyclearnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/clearday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/fogyday.jpg`
     },
     1101: {text: 'partly cloudy',iconday: `${process.env.PUBLIC_URL}/images/icons/1101_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1101_night.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/partlycloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/partlycloudynight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/cloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/cloudynight.jpg`
    },
    1102: {text: 'mostly cloudy', iconday: `${process.env.PUBLIC_URL}/images/icons/1102_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1102_night.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/mostlycloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/mostlycloudynight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/cloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/mostlycloudynight.jpg`
     },
     1001: {text: 'cloudy', iconday: `${process.env.PUBLIC_URL}/images/icons/1001.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1001.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/overcastday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/overcastnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/cloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/cloudynight.jpg`
     },
     2000: {text: 'fog', iconday: `${process.env.PUBLIC_URL}/images/icons/2000.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/2000.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/fogday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/fognight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/fogyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/fogynight.jpg`
     },
     2100: {text:'mist', iconday: `${process.env.PUBLIC_URL}/images/icons/2100.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/2100.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/fogday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/fognight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/fogyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/fogynight.jpg`
     },
     4000: {text: 'drizzle', iconday: `${process.env.PUBLIC_URL}/images/icons/4000.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4000.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/lightrainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/lightrainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     },
     4001: {text: 'rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4001.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4001.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/rainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/rainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/icons/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/rainynight.jpg`
     },
     4200: {text: 'light rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4200.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4200.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/lightrainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/lightrainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     },
     4201: {text: 'heavy rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4201.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4201.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/rainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/rainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     },
     5000: {text: 'snow', iconday: `${process.env.PUBLIC_URL}/images/icons/5000.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/5000.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/snowday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/snownight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/snowyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/snowynight.jpg`
     },
     5001: {text: 'flurries', iconday: `${process.env.PUBLIC_URL}/images/icons/5001.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/5001.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/snowday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/snownight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/snowyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/snowynight.jpg`
     },
     5100: {text: 'light snow', iconday: `${process.env.PUBLIC_URL}/images/icons/5100.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/5100.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/snowday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/snownight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/snowyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/snowynight.jpg`
     },
     5101: {text: 'heavy snow', iconday: `${process.env.PUBLIC_URL}/images/icons/5101.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/5101.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/snowday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/snownight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/snowyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/snowynight.jpg`
     },
     6000: {text: 'freezing drizzle', iconday: `${process.env.PUBLIC_URL}/images/icons/6000.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/6000.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/lightrainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/lightrainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     },
     6001: {text: 'freezing rain', iconday: `${process.env.PUBLIC_URL}/images/icons/6001.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/6001.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/rainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/rainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/icons/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/rainynight.jpg`
     },
     6200: {text: 'light freezing rain', textnight: 'clear', iconday: `${process.env.PUBLIC_URL}/images/icons/6200.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/6200.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/lightrainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/lightrainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     },
     6201: {text: 'heavy freezing rain', iconday: `${process.env.PUBLIC_URL}/images/icons/6201.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/6201.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/rainday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/rainnight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     },
     7000: {text: 'ice pellets', iconday: `${process.env.PUBLIC_URL}/images/icons/7000.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/7000.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/snowday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/snownight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/snowyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/snowynight.jpg`
     },
     7101: {text: 'heavy ice pellets', iconday: `${process.env.PUBLIC_URL}/images/icons/7101.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/7101.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/snowday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/snownight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/snowyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/snowynight.jpg`
     },
     7102: {text: 'light ice pellets', iconday: `${process.env.PUBLIC_URL}/images/icons/7102.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/7102.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/snowday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/snownight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/snowyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/snowynight.jpg`
     },
     8000: {text: 'thunderstorm', iconday: `${process.env.PUBLIC_URL}/images/icons/8000.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/8000.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/thunderday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/thundernight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     }
 }
 

@@ -1,0 +1,245 @@
+.homecontainer{
+    padding: 0 15vw;
+    padding-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5vh;
+}
+.homecontainer h1{
+    font-size: 0.6em;
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.homecontainer h1 img{
+    width: 60px;
+}
+.home-response{
+    font-size: 0.35em;
+    padding: 1vh 3vw;
+    position: fixed;
+    top: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background-color: rgba(226, 60, 82, 0.3);
+    border-radius: 15px;
+}
+.homecontainer h2{
+    font-size: 0.45em;
+    margin: 0;
+}
+.current-name{
+    font-size: 0.37em;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.current-name img{
+    width: 35px;
+}
+.saved-locations-title{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.saved-locations-title button{
+    background-color: transparent;
+    border: none;
+    box-shadow: 3px 3px 4px black;
+    padding: 1vh 3vw;
+    font-size: 0.7em;
+    border-radius: 10px;
+    color: inherit;
+    cursor: pointer;
+}
+.saved-locations-title button:hover{
+    color: #09cc7b;
+}
+.saved-locations{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1vh;
+    list-style-type: none;
+}
+.saved-locations li{
+    cursor: pointer;
+    font-size: 0.37em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.saved-locations li img{
+    width: 35px;
+}
+
+
+.homecontainer .addCont{
+    min-width: 60vw;
+    max-width: 80vw;
+    height: 80vh;
+    padding: 3vh 5vw;
+    position: fixed;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    z-index: 7;
+    overflow-y: auto;
+}
+.addCont .addContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1vw;
+    
+}
+.addContent button{
+    background-color: transparent;
+    border: none;
+    font-size: 0.25em;
+    cursor: pointer;
+}
+.addContent button img{
+    width: 30px;
+}
+
+.addContent .searchform{
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.searchform input{
+    font-size: 0.35em;
+    padding: 1.5vh 1vw;
+    /*background-color: rgba(0, 0, 0, 0.2);*/
+    background-color:  transparent;
+    outline: none;
+    border: none;
+    color: inherit;
+    border-radius: 15px;
+    width: 20vw;
+}
+.searchform button{
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    /*border: #ededed 1px solid;*/
+    border: none;
+    color: inherit;
+    font-size: 0.42em;
+    padding: 10px;
+}
+.searchform input[type='search']::-webkit-search-cancel-button{
+    display: none;
+    -webkit-appearance: none;
+}
+
+.addCont .searchresults{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.searchresults #searchresponse{
+    font-size: 0.4em;
+    opacity: 0.7;
+}
+
+.searchresults .searchlist{
+    list-style-type: none;
+    font-size: 0.38em;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+.searchlist li{
+    cursor: pointer;
+}
+.searchlist li span{
+    color: #fe9b33;
+}
+.searchlist li:hover{
+    opacity: 0.7;
+}
+
+.clearlocations{
+    background-color: transparent;
+    border: none;
+    box-shadow: 3px 3px 4px black;
+    padding: 1vh 3vw;
+    font-size: 0.35em;
+    border-radius: 10px;
+    color: inherit;
+    cursor: pointer;
+}
+.clearlocations:hover{
+    color: #fe9b33;
+}
+
+@media screen and (max-width: 768px) {
+    .homecontainer .addCont{
+        padding: 3vh 3vw;
+        max-width: unset;
+        width: 90vw;
+
+    }
+    .homecontainer h1{
+        font-size: 0.65em;
+    }
+    .homecontainer h1 img{
+        width: 45px;
+    }
+    .home-response{
+        padding: 1vh 5vw;
+        font-size: 0.4em;
+    }
+    .homecontainer h2{
+        font-size: 0.5em;
+    }
+    .searchform input{
+        font-size: 0.4em;
+    }
+    .searchresults .searchlist{
+        font-size: 0.4em;
+    }
+    .searchresults #searchresponse{
+        font-size: 0.4em;
+    }
+    .current-name{
+        font-size: 0.4em;
+    }
+    .current-name img{
+        width: 25px;
+    }
+    .saved-locations li{
+        font-size: 0.4em;
+    }
+    .saved-locations li img{
+        width: 25px;
+    }
+    .clearlocations{
+        font-size: 0.4em;
+    }
+    
+}

@@ -1,13 +1,13 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './components/Home';
-import Favorites from './components/Favorites';
+import Weather from './components/Weather';
 import Settings from './components/Settings';
 import './App.css'
 
 
 function App() {
-  const [iscurrent, setcurrent] = useState(true);
+  const [currenttoken, setcurrenttoken] = useState(true);
   const [settings, setsettings] = useState([]);
   useEffect(()=>{
     if(!localStorage.getItem('settings')){
@@ -34,8 +34,8 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" exact element= {<Home iscurrent={iscurrent} setcurrent={setcurrent} settings={settings}/>}/>
-        <Route path="/favorites" element={<Favorites settings={settings}/>} />
+        <Route path="/" exact element= {<Home />}/>
+        <Route path="/weather" element={<Weather settings={settings} currenttoken={currenttoken} setcurrenttoken={setcurrenttoken}/>} />
         <Route path="/settings" element={<Settings settings={settings} setsettings={setsettings}/>}/>
         <Route path='*' Component={NoPage} />
       </Routes>
@@ -60,8 +60,8 @@ function Header(){
   return(
       <>
       <header className="myheader">
-        {location.pathname ==='/' ? <Link id='toplinkfirst' className='toplink' to='/favorites'>my locations</Link>: <Link id='toplinkfirst' className='toplink' to='/'>current location</Link>}
-        <Link to="/settings" id='toplinklast' className='toplink'> settings</Link>
+        <Link id='toplinkfirst' className='toplink' to='/'><img src={`${process.env.PUBLIC_URL}/images/locations.png`} alt='locations'/></Link>
+        <Link to="/settings" id='toplinklast' className='toplink'><img src={`${process.env.PUBLIC_URL}/images/settings.png`} alt='settings'/></Link>
       </header>
       </>
   )

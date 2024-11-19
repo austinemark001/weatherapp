@@ -5,7 +5,6 @@
 
 body {
   font-family: 'Roboto', sans-serif;
- 
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -17,6 +16,7 @@ body {
 body.dark{
   color: #fdfdfd;
   background-color: #001b2e;
+  background-color: #263a47;
 }
 body.light{
   color: #100c0d;

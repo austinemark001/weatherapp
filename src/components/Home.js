@@ -1,106 +1,103 @@
-import './Main.css'
+import './Home.css'
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import Weather from './Weather';
+import { useNavigate } from 'react-router-dom';
+import { getSavedLocations, saveLocation, saveCurrentLocation,clearLocations, getCurrentLocation } from './localstoragehelper';
 
 
-export default function Home({ iscurrent, setcurrent, settings}){
-    /*API KEY()*/
-    const [weatherData, setWeatherData] = useState(JSON.parse(localStorage.getItem('savedWeather')));
-    const [loactionName, setLocationName] = useState({street: 'city', country: 'country'});
+export default function Home(){
+    const navigate = useNavigate();
+    const [locations, setlocations] = useState([]);
+    const [currentLocation, setCurrentLocation] = useState(null);
+    const [issearch, setsearch] = useState(false)
+    const [searchQuery, setsearchQuery] = useState();
+    const [searchresponse, setsearchresponse] = useState(false);
+    const [searchresults, setsearchresults] = useState([]);
     const [resStatus, setresStatus] = useState(null);
     const locationApi = process.env.REACT_APP_LOCATION_IQ;
 
-    useEffect(() => {
-        const savedCurrent = JSON.parse(localStorage.getItem('current'));
-        if(savedCurrent){
-            const {lat, lon, street, country} = savedCurrent;
-            setLocationName({street, country});
-            if(iscurrent){
-            updateLocation(lat, lon)  
-            } 
-        }else{
-            updateLocation(0, 0)
-        }
-        
-    }, []);
-      // handle location search
-    
-    const updateLocation = async (lat1, lon1)=>{
-        setresStatus('refreshing')
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async(position)=>{
-                const { latitude, longitude } = position.coords;
-            
-                const updatedCoords = (latitude, longitude)=>{
-                return{
-                    lat: Math.floor(latitude * 10000)/10000,
-                    lon: Math.floor(longitude * 10000)/10000
-                    }
-                }
-                
-               if(calculateDistance(lat1, lon1, latitude, longitude)){
-                setresStatus('location change')
-               try{
-                  const {data} = await axios.get(`https://eu1.locationiq.com/v1/reverse?key=${locationApi}&lat=${latitude}&lon=${longitude}&format=json&`)
-                  const address = data.address
-                  const {lat, lon} = updatedCoords(latitude, longitude);
-                  const current = {
-                    lat: lat,
-                    lon: lon,
-                    street: address.suburb || address.city || address.town || address.village,
-                    country: data.address.country
-                  }
-                  localStorage.setItem('current', JSON.stringify(current))
-                  setLocationName({street: current.street, country: current.country})
-                  getWeather(lat, lon);
-                  setresStatus(false)
-               }catch(error){
-                   console.error('An error with location iq: ', error)
-                   setresStatus('error')
-               }finally{
-                setTimeout(()=>{
-                    setresStatus(false)
-                },3000)
-               }
-            }else{
-                    setresStatus('locations match')
-                    getWeather(lat1, lon1)
-            }
-    
-            },(error) => {
-                console.error("Error getting user location: ",error)
-                setresStatus('error')
-                setTimeout(()=>{
-                    setresStatus(false)
-                }, 3000)
-            });
-            } else { 
-                setresStatus('error')  
-        };
-    }
-    
-    const getWeather = async(lat, lon) =>{
-        try {
-            requestInfo.location = `${lat}, ${lon}`;
-            const response = await axios.get('https://api.tomorrow.io/v4/timelines', {
-                headers: {'Content-Type': 'application/json'},
-                params: requestInfo,
-        
-            })
-            if(response.status === 200){
-                setWeatherData(response.data);
-                setresStatus(null)
-                localStorage.setItem('savedWeather', JSON.stringify(response.data))
-                setcurrent(false)
-            }
-        } catch (error) {
-           console.error('error with weather api', error)
-           throw error
-            }
-    }
+    const searchRef = useRef(null);
+    const inputref = useRef(false);
 
+    useEffect(() => {
+        setlocations(getSavedLocations());
+        fetchCurrentLocation();
+      }, []);
+      
+    const fetchCurrentLocation = async () => {
+        const lastcurrent = getCurrentLocation();
+        if(lastcurrent){
+          setCurrentLocation(lastcurrent)
+        }
+        setresStatus('checking location change')
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            if(!lastcurrent || calculateDistance(lastcurrent.lat, lastcurrent.lon, latitude, longitude)){
+            try {
+              // Reverse geocoding using LocationIQ
+              const response = await axios.get(
+                `https://us1.locationiq.com/v1/reverse.php?key=${locationApi}&lat=${latitude}&lon=${longitude}&format=json`
+              );
+              const newLocation = {
+                name: response.data.address.city || response.data.address.town || 'Unknown Location',
+                lat: response.data.lat,
+                lon: response.data.lon,
+                id: `${response.data.lat},${response.data.lon}`, // Unique ID for the location
+              };
+    
+                setCurrentLocation(newLocation);
+                saveCurrentLocation(newLocation);
+                setresStatus('changed')
+
+            } catch (error) {
+              console.error('Error fetching current location:', error);
+              setresStatus('error')
+            }finally{
+              setTimeout(()=>{setresStatus(false)}, 2000)
+            }
+          }
+          },
+          (error) => {
+            setresStatus('geo error')
+            console.error('Geolocation error:', error)
+          }
+        );
+        setTimeout(()=>{setresStatus(false)}, 3000)
+      };
+
+    const searchLocation = async (e) =>{
+        e.preventDefault();
+        try{
+          setsearchresponse('finding location...')
+          const response = await axios.get(`https://us1.locationiq.com/v1/search?key=${locationApi}&q=${encodeURIComponent(searchQuery)}&format=json`);
+          const data = await response.data;
+          if(data && data.length > 0){
+            setsearchresults(data);
+            setsearchresponse(false)
+          }else{
+            setsearchresponse('no locations found')
+          }
+  
+        }catch(err){
+          console.error('error with location search:', err)
+          setsearchresponse("can't find location")
+        }
+    }
+    
+
+    const handlesaveclick = (loc)=>{
+      saveLocation(loc)
+      setsearch(false)
+      setlocations(getSavedLocations())
+    }
+    const handleclearall = ()=>{
+      clearLocations()
+      setlocations([])
+      setCurrentLocation(null)
+    }
+    
     const calculateDistance = (lat1, lon1, lat2, lon2)=>{
         const lat1dp = Math.floor(lat1 * 10)/10;
         const lon1dp = Math.floor(lon1 * 10)/10;
@@ -112,27 +109,62 @@ export default function Home({ iscurrent, setcurrent, settings}){
         return latdif > 0.01 || londif > 0.01
     }
 
+    useEffect(()=>{
+      document.addEventListener('mousedown', handleClickoutside);
+      return ()=>{document.removeEventListener('mousedown',handleClickoutside)}
+    }, []);
+  
+    useEffect(()=>{
+      if(issearch){
+       inputref.current.focus();
+      }
+    }, [issearch, setsearch]);
+
+    const handleClickoutside = (event)=>{
+      if(searchRef.current && !searchRef.current.contains(event.target)){
+        setsearch(false)
+      }
+    }  
+
     return(
-        <div className="homeContainer">
-            {resStatus && <div className='responseCont'>
-            <p id='responseStatus'>{resStatus}</p>
-           </div>}
-            {weatherData ? <Weather weatherData={weatherData} locationName={loactionName} settings={settings}/>  : <div className='noweather'>
-                <img src={`${process.env.PUBLIC_URL}/images/noweather.png`} alt='weather popup in a few'/></div>}
+        <div className="homecontainer">
+           <h1>Nimbus Now <img src={`${process.env.PUBLIC_URL}/images/weather.png`} alt='i'/></h1>
+           {resStatus && <div className='home-response'>{resStatus}</div>}
+           <h2>current location</h2>
+           {currentLocation && <div className='current-name' onClick={()=> navigate('/weather',{ state: {location: currentLocation, iscurrent: true}})}>
+           <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt='+'/> {currentLocation.name}
+            </div>}
+            <h2 className='saved-locations-title'>saved {locations.length} {locations.length > 1 ? 'locations': 'location'} {locations.length < 5 ? '|' : ''}
+                {locations.length < 5 && <button onClick={()=> setsearch(true)} id="addlocation">add new</button>}</h2>
+            <ul className='saved-locations'>
+                {locations.map(loc => (
+                    <li key={loc.id} onClick={()=> navigate('/weather', {state: {location: loc, iscurrent: false}})}>
+                      <img src={`${process.env.PUBLIC_URL}/images/location.png`} alt='+'/> {loc.name}, {loc.country}</li>
+                ))}
+            </ul>
+            {issearch && <div ref={searchRef} className="addCont" style={{backgroundColor: 'rgb(29, 63, 88, 0.97)'}}>
+                <div className='addContent' style={{borderBottom:  '#eef3f9 1px dotted'}}>
+                <button onClick={()=> setsearch(false)}><img src={`${process.env.PUBLIC_URL}/images/back.png`} alt="cancel"/></button>
+                <form  className='searchform' onSubmit={searchLocation}>
+                <input type='search' placeholder='city...' onChange={(e)=> setsearchQuery(e.target.value)} value={searchQuery} ref={inputref}  maxLength={50} required/>
+                {searchQuery && <button onClick={()=>{setsearchQuery('')}} type='button' style={{borderLeft: '#eef3f9 1px dotted'}}>X</button>}
+                </form>
+                </div>
+                <div className="searchresults">
+                {searchresponse ? <p id="searchresponse">{searchresponse}</p> :<p id="searchresponse"> locations appear here to choose from</p>}
+                <ul className="searchlist">
+                    {searchresults.map(result => (<li key={result.place_id} onClick={()=> handlesaveclick(result)}>
+                    <span>+</span> {result.display_name}
+                    </li>))}
+                </ul>
+                </div>
+            </div>}
+        <button className='clearlocations' onClick={handleclearall}>remove all locations</button>
         </div>
     )
 }
 
 
 
-const requestInfo = {
-    apikey: process.env.REACT_APP_WEATHER_API,
-    location: '',
-    fields: ['weatherCode','temperature', 'temperatureApparent', 'humidity', 'windSpeed', 'windDirection', 'precipitationProbability', 'precipitationType', 
-        'visibility', 'uvIndex', 'moonPhase', 'precipitationAccumulation','temperatureMax', 'temperatureMin', 'pressureSurfaceLevel', 'sunriseTime', 'sunsetTime'],
-    timesteps: ['current', '1h', '1d'],
-    units: 'metric',
-    startTime: 'now',
-    endTime: 'nowPlus120h',
-    timezone: 'auto'
-}
+
+

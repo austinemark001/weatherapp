@@ -1,6 +1,6 @@
 {
   "short_name": "weather",
-  "name": "Weather app by Austine",
+  "name": "nimbus now",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#001b2e",
-  "background_color": "#001b2e"
+  "theme_color": "#263a47",
+  "background_color": "#263a47"
 }

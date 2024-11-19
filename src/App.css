@@ -1,14 +1,16 @@
 .myheader{
     margin: 0;
     padding: 2vh 0;
+    padding-right: 15vw;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 65% 30%;
-    column-gap: 5%;
-    row-gap: 5vh;
+    width: 85%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10vw;
 }
 .myheader .toplink{
     font-size: 0.3em;
@@ -16,13 +18,10 @@
     text-decoration: none;
     opacity: 0.8;
 }
-.myheader #toplinkfirst{
-    justify-self: end;
-    
+.toplink img{
+    width: 35px;
 }
-.myheader #toplinklast{
-    justify-self: center;
-}
+
 .toplink:hover{
     color: rgb(83, 118, 146);
 }
@@ -90,21 +89,14 @@
 
 @media screen and (max-width: 800px) {
     .myheader{
-        grid-template-columns: auto auto;
+        width: 95%;
+        padding-right: 5vw;
     }
     .myheader .toplink{
         font-size: 0.38em;
     }
-    .myheader #toplinkfirst{
-        justify-self: left;
-        margin-left: 3vw;
-    }
-    .myheader .toplink:hover{
-        color: unset;
-    }
-    .myheader #toplinklast{
-        justify-self: right;
-        margin-right: 3vw;
+    .toplink img{
+        width: 25px;
     }
     .myheader .menubar{
         flex-direction: column;
