@@ -6,7 +6,7 @@ const getcodeDetails = {
      },
     1100: {text: 'mostly clear', iconday: `${process.env.PUBLIC_URL}/images/icons/1100_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1100_night.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/clearday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/fogyday.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/clearday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/clearnight.jpg`
     },
     1101: {text: 'partly cloudy',iconday: `${process.env.PUBLIC_URL}/images/icons/1101_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1101_night.png`,
@@ -34,7 +34,7 @@ const getcodeDetails = {
     },
     4001: {text: 'rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4001.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4001.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/icons/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/icons/rainynight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
     },
     4200: {text: 'light rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4200.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4200.png`,

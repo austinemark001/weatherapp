@@ -25,14 +25,10 @@
     margin: 0;
     padding: 2vh 2vw;
     border-radius: 20px;
+    background: radial-gradient(circle at top left, #9f496e 0%, #9f496e00 90%);
    
 }
-.dailyList .daydark{
-    background: radial-gradient(circle at top left, #9f496e 0%, #9f496e00 80%);
-}
-.dailyList .daylight{
-    background: radial-gradient(circle at top left, #64766a 0%, #64766a00 80%);
-}
+
 .dayDetails p{
     font-size: 0.35em;
     display: flex;
@@ -60,99 +56,57 @@
 
 /*hourly styles*/
 .hourlyDetails{
+    align-self: center;
     margin: 0;
-    width: 100%;
-    display: grid;
-    grid-template-columns: auto auto auto ;
-    column-gap: 3%;
-    row-gap: 1%;
+    padding: 3vh 10vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgb(61, 2, 63, 0.3);
+    gap: 5vh;
 }
 .hourlyDetails h4{
     margin: 0;
     grid-column: 1 / span 3;
-    padding-left: 10%;
     
 }
 .hourlyDetails h4 img{
     width: 35px;
 }
 
-.hourlyDetails button{
-    justify-self: center;
-    background-color: transparent;
-    border: none;
-    color: #eef3f9;
-    cursor: pointer;
-    opacity: 0.7;
+.hourlyDetails .hourlychart{
+    width: 70vw;
+    font-size: 0.4em;
 }
-.hourlyDetails button img{
-    width: 35px;
-}
-.hourlyDetails #hourprev{
-    margin-left: 2vw;
-}
-.hourlyDetails #hournext{
-    margin-right: 2vw;
-}
-
-.hourlyDetails .hourlyList{
-    justify-self: center;
-    width: 85%;
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    gap: 2vw;
-    overflow-x: auto;
-    scrollbar-width: none;
-    /*background-color: rgb(83, 118, 146, 0.2);*/
-    border-radius: 20px;
-    padding: 0;
-    margin: 2vh 0;
-}
-.hourlyDetails .hourdark{
-    background: radial-gradient(circle at top left, #4b3a70 0%, #4b3a7000 80%);
-}
-.hourlyDetails .hourlight{
-    background: radial-gradient(circle at top left, #8cbd89 0%, #8cbd8900 80%);
-}
-.hourlyList ::-webkit-scrollbar{
-    display: none;
-}
-.hourlyList .hourDetails{
-    margin: 0;
-    padding: 0px 20px;
-    border-radius: 20px;
+.hourlyDetails .hourlyprep{
+    font-size: 0.4em;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    /*background-color: rgb(83, 118, 146, 0.2);
-    border: #b3cde4 1px dotted;*/
-    text-align: center;
+    align-items: flex-start;
+    width: 100%;
+    border-top: #fdfdfd 1px solid;
 }
-.hourDetails p{
-    font-size: 0.37em;
-    text-wrap: nowrap;
+.hourlyprep div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5vw;
 }
-.hourDetails #hourTime{
-    opacity: 0.7;
+.hourlyprep p{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
 }
-.hourDetails #hourIcon{
-    width: 50px;
+.hourlyprep img{
+    width: 35px;
 }
-.hourDetails p img{
-    width: 17px;
-}
-.hourlyDetails .hourlylistbar{
-    justify-self: center;
-    grid-column: 1 / span 3;
-    height: 5px;
-    width: 80%;
-    border-radius: 5px;
-}
-.hourlylistbar div{
-    border-radius: inherit;
-}
+
 
 @media screen and (max-width: 800px) {
     .dailyDetails{
@@ -195,43 +149,17 @@
     /*hourly media queries*/
     .hourlyDetails{
         margin: 0;
+        padding: 3vh 3vw;
     }
     .hourlyDetails h4{
         padding-left: 3%;
     }
-    .hourlyDetails #hourlynote{
-        padding: 0.5vh 5vw;
+    .hourlyDetails .hourlychart{
+        width: 90vw;
+        align-self: unset;
     }
-    .hourlyDetails button{
-        grid-row: 4;
-        display: none;
+    .hourlyprep img{
+        width: 20px;
     }
-    .hourlyDetails button img{
-        width: 25px;
-    }
-    .hourlyDetails #hourprev{
-        grid-column: 1;
-    }
-    .hourlyDetails #hournext{
-        grid-column: 3;
-    }
-    .hourlyDetails .hourlyList{
-        grid-column: 1 / span 3;
-        width: 100%;
-        padding: 0;
-        border-radius: unset;
-    }
-    .hourDetails p{
-        font-size: 0.4em;
-    }
-    .hourDetails #hourIcon{
-        width: 23px;
-    }
-    .hourDetails p img{
-        width: 12px;
-    }
-    .hourlyDetails .hourlylistbar{
-        width: 95%;
-        height: 2px;
-    }
+
 }

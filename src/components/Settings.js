@@ -36,17 +36,6 @@ export default function Settings({settings, setsettings}){
                 localStorage.setItem('settings', JSON.stringify(updated)); return updated})
         }
     }
-    const changemode = ()=>{
-        if(settings.mode === 'dark'){
-           
-            setsettings(prev=>{ const updated = {...prev, mode: 'light' }; 
-                localStorage.setItem('settings', JSON.stringify(updated)); return updated})
-        }else{
-            
-            setsettings(prev=>{ const updated = {...prev, mode: 'dark' }; 
-                localStorage.setItem('settings', JSON.stringify(updated)); return updated})
-        }
-    }
     return(
         <div className="settingCont">
             <div className="settingscontent">
@@ -57,9 +46,6 @@ export default function Settings({settings, setsettings}){
                 <span id="changeunit" onClick={changespeed}>change to {settings.speed === 'm' ? 'km/h': 'm/s'}</span></p>
                 <p id="tempunit">distance unit: <span>{settings.distance === 'km' ? 'kilometres': 'miles'}</span> 
                 <span id="changeunit" onClick={changedistance}>change to {settings.distance === 'km' ? 'miles': 'kilometres'}</span></p>
-                <h3>theme settings</h3>
-                <p id="modetheme">theme: <span>{settings.mode === 'dark' ? 'dark': 'light'}</span> 
-                <span id="changeunit" onClick={changemode}>change to {settings.mode === 'dark' ? 'light': 'dark'}</span></p>
             </div>
         
             <div className="aboutcontent">

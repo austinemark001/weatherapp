@@ -1,77 +1,74 @@
-import React, {useEffect, useState, useRef} from "react";
-import { useSwipeable } from "react-swipeable";
+import React, { useEffect, useState } from "react";
 import { getcodeDetails, toFahrenheit, formatTimeEpoch, truncateTextSentense, formatDate} from "../weatherConfig";
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import './Forecast.css';
 
 
-export default function Forecast({dailyforecast, hourlyforecast, currenttime, sunrisetime, sunsettime, settings}){
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const scrollRef = useRef(null);
-    const [darkmode, setdarkmode] = useState(true);
+export default function Forecast({dailyforecast, hourlyforecast, currenttime , settings}){
+    const [hourychartdata, sethourlychartdata] = useState([]);
+    const [chartheight, setchartheight] = useState(350);
+
+    
+    useEffect(()=>{
+        const handleSize = ()=>{
+            if(window.innerWidth <768) setchartheight(200)
+            
+        };
+        window.addEventListener('resize', handleSize);
+        handleSize();
+        return ()=>{
+            window.removeEventListener('resize', handleSize)
+        
+        }
+    },[])
 
     useEffect(()=>{
-        if(settings.mode === 'dark'){
-          setdarkmode(true)
-        }else{
-          setdarkmode(false)
-        }
-      }, [settings.mode])
-
-    const ishourday = (hourtime)=>{
-        const hourTime = new Date(hourtime).getHours();
-        const sunriseTime = new Date(sunrisetime).getHours();
-        const sunsetTime = new Date(sunsettime).getHours();
-        return hourTime >= sunriseTime && hourTime <= sunsetTime;
-
-    }
-
-    //handle scrolls
-    const handleScroll = ()=>{
-        const scrollLeft = scrollRef.current.scrollLeft;
-        const scrollWidth = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-        const scrolled = (scrollLeft / scrollWidth) * 100;
-        setScrollPosition(scrolled)
-    }
-    const scrollLeft = ()=>{
-        scrollRef.current.scrollBy({left: -100, behavior: 'smooth'})
-    }
-    const scrollRight = ()=>{
-        scrollRef.current.scrollBy({left: 100, behavior: 'smooth'})
-    }
-
-    const handlers = useSwipeable({
-        onSwipedLeft: ()=> scrollRight(),
-        onSwipedRight: ()=> scrollLeft(),
-        preventDefaultTouchmoveEvent: true,
-        trackMouse: true
-    })
-    
+        let myarray = [];
+        hourlyforecast.forEach(dt=>{
+            const time = formatTimeEpoch(dt.startTime);
+            const temp = dt.values.temperature;
+            const prep = settings.temp === 'celcus' ? dt.values.precipitationProbability: toFahrenheit(dt.values.precipitationProbability);
+            myarray.push({time: time, temp: temp, prep: prep})
+        })
+        sethourlychartdata(myarray)
+    }, [hourlyforecast, settings.temp])
 
     return(
         <>
         <div className='hourlyDetails'>
-        <h4> <img src={`${process.env.PUBLIC_URL}/images/${darkmode ? 'time': 'timedark'}.png`}/> today hourly</h4>
-        <button id="hourprev" onClick={scrollLeft}><img src={`${process.env.PUBLIC_URL}/images/prev.png`} alt='prev'/></button>
-        <ul {...handlers}  className={`hourlyList ${darkmode  ? 'hourdark' : 'hourlight'}`} style={{overflowX: 'auto'}} ref={scrollRef} onScroll={handleScroll}>
+        <h4> <img src={`${process.env.PUBLIC_URL}/images/time.png`}/> today hourly</h4>
+        <div className="hourlychart">
+        <ResponsiveContainer width={'100%'} height={chartheight}>
+        <LineChart  data={hourychartdata}>
+        {/*<CartesianGrid strokeDasharray="5 3"/>*/}
+        <XAxis dataKey="time"  fill="#ffffff" stroke="#ffffff"/>
+        <YAxis  fill="#ffffff" stroke="#ffffff"/>
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="temp" stroke="#ffffff"  />
+      </LineChart>
+      </ResponsiveContainer>
+      </div>
+        <div className="hourlyprep">
+            <h5>expect precipitation around</h5>
+            <div>
             {hourlyforecast.map(hour =>(
-                <li key={hour.startTime} className="hourDetails">
-                    <p id='hourTime'>{formatTimeEpoch(hour.startTime, currenttime)}</p>
-                    <img src={ishourday(hour.startTime) ? getcodeDetails[hour.values.weatherCode].iconday : getcodeDetails[hour.values.weatherCode].iconnight } alt='icon' id='hourIcon'/>
-                    <p id='hourText'>{Math.round(settings.temp ==='celcius' ? `${hour.values.temperature}`: `${toFahrenheit(hour.values.temperature)}`)}° {hour.values.precipitationProbability > 0 ? <><img src={`${process.env.PUBLIC_URL}/images/drop.png`} alt='icon'/>
-                    {hour.values.precipitationProbability}%</>: ''}</p>
-                </li>
+                <>
+                {hour.values.precipitationProbability > 0 && <p key={hour.startTime} className="hourDetails">
+                    {formatTimeEpoch(hour.startTime, currenttime)} <span>{formatDate(hour.startTime)}</span>
+                    <img src={getcodeDetails[hour.values.weatherCode].iconday} alt='icon'/>
+                    {hour.values.precipitationProbability}%
+                </p>}
+                </>
             ))}
-        </ul>
-        <button id='hournext' onClick={scrollRight}><img src={`${process.env.PUBLIC_URL}/images/next.png`} alt='next'/></button>
-        <div className="hourlylistbar" style={{position: 'relative', backgroundColor: `${darkmode ? '#0000004d': '#ffffff4d'}`}}>
-            <div style={{backgroundColor: `${darkmode ? '#4b3a70': '#8cbd89'}`, width: `${scrollPosition}%`, height: '100%', transition: 'width 0.3s'}}/>
+            </div>
         </div>
     </div>
         <div className='dailyDetails'>
-            <h4> <img src={`${process.env.PUBLIC_URL}/images/${darkmode ? 'time': 'timedark'}.png`}/> daily forecast</h4>
+            <h4> <img src={`${process.env.PUBLIC_URL}/images/time.png`}/> daily forecast</h4>
             <ul className='dailyList'>
                 {dailyforecast.map(day=>(
-                    <li key={day.startTime} className={`dayDetails ${darkmode ? 'daydark': 'daylight'}`}>
+                    <li key={day.startTime} className='dayDetails'>
                         <p id='dayMain'>{formatDate(day.startTime)}</p>
                         <p id='dayTempRange'><img src={`${process.env.PUBLIC_URL}/images/temperature.png`} alt='icon'/>{Math.round(settings.temp ==='celcius' ? `${day.values.temperatureMax}`: `${toFahrenheit(day.values.temperatureMax)}`)}
                         /{Math.round(settings.temp ==='celcius' ? `${day.values.temperatureMin}`:`${toFahrenheit(day.values.temperatureMin)}`)}°</p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Forecast from "./Forecast";
-import { getcodeDetails, getmoonDetails, toFahrenheit, toKmPerHour, toMiles, truncateSentense, getfirstpart, uvHealth, formatwinddirection, 
+import { getcodeDetails, getmoonDetails, toFahrenheit, toKmPerHour, toMiles,  uvHealth, formatwinddirection, 
         formatwind, formathumidity, formatPressure, formatTime, formatvisibility, formatprep} from "../weatherConfig";
 import './Weather.css'
 import { useLocation, useNavigate } from "react-router-dom";
@@ -96,17 +96,8 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
 
     
     const [isday, setisday] = useState(false);
-    const [darkmode, setdarkmode] = useState(true);
     const [astrotime, setastrotime] = useState({ first: 0, last: 0 })
     const [astroposition, setastroposition] = useState({x: 0, y: 0})
-
-    useEffect(()=>{
-        if(settings.mode === 'dark'){
-          setdarkmode(true)
-        }else{
-          setdarkmode(false)
-        }
-      }, [settings.mode])
 
  
     useEffect(()=>{
@@ -118,7 +109,7 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
                 return currenttime >= sunrisetime && currenttime < sunsetime;
             }
             if(checkday()){
-                setisday(!true)
+                setisday(true)
             } 
 
             let totalMinutes, minutesSinceSunrise, last, first, localtime;
@@ -162,7 +153,7 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
         {(current && hourlyforecast && dailyforecast) ? <div className='weatherDetails'
         style={{backgroundImage: `url(${isday ? getcodeDetails[current.values.weatherCode].backgroundday :getcodeDetails[current.values.weatherCode].backgroundnight })`}}>
            <div className='currentCondition'>
-            <p id='currentlocation'>{iscurrent && <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="c"/>}{getfirstpart(location.name)}</p>
+            <p id='currentlocation'>{iscurrent && <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="c"/>}{location.name}</p>
             
             <p id='currenttemp'>{Math.round(settings.temp ==='celcius' ? `${current.values.temperature}`: `${toFahrenheit(current.values.temperature)}`)}<sup>°</sup> <sub></sub></p>
             <p id="currentcondition"> {getcodeDetails[current.values.weatherCode].text}</p>
@@ -177,32 +168,32 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
             sunrisetime={current.values.sunriseTime} sunsettime={current.values.sunsetTime} settings={settings}/> }
            
             <div className='otherDetails'>
-                <h4><img src={`${process.env.PUBLIC_URL}/images/${darkmode ? 'umbrella':'umbrelladark'}.png`}/> weather details</h4>
+                <h4><img src={`${process.env.PUBLIC_URL}/images/umbrella.png`}/> weather details</h4>
                 <ul className="otherdetailslist">
-                <li className={`${darkmode ? 'dark': 'light'}`}>
+                <li>
                     <img src={`${process.env.PUBLIC_URL}/images/wind.png`} alt='icon'/><span>{settings.speed === 'm' ? `${Math.floor(current.values.windSpeed)}m/s`: `${Math.floor(toKmPerHour(current.values.windSpeed))}km/h`} -  {formatwinddirection(current.values.windDirection)} wind</span> 
                 {formatwind(current.values.windSpeed)}</li>
-                <li className={`${darkmode ? 'dark': 'light'}`}>
+                <li>
                     <img src={`${process.env.PUBLIC_URL}/images/humidity.png`} alt='icon'/><span>{Math.round(current.values.humidity)}% humidity</span>
                 {formathumidity(current.values.humidity)}</li>
-                <li className={`${darkmode ? 'dark': 'light'}`}>
+                <li>
                     <img src={`${process.env.PUBLIC_URL}/images/visibility.png`} alt='icon'/><span> {settings.distance === 'km' ? `${Math.floor(current.values.visibility)}km`: `${Math.floor(toMiles(current.values.visibility))} mi`} visbility</span> 
                 {formatvisibility(current.values.visibility)}</li>
-                <li className={`${darkmode ? 'dark': 'light'}`}>
+                <li>
                     <img src={`${process.env.PUBLIC_URL}/images/pressure.png`} alt='icon'/><span>{Math.round(current.values.pressureSurfaceLevel)}mb pressure</span>
                 {formatPressure(current.values.pressureSurfaceLevel)}</li>
-                <li className={`${darkmode ? 'dark': 'light'}`}> 
+                <li> 
                     <img src={getmoonDetails[current.values.moonPhase].image} alt='icon'/><span>{getmoonDetails[current.values.moonPhase].text}</span> moon phase </li>
-                <li className={`${darkmode ? 'dark': 'light'}`}>
+                <li>
                     <img src={`${process.env.PUBLIC_URL}/images/precipitation.png`} alt='icon'/><span>  {current.values.precipitationAccumulation}mm accumulation</span>
                 {formatprep(current.values.precipitationAccumulation)}</li>
                 </ul>
             </div>
            
             <div className="astro-container">
-                <h4> <img src={`${process.env.PUBLIC_URL}/images/${isday ? `${darkmode ? 'sun': 'sundark'}`: `${settings.mode === 'dark' ? 'moon': 'moondark'}`}.png`}/> {isday ? 'day track': 'night track'}</h4>   
-                <div className='astro' >
-                    <div className="astro-position"style={{background: `radial-gradient(circle at center, ${isday ?  '#8ee0ee, #8ee0ee00  90%' : '#0d0025, #0d002500 90%'}) `}}>
+                <h4> <img src={`${process.env.PUBLIC_URL}/images/${isday ? 'sun': 'moon'}.png`}/> {isday ? 'day track': 'night track'}</h4>   
+                <div className='astro'>
+                    <div className="astro-position" style={{backgroundColor: `${isday ? '#ffffffb3': '#000000b3'}`}}>
                     <img src={isday ? `${process.env.PUBLIC_URL}/images/icons/sun.png`: getmoonDetails[current.values.moonPhase].image} style={{left: `${astroposition.x}%`, top: `${astroposition.y}%` }} alt="sun"/>
                     </div>
                     <div className='astrobackground' ></div>
@@ -214,7 +205,7 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
                    
                 </div>
             </div>
-        </div> : <p>getting things ready</p>}
+        </div> : <div className="no-weather">getting things ready</div>}
         </>
     )
 }

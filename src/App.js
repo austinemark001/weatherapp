@@ -15,21 +15,10 @@ function App() {
     }
     const settingstore = JSON.parse(localStorage.getItem('settings'))
     setsettings(settingstore)
-    console.log(settingstore)
-    if(!settingstore.mode){
-      setsettings(prev=>({...prev, mode: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark': 'light'}))
-    }
   }, [])
 
   
-  useEffect(()=>{
-    document.body.className = settings.mode
-    if(settings.mode === 'light'){
-      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f1ed')
-    }else{
-      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#001b2e')
-    }
-  },[settings.mode])
+
   return (
     <>
       <Header />
@@ -72,7 +61,7 @@ function Header(){
 function NoPage(){
   return(
     <div className="noPage">
-        <h2 id="nopageInfo">Welcome to My Weather App</h2>
+        <h2 id="nopageInfo">Welcome to nimbus now</h2>
         <p>your  may be asked to  allow  my web app use location in order to fetch help your current location data</p>
         <Link to="/" id="nopageLink">Get weather data</Link>
     </div>
