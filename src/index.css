@@ -11,21 +11,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   font-size: calc(10px + (3vw + 5vh) / 2);
-}
-
-body.dark{
   color: #fdfdfd;
-  background-color: #001b2e;
   background-color: #263a47;
 }
-body.light{
-  color: #100c0d;
-  background-color: #f7f1ed;
-}
 
-@media screen and (max-width: 800px) {
-  body{
-    /*background-image: url(../public/images/background_small.jpg);*/
-    background-position: center;
-  }
-}
