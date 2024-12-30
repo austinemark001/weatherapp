@@ -1,0 +1,17 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!--  Home Page  -->
+<url>
+<loc>https://nimbusnow.austinemark.com/</loc>
+<changefreq>weekly</changefreq>
+</url>
+<!--  Weather Page  -->
+<url>
+<loc>https://nimbusnow.austinemark.com/weather/</loc>
+<changefreq>weekly</changefreq>
+</url>
+<!-- Settings page -->
+<url>
+<loc>https://nimbusnow.austinemark.com/settings</loc>
+<changefreq>weekly</changefreq>
+</url>
+</urlset>

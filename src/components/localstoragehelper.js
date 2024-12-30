@@ -110,6 +110,24 @@ export const isWeatherDataExpired = (location, maxAge = 3600000) => {
   return currentTime - weather.timestamp > maxAge;
 };
 
+
+export const removeLocation = (loc)=>{
+  try{
+    const locations = getSavedLocations();
+    let newarray = locations.filter(item => item['name'] !== loc.name);
+    localStorage.setItem(SAVED_LOCATIONS_KEY, JSON.stringify(newarray))
+    let savedweathers = JSON.parse(localStorage.getItem(WEATHER_DATA_KEY)) || {};
+    const datakey = `${loc.lat},${loc.lon}`
+    if(datakey in savedweathers){
+      delete savedweathers[datakey];
+      localStorage.setItem(WEATHER_DATA_KEY, JSON.stringify(savedweathers))
+    }
+    return newarray
+  }catch(error){
+    console.error('error removing item:', error)
+    return false
+  }
+}
 /**
  * Clear all saved locations
  */
@@ -117,5 +135,6 @@ export const clearLocations = () => {
   localStorage.removeItem(SAVED_LOCATIONS_KEY);
   localStorage.removeItem(CURRENT_LOCATION_KEY);
   localStorage.removeItem(WEATHER_DATA_KEY)
+  window.location.reload()
 };
 

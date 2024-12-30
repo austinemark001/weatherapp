@@ -12,6 +12,9 @@ body {
   overflow-x: hidden;
   font-size: calc(10px + (3vw + 5vh) / 2);
   color: #fdfdfd;
-  background-color: #263a47;
+  /*background-color: #263a47;
+  background-color: #1e2025;
+  background-color: #333a47;*/
+  background-color: #101729;
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import './Settings.css'
 
 export default function Settings({settings, setsettings}){
@@ -38,6 +39,15 @@ export default function Settings({settings, setsettings}){
     }
     return(
         <div className="settingCont">
+            <Helmet><title>nimbusnow settings</title>
+            <meta name="description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you'/>
+            <meta name="keywords" content='change weather settings, celcuis to fahrenheit'/>
+            <meta property='og:title' content='nimbusnow settings'/>
+            <meta property="og:description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you'/>
+            <meta property='og:url' content='https://numbusnow.austinemark.com/weather/settings' />
+            <meta property="twitter:title" content='nimbusnow settings'/>
+            <meta property="twitter:description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you' />
+            </Helmet>
             <div className="settingscontent">
                 <h3>unit settings</h3>
                 <p id="tempunit">temperature unit: <span>{settings.temp === 'celcius' ? '℃': '℉'}</span> 

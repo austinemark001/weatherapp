@@ -1,6 +1,6 @@
 {
-  "short_name": "weather",
-  "name": "nimbus now",
+  "short_name": "nimbusnow",
+  "name": "nimbus-now-weather",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#263a47",
-  "background_color": "#263a47"
+  "theme_color": "#101729",
+  "background_color": "#101729"
 }

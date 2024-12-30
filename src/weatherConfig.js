@@ -14,7 +14,7 @@ const getcodeDetails = {
    },
    1102: {text: 'mostly cloudy', iconday: `${process.env.PUBLIC_URL}/images/icons/1102_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1102_night.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/cloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/mostlycloudynight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/cloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/cloudynight.jpg`
     },
     1001: {text: 'cloudy', iconday: `${process.env.PUBLIC_URL}/images/icons/1001.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1001.png`,
@@ -94,6 +94,27 @@ const getcodeDetails = {
     }
 }
 
+const getprecipDetails = (precip)=>{
+    let text;
+    switch(precip){
+        case 1:
+            text = 'rain'
+            break;
+        case 2:
+            text = 'snow'
+         break;
+        case 3:
+            text = 'cold rain'
+            break;
+        case 4:
+            text =  'sleet'
+            break;
+        default:
+            text = 'rain'
+    }
+    return text;
+}
+
 const getmoonDetails ={
     0:{
         text: 'new moon', image: `${process.env.PUBLIC_URL}/images/icons/newmoon.png`
@@ -136,32 +157,32 @@ const getfirstpart = (str)=>{
 
 
 const uvHealth = (index) =>{
-    if(index <=0.5) return 'very low'
-    if(index <= 2) return 'low';
-    if(index <= 5) return 'moderate';
-    if(index <= 7) return 'high';
-    if(index <= 10)return 'very high';
-        return 'extreme'
+    if(index <=0.5) return '#00ff37'
+    if(index <= 2) return '#00ff37';
+    if(index <= 5) return '#d0ff00';
+    if(index <= 7) return '#ff5100';
+    if(index <= 10)return '#ff5100';
+        return '#ff0000'
 }
 
 
 function formathumidity(hum){
-    if(hum < 30) return 'low';
-    if(hum < 60) return 'moderate';
-    if(hum < 80) return 'high ';
-    return 'very high'
+    if(hum < 30) return '#00ff37';
+    if(hum < 60) return '#d0ff00';
+    if(hum < 80) return '#ff5100';
+    return '#ff0000'
     
 }
 
 const formatwinddirection = (deg)=>{
-    if(deg >= 337 || deg < 22.5) return 'N';
-    if(deg >= 22.5 && deg < 67.5) return 'NE';
-    if(deg >= 67.5 && deg < 112.5) return 'E';
-    if(deg >= 112.5 && deg < 157.5) return 'SE';
-    if(deg >= 157.5 && deg < 202.5) return 'S';
-    if(deg >= 202.5 && deg < 247.5) return 'SW';
-    if(deg >=  247.5 && deg < 292.5) return 'W';
-    if(deg >= 292.5 && deg < 337.5) return 'NW';
+    if(deg >= 337 || deg < 22.5) return 'north';
+    if(deg >= 22.5 && deg < 67.5) return 'norteast';
+    if(deg >= 67.5 && deg < 112.5) return 'east';
+    if(deg >= 112.5 && deg < 157.5) return 'Southeast';
+    if(deg >= 157.5 && deg < 202.5) return 'south';
+    if(deg >= 202.5 && deg < 247.5) return 'southwest';
+    if(deg >=  247.5 && deg < 292.5) return 'west';
+    if(deg >= 292.5 && deg < 337.5) return 'northwest';
 }
 
 const formatprep = (prep)=>{
@@ -190,7 +211,7 @@ const formatwind = (wind)=>{
     if(wind < 10) return 'breeze';
     if(wind < 20) return 'windy';
     if(wind < 33) return 'stormy';
-    if(wind >= 33) return 'hurricane force';
+    if(wind >= 33) return 'hurricane';
 }
 
 const formatTime = (epoch) => {
@@ -199,9 +220,10 @@ const formatTime = (epoch) => {
     
   };
 
-const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const today = new Date();
+const formatDate = (timestamp, localtime) => {
+    if(timestamp && localtime){
+    const date = new Date(timestamp.slice(0, -6));
+    const today = new Date(localtime.slice(0, -6));
     
     // Check if the date is today
     if (date.toDateString() === today.toDateString() ) return "today";
@@ -210,24 +232,29 @@ const formatDate = (timestamp) => {
     
     return date.toLocaleString('en-US', {weekday: "short"}).toLocaleLowerCase();
   };
+  return 'uknown'
+}
 
 const formatTimeEpoch = (epoch, localtime) => {
-    const date = new Date(epoch);
+    if(epoch && localtime){
+    const date = new Date(epoch.slice(0, -6));
+    const date1 = localtime.slice(0, -6);
     const hours = date.getHours();
-    if(hours === new Date(localtime).getHours()){
+    if(hours === new Date(date1).getHours()){
         return 'now'
     }
-    return date.toLocaleString('en-US', {hour: "numeric", hour12: 'short'}).toLocaleLowerCase()
-  };
+    return date.toLocaleString('en-US', {hour: "numeric", hour12: 'short'}).toLocaleLowerCase();
+  }return '12am'
+}
 
 const truncateTextSentense = (sent)=>{
-    if(sent.length > 9){
-        return sent.slice(0, 9) + '...';
+    if(sent.length > 10){
+        return sent.slice(0, 10) + '...';
     }
     return sent
 }
 const convertlocaltime = (localtime)=>{
-
+    if(localtime){
     const date = localtime.slice(0, -6)
    
     const newdate = new Date(date)
@@ -237,8 +264,8 @@ const convertlocaltime = (localtime)=>{
       minute: 'numeric',
       hour12: true
     }
-  
     return newdate.toLocaleString('en-US', options).toLowerCase()
+    }return 'unknown'
   }
 
 
@@ -256,6 +283,6 @@ const toMiles = (dst)=>{
 }
 
 
-export {getcodeDetails, getmoonDetails, truncateSentense, getfirstpart, uvHealth, formathumidity, formatwinddirection, formatprep, formatvisibility,
+export {getcodeDetails, getprecipDetails, getmoonDetails, truncateSentense, getfirstpart, uvHealth, formathumidity, formatwinddirection, formatprep, formatvisibility,
     formatPressure, formatwind, formatTime, toFahrenheit, toKmPerHour, toMiles, formatDate, formatTimeEpoch, truncateTextSentense, convertlocaltime}
 

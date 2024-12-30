@@ -3,7 +3,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { getSavedLocations, saveLocation, saveCurrentLocation,clearLocations, getCurrentLocation } from './localstoragehelper';
+import { getSavedLocations, saveLocation, saveCurrentLocation, clearLocations, getCurrentLocation, removeLocation } from './localstoragehelper';
 
 
 export default function Home(){
@@ -124,25 +124,42 @@ export default function Home(){
       if(searchRef.current && !searchRef.current.contains(event.target)){
         setsearch(false)
       }
-    }  
+    }
+
+    const handleremove = async(loc)=>{
+      setresStatus('removing')
+      const response =  await removeLocation(loc);
+      if(response){
+        setlocations(response);
+        setresStatus('removed');
+      }else{
+        setresStatus('error')
+      }
+      setTimeout(()=>setresStatus(false), 2000)
+    }
 
     return(
         <div className="homecontainer">
-           <h1>Nimbus Now <img src={`${process.env.PUBLIC_URL}/images/weather.png`} alt='i'/></h1>
+           <h1>Nimbus Now <img src={`${process.env.PUBLIC_URL}/images/umbrella1.png`} alt='i'/></h1>
            {resStatus && <div className='home-response'>{resStatus}</div>}
-           <h2>current location</h2>
+           <div className='home-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back1.jpg)`}}><div></div></div>
+           <h2>Current location</h2>
            {currentLocation && <div className='current-name' onClick={()=> navigate('/weather',{ state: {location: currentLocation, iscurrent: true}})}>
            <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt='+'/> {currentLocation.name}
             </div>}
-            <h2 className='saved-locations-title'>saved {locations.length} {locations.length > 1 ? 'locations': 'location'} {locations.length < 5 ? '|' : ''}
-                {locations.length < 5 && <button onClick={()=> setsearch(true)} id="addlocation">add new</button>}</h2>
+            <div className='saved-locations-container'>
+            <h2 className='saved-locations-title'>Saved {locations.length} {locations.length > 1 ? 'locations': 'location'} {locations.length < 5 ? '|' : ''}
+                {locations.length < 5 && <button onClick={()=> setsearch(true)} id="addlocation">+add new</button>}</h2>
             <ul className='saved-locations'>
                 {locations.map(loc => (
-                    <li key={loc.id} onClick={()=> navigate('/weather', {state: {location: loc, iscurrent: false}})}>
-                      <img src={`${process.env.PUBLIC_URL}/images/location.png`} alt='+'/> {loc.name}, {loc.country}</li>
+                    <li key={loc.id} >
+                      <p onClick={()=> navigate('/weather', {state: {location: loc, iscurrent: false}})}>
+                      <img src={`${process.env.PUBLIC_URL}/images/location.png`} alt='+'/> {loc.name}, {loc.country}</p>
+                      <img src={`${process.env.PUBLIC_URL}/images/delete.png`} alt='-' id='removeloc' onClick={()=>handleremove(loc)}/></li>
                 ))}
             </ul>
-            {issearch && <div ref={searchRef} className="addCont" style={{backgroundColor: 'rgb(29, 63, 88, 0.97)'}}>
+            </div>
+            {issearch && <div ref={searchRef} className="addCont">
                 <div className='addContent' style={{borderBottom:  '#eef3f9 1px dotted'}}>
                 <button onClick={()=> setsearch(false)}><img src={`${process.env.PUBLIC_URL}/images/back.png`} alt="cancel"/></button>
                 <form  className='searchform' onSubmit={searchLocation}>
@@ -154,12 +171,12 @@ export default function Home(){
                 {searchresponse ? <p id="searchresponse">{searchresponse}</p> :<p id="searchresponse"> locations appear here to choose from</p>}
                 <ul className="searchlist">
                     {searchresults.map(result => (<li key={result.place_id} onClick={()=> handlesaveclick(result)}>
-                    <span>+</span> {result.display_name}
+                    <img src={`${process.env.PUBLIC_URL}/images/location.png`} alt='+'/> {result.display_name}
                     </li>))}
                 </ul>
                 </div>
             </div>}
-        <button className='clearlocations' onClick={handleclearall}>remove all locations</button>
+        <button className='clearlocations' onClick={handleclearall}><img src={`${process.env.PUBLIC_URL}/images/remove.png`} alt='-'/> remove all locations</button>
         </div>
     )
 }

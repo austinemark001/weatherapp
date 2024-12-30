@@ -1,4 +1,5 @@
 .homecontainer{
+    position: relative;
     padding: 0 15vw;
     padding-top: 10vh;
     display: flex;
@@ -30,6 +31,25 @@
     background-color: rgba(226, 60, 82, 0.3);
     border-radius: 15px;
 }
+.homecontainer .home-background{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 85vw;
+    height: 85vh;
+    z-index: -1;
+    background-position: center;
+    background-size: cover;
+}
+.home-background div {
+    position: inherit;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.5);
+}
 .homecontainer h2{
     font-size: 0.45em;
     margin: 0;
@@ -43,8 +63,19 @@
     align-items: center;
     gap: 1vw;
 }
+.current-name:hover{
+    color: #0077ff;
+}
 .current-name img{
     width: 35px;
+}
+.saved-locations-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2vh;
+    padding: 0;
 }
 .saved-locations-title{
     display: flex;
@@ -52,6 +83,7 @@
     justify-content: center;
     align-items: center;
     gap: 1vw;
+    margin: 0;
 }
 .saved-locations-title button{
     background-color: transparent;
@@ -73,6 +105,8 @@
     align-items: flex-start;
     gap: 1vh;
     list-style-type: none;
+    margin: 0;
+    
 }
 .saved-locations li{
     cursor: pointer;
@@ -81,10 +115,17 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 1vw;
+    text-align: center;
+    gap: 5vw;
 }
-.saved-locations li img{
-    width: 35px;
+.saved-locations li p:hover{
+    color: #0077ff;
+}
+.saved-locations li p img{
+    width: 33px;
+}
+.saved-locations li #removeloc{
+    width: 28px;
 }
 
 
@@ -102,6 +143,8 @@
     gap: 5vh;
     z-index: 7;
     overflow-y: auto;
+    background-color: rgb(29, 63, 88, 0.97);
+    background-color: #111111f2;
 }
 .addCont .addContent{
     display: flex;
@@ -123,14 +166,16 @@
 
 .addContent .searchform{
     padding: 0;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 1vw;
+
 }
 .searchform input{
-    font-size: 0.35em;
+    font-size: 0.33em;
     padding: 1.5vh 1vw;
     /*background-color: rgba(0, 0, 0, 0.2);*/
     background-color:  transparent;
@@ -138,7 +183,7 @@
     border: none;
     color: inherit;
     border-radius: 15px;
-    width: 20vw;
+    flex-basis: 80%;
 }
 .searchform button{
     background-color: transparent;
@@ -162,13 +207,13 @@
     align-items: center;
 }
 .searchresults #searchresponse{
-    font-size: 0.4em;
+    font-size: 0.3em;
     opacity: 0.7;
 }
 
 .searchresults .searchlist{
     list-style-type: none;
-    font-size: 0.38em;
+    font-size: 0.34em;
     display: flex;
     flex-direction: column;
     gap: 3vh;
@@ -179,19 +224,30 @@
 .searchlist li span{
     color: #fe9b33;
 }
+.searchlist li img{
+    width: 30px;
+}
 .searchlist li:hover{
     opacity: 0.7;
 }
 
 .clearlocations{
     background-color: transparent;
-    border: none;
-    box-shadow: 3px 3px 4px black;
-    padding: 1vh 3vw;
-    font-size: 0.35em;
+    border: #fdfdfd 1px solid;
+    align-self: flex-end;
+    padding: 1vh 2vw;
+    font-size: 0.3em;
     border-radius: 10px;
     color: inherit;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.clearlocations img{
+    width: 35px;
 }
 .clearlocations:hover{
     color: #fe9b33;
@@ -214,6 +270,9 @@
         padding: 1vh 5vw;
         font-size: 0.4em;
     }
+    .homecontainer .home-background{
+        width: 95vw;
+    }
     .homecontainer h2{
         font-size: 0.5em;
     }
@@ -222,6 +281,9 @@
     }
     .searchresults .searchlist{
         font-size: 0.4em;
+    }
+    .searchlist li img{
+        width: 20px;
     }
     .searchresults #searchresponse{
         font-size: 0.4em;
@@ -234,12 +296,19 @@
     }
     .saved-locations li{
         font-size: 0.4em;
+        gap: 8vw;
     }
-    .saved-locations li img{
-        width: 25px;
+    .saved-locations li p img{
+        width: 23px;
+    }
+    .saved-locations li #removeloc{
+        width: 19px;
     }
     .clearlocations{
         font-size: 0.4em;
+    }
+    .clearlocations img{
+        width: 20px;
     }
     
 }

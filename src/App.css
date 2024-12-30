@@ -11,6 +11,7 @@
     justify-content: flex-end;
     align-items: center;
     gap: 10vw;
+    z-index: 3;
 }
 .myheader .toplink{
     font-size: 0.3em;
@@ -67,7 +68,7 @@
 
 .noPage{
     margin: 0;
-    padding: 0;
+    padding: 0 5vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,16 +76,33 @@
 }
 .noPage #nopageInfo{
     margin-top: 30vh;
-    font-size: 0.7em;
+    font-size: 0.65em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+#nopageInfo img{
+    width: 70px;
 }
 .noPage p{
     font-size: 0.4em;
 }
 .noPage #nopageLink{
-    background-color: #46f0a1;
-    padding: 1vh 4vw;
-    font-size: 0.4em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    padding: 1vh 3vw;
+    font-size: 0.35em;
     text-decoration: none;
+    color: inherit;
+    border: #f7f7f7 1px solid;
+}
+#nopageLink img{
+    width: 35px;
 }
 
 @media screen and (max-width: 800px) {
@@ -112,8 +130,15 @@
     .menubar #navlink img{
         width: 23px;
     }
+
+    #nopageInfo img{
+        width: 50px;
+    }
     
     .noPage #nopageLink{
-        font-size: 0.5em;
+        font-size: 0.4em;
+    }
+    #nopageLink img{
+        width: 28px;
     }
 }

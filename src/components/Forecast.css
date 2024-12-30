@@ -1,69 +1,95 @@
 .dailyDetails{
-    margin: 0;
-    padding: 0;
-    margin-left: 10vw;
+    margin: 0 5vw;
+    padding: 5vh 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    /*background: radial-gradient(circle at top left, #9f496e 0%, rgba(159, 73, 110, 0.3) 90%);
+    background: radial-gradient(circle at top left, #425268 0%, #42526800 90%);*/
+    background-color:  rgb(66, 82, 104, 0.5);
+    border-radius: 15px;
 }
 .dailyDetails h4{
     align-self: flex-start;
+    margin: 0;
 }
 
 .dailyDetails .dailyList{
     display: flex;
     flex-direction: row;
-    gap: 3vw;
+    gap: 30px;
+    flex-wrap: wrap;
     list-style: none;
     margin: 0;
-    padding: 0;
-    margin-right: 5vw;
+    padding: 2vh 0;
 }
 .dailyList .dayDetails{
-    /*background-color: rgb(179, 205, 228, 0.15);
-    border: #b3cde4 1px dotted;*/
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-    margin: 0;
-    padding: 2vh 2vw;
-    border-radius: 20px;
-    background: radial-gradient(circle at top left, #9f496e 0%, #9f496e00 90%);
-   
-}
-
-.dayDetails p{
-    font-size: 0.35em;
     display: flex;
     flex-direction: row;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    margin: 1vh 0;
-    gap: 1vw;
-}
-.dayDetails p img{
-    width: 20px;
-    align-self: center;
-    justify-self: center;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 5vw;
     margin: 0;
+    padding: 1vh 1vw;
+    border: #fdfdfd79 1px solid;
+    font-size: 0.33em;
 }
-.dayDetails #dayMain{
-    color: #eef3f9;
-    opacity: 0.9;
+.dayDetails .day-start,.day-end{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4vh;
+    align-items: flex-start;
 }
-.dayDetails #dayText img{
-    width: 45px;
+.dailyDetails .day-end{
+    align-items: flex-end;
 }
+.dayDetails p{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5vw;
+    margin: 0;
+
+}
+.dailyDetails p img{
+    width: 25px;
+}
+.dayDetails #day-main{
+    color: #0ac0b1;
+}
+.dayDetails .day-detail{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1vh;
+}
+.dayDetails #day-icon{
+    width: 35px;
+}
+.dayDetails #day-condition{
+    opacity: 0.8;
+    font-size: 0.85em;
+}
+
+
+
 
 
 /*hourly styles*/
 .hourlyDetails{
     align-self: center;
     margin: 0;
-    padding: 3vh 10vw;
+    padding: 3vh 5vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background-color: rgb(61, 2, 63, 0.3);
+    background-color: rgb(61, 2, 63, 0.5);
+    color: #ffffffb3;
     gap: 5vh;
 }
 .hourlyDetails h4{
@@ -74,19 +100,75 @@
 .hourlyDetails h4 img{
     width: 35px;
 }
+.hourlyDetails h4 span{
+    font-size: 0.8em;
+    opacity: 0.7;
+}
 
-.hourlyDetails .hourlychart{
-    width: 70vw;
-    font-size: 0.4em;
+.hourlyDetails .hourly-chart{
+    margin: 0;
+    padding: 0;
+    font-size: 0.3em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hourly-chart h5{
+    align-self: flex-end;
+}
+.hourly-chart .chart-container{
+    width: 80vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: 8px;
+    scrollbar-color: transparent;
+}
+
+.chart-container .thee-chart{
+    width: 200%;
+}
+.chart-container::-webkit-scrollbar{
+    display: none;
+}
+.chart-container{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.recharts-wrapper svg{
+    overflow: inherit;
+}
+.hourly-chart .chart-scroll{
+    align-self: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+}
+.chart-scroll button{
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+    border: none;
 }
 .hourlyDetails .hourlyprep{
-    font-size: 0.4em;
+    font-size: 0.37em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     width: 100%;
     border-top: #fdfdfd 1px solid;
+}
+.hourlyprep h5{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 .hourlyprep div{
     display: flex;
@@ -95,6 +177,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 5vw;
+    font-size: 0.8em;
 }
 .hourlyprep p{
     display: flex;
@@ -106,18 +189,29 @@
 .hourlyprep img{
     width: 35px;
 }
+.chart-backup{
+    width: 80vw;
+    font-size: 0.3em;
+    overflow-x: scroll;
+}
+.chart-backup .thee-chart{
+    width: 200%;
+}
 
 
 @media screen and (max-width: 800px) {
     .dailyDetails{
         grid-column: 1;
         margin: 0;
-        margin-top: 3vh;
-        padding: 0 3vw;
+        padding: 3vh 3vw;
+        width: 90vw;
+        padding-bottom: 3vh;
+        align-self: center;
+        border-radius: unset;
     }
     .dailyDetails .dailyList{
         flex-direction: column;
-        gap: 0;
+        gap: 2vh;
        /* border-radius: 20px;*/
         padding: 0;
     }
@@ -128,35 +222,39 @@
         background: radial-gradient(circle at left, #64766a 0%, rgb(100, 118, 106, 0) 70%);
     }*/
     .dailyList .dayDetails{
-        padding: 2vh 5vw;
+        padding: 1vh 2vw;
         flex-direction: row;
-        gap: 3vw;
+        gap: 50vw;
         border-radius: unset;
-        border: none;
-    }
-    .dayDetails p{
+        background: none;
         font-size: 0.4em;
-        flex-direction: row;
-        gap: 1vw;
     }
-    .dayDetails p img{
-        width: 15px;
+    .dailyDetails .day-start .day-end{
+        gap: 2vh;
     }
-    .dayDetails #dayText img{
+    .dailyDetails #day-icon{
         width: 25px;
     }
-
+    .dailyDetails p img{
+        width: 15px;
+    }
     /*hourly media queries*/
     .hourlyDetails{
-        margin: 0;
-        padding: 3vh 3vw;
+        margin: 0 1vw;
+        padding: 3vh 1vw;
+
     }
     .hourlyDetails h4{
         padding-left: 3%;
     }
-    .hourlyDetails .hourlychart{
-        width: 90vw;
-        align-self: unset;
+    .hourlyDetails .hourly-chart{
+        font-size: 0.37em;
+    }
+    .hourly-chart .chart-container{
+        width: 95vw;
+    }
+    .chart-container .thee-chart{
+        width: 440%;
     }
     .hourlyprep img{
         width: 20px;

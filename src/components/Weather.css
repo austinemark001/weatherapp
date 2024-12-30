@@ -20,7 +20,11 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+.no-weather img{
+    width: 90px;
+}
 .weatherDetails{
+    position: relative;
     margin: 0;
     padding: 0;
     padding-top: 10vh;
@@ -28,14 +32,26 @@
     flex-direction: column;
     gap: 10vh;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
+.weatherDetails *{
+    z-index: 1;
+}
+.weatherDetails .weather-background{
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgb(0, 0, 0, 0.3);
+   z-index: 0;
+}
 .weatherDetails h4{
-    font-size: 0.5em;
+    font-size: 0.45em;
     font-weight: lighter;
     display: flex;
     flex-direction: row;
@@ -48,15 +64,15 @@
 .weatherDetails .currentCondition{
     align-self: center;
     margin: 0;
-    width: 60vw;
-    height: 50vh;
-    background-color: rgb(13, 0, 37, 0.3);
+    width: 70vw;
+    height: 70vh;
+    background-color: rgb(13, 0, 37, 0.4);
     padding: 5vh 5vw;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 1vh;
     color: #fdfdfd;
 }
@@ -82,13 +98,22 @@
     color: rgb(83, 118, 146);
     opacity: 0.7;
 }
-.currentCondition #currenttemp{
-    font-size: 1.8em;
+
+.currentCondition .current-end{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10vh;
 }
-#currenttemp sup{
-    font-size: 0.5em;
+.current-end .current-details{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1vh;
 }
-.currentCondition #currentcondition{
+.current-details #currentcondition{
     font-size: 0.4em;
     display: flex;
     flex-direction: row;
@@ -96,14 +121,44 @@
     align-items: center;
     gap: 1vw;
 }
-
-
-.currentCondition #dayconditions{
-    font-size: 0.33em;
-    margin-top: 5vh;
+.current-details #currenttemp{
+    font-size: 1.8em;
+    margin: 0;
+    padding: 0;
 }
-.dayCondition img{
-    width: 35px;
+#currenttemp sup{
+    font-size: 0.5em;
+}
+
+
+.current-end .day-conditions{
+    font-size: 0.33em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1vh;
+}
+.day-conditions div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3vw;
+}
+.day-conditions p{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+.day-conditions img{
+    width: 30px;
+}
+.day-conditions p span{
+    opacity: 0.7;
 }
 
 .weatherDetails .otherDetails{
@@ -150,7 +205,7 @@
     margin: 0;
 }
 .otherDetails li span{
-    opacity: 0.6;
+    opacity: 0.7;
     font-size: 0.9em;
 }
 
@@ -186,8 +241,6 @@
     position: relative;
     width: 78%;
     height: 100%;
-    background-color: #ffffffb3;
-    background-color: #000000b3;
     clip-path: inset(0 0 50% 0);
     border-radius: 50% 50% 0 0;
     box-sizing: border-box;
@@ -217,6 +270,7 @@
     font-size: 0.35em;
     display: grid;
     grid-template-columns: auto auto auto;
+    border-top: #fdfdfd 3px solid;
 }
 .astro-time #sunrise{
     justify-self: left;
@@ -244,6 +298,9 @@
         padding: 1vh 5vw;
         font-size: 0.4em;
     }
+    .no-weather img{
+        width: 75px;
+    }
     .weatherDetails{
         padding-top: 7vh;
         gap: 7vh;
@@ -253,11 +310,12 @@
     }
     .weatherDetails .currentCondition{
         padding: 5vh 5vw;
-        width: 85vw;
+        width: 88vw;
+        height: 75vh;
         margin: 0;
     }
     .currentCondition #currentlocation{
-        font-size: 0.9em;
+        font-size: 0.75em;
         align-self: flex-start;
         padding-left: 5vw;
     }
@@ -275,9 +333,11 @@
     #currentcondition img{
         width: 35px;
     }
-    .currentCondition #dayconditions{
+    .current-end .day-conditions{
         font-size: 0.38em;
-        margin-top: 8vh;
+    }
+    .day-conditions img{
+        width: 20px;
     }
     
     
@@ -313,10 +373,6 @@
     }
     .astro-position img{
         width: 5%;
-    }
-    .astro .astrobackground{
-        filter: blur(5px);
-        margin: 0;
     }
     .astro-path .astro-time{
         font-size: 0.33em;

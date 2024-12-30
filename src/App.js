@@ -1,5 +1,5 @@
-import React, {useState, useRef, useEffect} from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import Weather from './components/Weather';
 import Settings from './components/Settings';
@@ -34,18 +34,7 @@ function App() {
 
 
 function Header(){
-  const [isMenu, setMenu] = useState(false);
-  const menuRef = useRef(null);
-  const location = useLocation();
-  const handleClickoutside = (event)=>{
-    if(menuRef.current && !menuRef.current.contains(event.target)){
-      setMenu(false)
-    }
-  }
-  useEffect(()=>{
-    document.addEventListener('mousedown', handleClickoutside);
-    return ()=>{document.removeEventListener('mousedown',handleClickoutside)}
-  }, [])
+ 
   return(
       <>
       <header className="myheader">
@@ -61,9 +50,9 @@ function Header(){
 function NoPage(){
   return(
     <div className="noPage">
-        <h2 id="nopageInfo">Welcome to nimbus now</h2>
-        <p>your  may be asked to  allow  my web app use location in order to fetch help your current location data</p>
-        <Link to="/" id="nopageLink">Get weather data</Link>
+        <h2 id="nopageInfo">Welcome to nimbus now <img src={`${process.env.PUBLIC_URL}/images/umbrella5.png`} alt='i'/></h2>
+        <p>best weather app to exist. Current, hourly forecast, daily forecast and astro details</p>
+        <Link to="/" id="nopageLink"> <img src={`${process.env.PUBLIC_URL}/images/drop.png`} alt='i'/>get weather data</Link>
     </div>
   )
 }
