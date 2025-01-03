@@ -38,8 +38,8 @@ function Header(){
   return(
       <>
       <header className="myheader">
-        <Link id='toplinkfirst' className='toplink' to='/'><img src={`${process.env.PUBLIC_URL}/images/locations.png`} alt='locations'/></Link>
-        <Link to="/settings" id='toplinklast' className='toplink'><img src={`${process.env.PUBLIC_URL}/images/settings.png`} alt='settings'/></Link>
+        <Link id='toplinkfirst' className='toplink' to='/'><img src={`${process.env.PUBLIC_URL}/images/locations3.png`} alt='locations'/></Link>
+        <Link to="/settings" id='toplinklast' className='toplink'><img src={`${process.env.PUBLIC_URL}/images/settings1.png`} alt='settings'/></Link>
       </header>
       </>
   )

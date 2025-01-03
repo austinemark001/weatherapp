@@ -155,18 +155,45 @@ const getfirstpart = (str)=>{
 }
 
 
-
+//weather conditions comment
 const uvHealth = (index) =>{
-    if(index <=0.5) return '#00ff37'
     if(index <= 2) return '#00ff37';
-    if(index <= 5) return '#d0ff00';
-    if(index <= 7) return '#ff5100';
-    if(index <= 10)return '#ff5100';
-        return '#ff0000'
+    if(index <= 5) return '#ffe75c';
+    if(index <= 7) return '#ffab5c';
+    if(index <= 10)return '#ff905c';
+        return '#ff675c'
+}
+const formatwind = (wind)=>{
+    if(wind < 1) return 'calm';
+    if(wind < 10) return 'breeze';
+    if(wind < 20) return 'windy';
+    if(wind < 33) return 'stormy';
+    if(wind >= 33) return 'hurricane';
+}
+const formatvisibility = (vis)=>{
+    if(vis >= 10) return 'excellent';
+    if(vis >= 5) return 'good';
+    if(vis >= 1) return 'moderate';
+    if(vis >= 0.5) return 'poor';
+    return 'very poor'
 }
 
 
-function formathumidity(hum){
+const truncateTextSentense = (sent)=>{
+    if(sent.length > 10){
+        return sent.slice(0, 10) + '...';
+    }
+    return sent
+}
+
+
+
+export {getcodeDetails, getprecipDetails, getmoonDetails, truncateSentense, getfirstpart, uvHealth, formatvisibility,
+    formatwind, truncateTextSentense }
+
+
+
+/*function formathumidity(hum){
     if(hum < 30) return '#00ff37';
     if(hum < 60) return '#d0ff00';
     if(hum < 80) return '#ff5100';
@@ -192,13 +219,7 @@ const formatprep = (prep)=>{
     return 'high precip'
 }
 
-const formatvisibility = (vis)=>{
-    if(vis >= 10) return 'excellent';
-    if(vis >= 5) return 'good';
-    if(vis >= 1) return 'moderate';
-    if(vis >= 0.5) return 'poor';
-    return 'very poor'
-}
+
 
 const formatPressure = (pre)=>{
     if(pre < 1000) return 'low';
@@ -206,14 +227,6 @@ const formatPressure = (pre)=>{
     if(pre < 1000) return 'high';
     return 'very high'
 }
-const formatwind = (wind)=>{
-    if(wind < 1) return 'calm';
-    if(wind < 10) return 'breeze';
-    if(wind < 20) return 'windy';
-    if(wind < 33) return 'stormy';
-    if(wind >= 33) return 'hurricane';
-}
-
 const formatTime = (epoch) => {
     const date = new Date(epoch);
     return date.toLocaleString('en-US', {hour: "numeric", minute: "numeric", hour12: 'short'})
@@ -247,12 +260,6 @@ const formatTimeEpoch = (epoch, localtime) => {
   }return '12am'
 }
 
-const truncateTextSentense = (sent)=>{
-    if(sent.length > 10){
-        return sent.slice(0, 10) + '...';
-    }
-    return sent
-}
 const convertlocaltime = (localtime)=>{
     if(localtime){
     const date = localtime.slice(0, -6)
@@ -268,21 +275,16 @@ const convertlocaltime = (localtime)=>{
     }return 'unknown'
   }
 
-
-
-//unit conversion
-const toFahrenheit = (temp)=>{
-    return  Math.round(((temp * 9/5) + 32)*10)/10
+const adjustTimewithTimezone = (datewithZ, dateWithOffset)=>{
+    if(datewithZ, dateWithOffset){
+    const timezoneOffset = dateWithOffset.slice(-6);
+    const zremoved = datewithZ.slice(0, -1);
+    const date = new Date(zremoved)
+    date.setHours(date.getHours()+ parseInt(timezoneOffset.slice(0, 3)))
+    date.setMinutes(date.getMinutes() + parseInt(`${timezoneOffset.slice(0, 1)}${timezoneOffset.slice(-2)}`))
+    return date.toISOString();
+    }else{
+        return '2024-12-31T00:00:00Z'
+    }
 }
-
-const toKmPerHour = (spd)=>{
-    return Math.round((spd * 3.6)* 100)/100
-}
-const toMiles = (dst)=>{
-    return Math.round((dst *0.621371)* 100)/100
-}
-
-
-export {getcodeDetails, getprecipDetails, getmoonDetails, truncateSentense, getfirstpart, uvHealth, formathumidity, formatwinddirection, formatprep, formatvisibility,
-    formatPressure, formatwind, formatTime, toFahrenheit, toKmPerHour, toMiles, formatDate, formatTimeEpoch, truncateTextSentense, convertlocaltime}
-
+*/

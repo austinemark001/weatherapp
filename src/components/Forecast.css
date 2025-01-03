@@ -1,118 +1,175 @@
-.dailyDetails{
-    margin: 0 5vw;
-    padding: 5vh 5vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1vh;
-    /*background: radial-gradient(circle at top left, #9f496e 0%, rgba(159, 73, 110, 0.3) 90%);
-    background: radial-gradient(circle at top left, #425268 0%, #42526800 90%);*/
-    background-color:  rgb(66, 82, 104, 0.5);
-    border-radius: 15px;
-}
-.dailyDetails h4{
-    align-self: flex-start;
-    margin: 0;
-}
-
-.dailyDetails .dailyList{
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 2vh 0;
-}
-.dailyList .dayDetails{
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: flex-start;
-    gap: 5vw;
-    margin: 0;
-    padding: 1vh 1vw;
-    border: #fdfdfd79 1px solid;
-    font-size: 0.33em;
-}
-.dayDetails .day-start,.day-end{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 4vh;
-    align-items: flex-start;
-}
-.dailyDetails .day-end{
-    align-items: flex-end;
-}
-.dayDetails p{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.5vw;
-    margin: 0;
-
-}
-.dailyDetails p img{
-    width: 25px;
-}
-.dayDetails #day-main{
-    color: #0ac0b1;
-}
-.dayDetails .day-detail{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1vh;
-}
-.dayDetails #day-icon{
-    width: 35px;
-}
-.dayDetails #day-condition{
-    opacity: 0.8;
-    font-size: 0.85em;
-}
-
-
-
-
-
-/*hourly styles*/
-.hourlyDetails{
-    align-self: center;
-    margin: 0;
-    padding: 3vh 5vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    background-color: rgb(61, 2, 63, 0.5);
-    color: #ffffffb3;
-    gap: 5vh;
-}
-.hourlyDetails h4{
-    margin: 0;
-    grid-column: 1 / span 3;
-    
-}
-.hourlyDetails h4 img{
-    width: 35px;
-}
-.hourlyDetails h4 span{
-    font-size: 0.8em;
-    opacity: 0.7;
-}
-
-.hourlyDetails .hourly-chart{
-    margin: 0;
-    padding: 0;
-    font-size: 0.3em;
+.forecast-container{
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
+    gap: 3vh;
+    padding: 1vh 5vw;
+    padding-bottom: 3vh;
+    margin: 0;
+    background-color: rgb(61, 2, 63, 0.7);
+    background-color: rgba(20, 20, 20, 0.7);
+}
+
+.forecast-container h3{
+    font-size: 0.45em;
+    font-weight: lighter;
+    display: flex;
+    flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+   gap: 1vw;
+   width: 100%;
+   padding: 1vh 0;
+   margin: 0;
+   border-bottom: #ffffffb3 1px solid;
+}
+.forecast-container h3 img{
+    width: 33px;
+}
+.forecast-container h3 span{
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+.forecast-container h4{
+    font-size: 0.4em;
+    display: flex;
+    flex-direction: row;
+   justify-content: center;
+   align-items: center;
+   gap: 1vw;
+   font-weight: lighter;
+}
+.forecast-container h4 span{
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+.forecast-container h4 img{
+    width: 30px;
+}
+/*daily forecast*/
+.forecast-container .daily-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1vh
+}
+.daily-container .daily-forecast{
+    width: 80vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.daily-forecast::-webkit-scrollbar{
+    display: none;
+}
+.daily-forecast .daily-forecast-list{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 2vw;
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+
+.daily-forecast-list .day-forecast-details{
+   /* flex: 0 0 auto;*/
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    border: #fdfdfd79 1px solid;
+    width: 18vw;
+    padding: 1vh 1vw;
+    font-size: 0.33em;
+    margin: 0;
+}
+.day-forecast-details:last-child{
+    flex-grow: 0;
+    flex-basis: auto;
+}
+.day-forecast-details p{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5vw;
+    margin: 0;
+}
+.day-forecast-details p img{
+    width: 25px;
+}
+.day-forecast-details .day-start,.day-end{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 4vh;
+}
+.daily-forecast-list .day-end{
+    align-items: flex-end;
+}
+.day-forecast-details #day-icon{
+    width: 35px;
+}
+.day-forecast-details .day-detail{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5vh;
+}
+.day-forecast-details #day-main{
+    color: #0ac0b1;
+}
+.day-forecast-details #day-condition{
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
+.daily-container .daily-scroll{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+    margin: 0;
+    font-size: 0.3em;
+}
+.daily-scroll button{
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+
+/*hourly forecast*/
+.hourly-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border-top: #ffffffb3 1px solid;
+    padding-top: 1vh;
+}
+.hourly-container .hourly-chart{
+    margin: 0;
+    padding: 0;
+    font-size: 0.31em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5vh;
 }
 
 .hourly-chart h5{
@@ -122,8 +179,7 @@
     width: 80vw;
     overflow-x: auto;
     overflow-y: hidden;
-    scrollbar-width: 8px;
-    scrollbar-color: transparent;
+    scrollbar-width: none;
 }
 
 .chart-container .thee-chart{
@@ -147,6 +203,7 @@
     justify-content: center;
     align-items: center;
     gap: 3vw;
+    font-size: 0.95em;
 }
 .chart-scroll button{
     background-color: transparent;
@@ -154,100 +211,171 @@
     cursor: pointer;
     border: none;
 }
-.hourlyDetails .hourlyprep{
-    font-size: 0.37em;
+
+/* prep forecast*/
+.forecast-container .prep-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    gap: 1vh;
+    border-top: #ffffffb3 1px solid;
+    padding-top: 1vh;
     width: 100%;
-    border-top: #fdfdfd 1px solid;
 }
-.hourlyprep h5{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-.hourlyprep div{
+.prep-container .prep-forecast-list{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5vw;
-    font-size: 0.8em;
+    gap: 20px;
 }
-.hourlyprep p{
+.prep-forecast-list p{
+    padding-right: 0.6vw;
+    font-size: 0.33em;
+    border-right: #ffffff93 1px solid;
+}
+
+/*astro forecast*/
+.forecast-container .astro-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    border-top: #ffffffb3 1px solid;
+    width: 100%;
+}
+.astro-container h4{
+    align-self: flex-start;
+}
+.astro-container .astro-time{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1vw;
+    font-size: 0.33em;
+}
+.astro-time p span{
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+.astro-time .astro-position{
+    width: 50vw;
+    /*height: 500px;*/
+    padding: 0 10px;
+    position: relative;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+}
+.astro-position path{
+    stroke-width: 1px;
+    stroke: #ffffff93;
+}
+.astro-position image{
+    border: #ffffff93 1px solid;
+}
+.astro-position *{
+    margin: 0;
+    padding: 0;
+}
+.astro-position .astro-track{
+    width: 100%;
+    height: 4px;
+    background-color: #fdfdfd;
+}
+.astro-position #astro-item{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    padding: 0;
+    margin: 0;
+    width: 30px;
+
+}
+
+/*daily extend*/
+.forecast-container .day-extended{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(31, 31, 31, 0.95);
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap : 3vh;
+    padding: 1vh 3vw;
+}
+.day-extended button{
+    align-self: flex-end;
+    cursor: pointer;
+    font-size: 0.45em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+}
+.day-extended div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.day-extended p{
+    font-size: 0.33em;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 1vw;
+    gap: 3px;
 }
-.hourlyprep img{
-    width: 35px;
+.day-extended p span{
+    opacity: 0.8;
 }
-.chart-backup{
-    width: 80vw;
-    font-size: 0.3em;
-    overflow-x: scroll;
-}
-.chart-backup .thee-chart{
-    width: 200%;
+.day-extended p img{
+    width: 27px;
 }
 
 
-@media screen and (max-width: 800px) {
-    .dailyDetails{
-        grid-column: 1;
-        margin: 0;
-        padding: 3vh 3vw;
-        width: 90vw;
-        padding-bottom: 3vh;
-        align-self: center;
-        border-radius: unset;
+@media screen and (max-width: 800px){
+    .forecast-container{
+        margin: 0 0.5vw;
+        padding: 0 2vw;
     }
-    .dailyDetails .dailyList{
-        flex-direction: column;
-        gap: 2vh;
-       /* border-radius: 20px;*/
-        padding: 0;
+    .forecast-container h3 img{
+        width: 23px;
     }
-    /*.dailyDetails .dailydark{
-        background: radial-gradient(circle at left, #9f496e 0%, rgb(159, 73, 110, 0) 70%);
+    .forecast-container h4 img{
+        width: 20px;
     }
-    .dailyDetails .dailylight{
-        background: radial-gradient(circle at left, #64766a 0%, rgb(100, 118, 106, 0) 70%);
-    }*/
-    .dailyList .dayDetails{
-        padding: 1vh 2vw;
-        flex-direction: row;
-        gap: 50vw;
-        border-radius: unset;
-        background: none;
-        font-size: 0.4em;
+   
+    .daily-container .daily-forecast{
+        width: 95vw;
     }
-    .dailyDetails .day-start .day-end{
+    .daily-forecast-list .day-forecast-details{
+        width: 38vw;
+        font-size: 0.38em;
+    }
+    .day-forecast-details .day-start,.day-end{
         gap: 2vh;
     }
-    .dailyDetails #day-icon{
-        width: 25px;
-    }
-    .dailyDetails p img{
+    .day-forecast-details p img{
         width: 15px;
     }
-    /*hourly media queries*/
-    .hourlyDetails{
-        margin: 0 1vw;
-        padding: 3vh 1vw;
-
+    .day-forecast-details #day-icon{
+        width: 25px;
     }
-    .hourlyDetails h4{
-        padding-left: 3%;
+    .daily-container .daily-scroll{
+        font-size: 0.36em;
     }
-    .hourlyDetails .hourly-chart{
+    .hourly-container .hourly-chart{
         font-size: 0.37em;
     }
     .hourly-chart .chart-container{
@@ -256,8 +384,41 @@
     .chart-container .thee-chart{
         width: 440%;
     }
-    .hourlyprep img{
-        width: 20px;
+    .prep-container .prep-forecast-list{
+        gap: 7px;
     }
-
+    .prep-forecast-list p{
+        font-size: 0.36em;
+    }
+    .astro-container .astro-time{
+        flex-wrap: wrap;
+        gap: 0;
+        font-size: 0.37em;
+    }
+    .astro-time .astro-position{
+        flex-basis: 100%;
+        width: 60vw;
+        padding: 0 5px;
+        order: 0;
+    }
+    .astro-time #sunrise{
+        order: 1;
+        padding-right:  5vw;
+        border-right: #ffffff93 1px solid;
+    }
+    .astro-time #sunset{
+        order: 2;
+        align-self: flex-end;
+        padding-left: 5vw;
+    }
+    .forecast-container .day-extended{
+        width: 86vw;
+        padding: 1vh 2vw;
+    }
+    .day-extended p{
+        font-size: 0.38em;
+    }
+    .day-extended p img{
+        width: 18px;
+    }
 }

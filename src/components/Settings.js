@@ -48,6 +48,7 @@ export default function Settings({settings, setsettings}){
             <meta property="twitter:title" content='nimbusnow settings'/>
             <meta property="twitter:description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you' />
             </Helmet>
+            <div className='settings-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back2.jpg)`}}><div></div></div>
             <div className="settingscontent">
                 <h3>unit settings</h3>
                 <p id="tempunit">temperature unit: <span>{settings.temp === 'celcius' ? '℃': '℉'}</span> 
@@ -59,9 +60,9 @@ export default function Settings({settings, setsettings}){
             </div>
         
             <div className="aboutcontent">
-            <h3>about developer</h3>
-            <img src={`${process.env.PUBLIC_URL}/images/me.jpg`} alt='me'/>
-            <h4>austine mark software developer</h4>
+            <h3>Austine Mark - Software developer</h3>
+            {/*<img src={`${process.env.PUBLIC_URL}/images/me.jpg`} alt='me'/>
+            <h4>austine mark software developer</h4>*/}
             <p>This WeatherApp is a showcase of React expertise and API integration,
                  demonstrating my proficiency in modern web development.
                  With a sleek and responsive design, the app provides real-time weather
@@ -74,13 +75,11 @@ export default function Settings({settings, setsettings}){
             </div>
             <footer className="myfooter">
             <ul className="socialLinks">
-                <li><a href='https://github.com/austinemark001'> <img src={`${process.env.PUBLIC_URL}/images/${settings.mode === 'dark' ? 'github' : 'githubdark'}.png`} alt='git'/> </a></li> 
-                <li><a href='https://www.facebook.com/profile.php?id=100081241973286'> <img src={`${process.env.PUBLIC_URL}/images/${settings.mode === 'dark' ? 'facebook': 'facebookdark'}.png`} alt='fb'/></a></li>
-                <li><a href='https://www.instagram.com/mark.a.101?igsh=YzljYTk1ODg3Zg=='> <img src={`${process.env.PUBLIC_URL}/images/${settings.mode ==='dark' ? 'instagram':'instagramdark'}.png`} alt='ig'/></a></li>
-                <li><a href='https://x.com/Austine19251417?t=XC13lUeb9F9VZrc50dxVqQ&s=09'> <img src={`${process.env.PUBLIC_URL}/images/${settings.mode ==='dark' ? 'x':'xdark'}.png`} alt='x'/></a></li>
-                <li><a href='https://www.linkedin.com/in/austine-mark-abb7282aa'><img src={`${process.env.PUBLIC_URL}/images/${settings.mode ==='dark' ? 'linkedin':'linkedindark'}.png`} alt='ln'/></a></li>
+                <li><a href='https://github.com/austinemark001'> <img src={`${process.env.PUBLIC_URL}/images/github.png`} alt='git'/> </a></li> 
+                <li><a href='https://x.com/Austine19251417?t=XC13lUeb9F9VZrc50dxVqQ&s=09'> <img src={`${process.env.PUBLIC_URL}/images/x.png`} alt='x'/></a></li>
+                <li><a href='https://www.linkedin.com/in/austine-mark-abb7282aa'><img src={`${process.env.PUBLIC_URL}/images/linkedin.png`} alt='ln'/></a></li>
             </ul>
-            <p id="creator">created by austine mark - <a href="https://austinemark.com">visit my website</a></p>
+            <p id="creator">created by austine mark - <a href="https://austinemark.com">see others</a></p>
     </footer>
         </div>
     )

@@ -90,7 +90,9 @@ export default function Home(){
     const handlesaveclick = (loc)=>{
       saveLocation(loc)
       setsearch(false)
-      setlocations(getSavedLocations())
+      const newLocs = getSavedLocations();
+      setlocations(newLocs)
+      navigate('/weather', {state: {location: newLocs.find(loca => loca.lat === loc.lat), iscurrent: false}})
     }
     const handleclearall = ()=>{
       clearLocations()
@@ -176,7 +178,7 @@ export default function Home(){
                 </ul>
                 </div>
             </div>}
-        <button className='clearlocations' onClick={handleclearall}><img src={`${process.env.PUBLIC_URL}/images/remove.png`} alt='-'/> remove all locations</button>
+        {locations && <button className='clearlocations' onClick={handleclearall}><img src={`${process.env.PUBLIC_URL}/images/remove.png`} alt='-'/> remove all locations</button>}
         </div>
     )
 }

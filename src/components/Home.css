@@ -67,7 +67,7 @@
     color: #0077ff;
 }
 .current-name img{
-    width: 35px;
+    width: 30px;
 }
 .saved-locations-container{
     display: flex;
@@ -106,6 +106,7 @@
     gap: 1vh;
     list-style-type: none;
     margin: 0;
+    padding: 0;
     
 }
 .saved-locations li{
@@ -116,13 +117,19 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 5vw;
+    gap: 4vw;
+}
+.saved-locations li p{
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
 }
 .saved-locations li p:hover{
     color: #0077ff;
 }
 .saved-locations li p img{
-    width: 33px;
+    width: 30px;
 }
 .saved-locations li #removeloc{
     width: 28px;
@@ -232,8 +239,9 @@
 }
 
 .clearlocations{
-    background-color: transparent;
-    border: #fdfdfd 1px solid;
+    background-color: rgb(255, 51, 0, 0.5);
+    border: none;
+   /* border: #fdfdfd 1px solid;*/
     align-self: flex-end;
     padding: 1vh 2vw;
     font-size: 0.3em;
@@ -247,7 +255,7 @@
     gap: 1vw;
 }
 .clearlocations img{
-    width: 35px;
+    width: 30px;
 }
 .clearlocations:hover{
     color: #fe9b33;
@@ -292,14 +300,14 @@
         font-size: 0.4em;
     }
     .current-name img{
-        width: 25px;
+        width: 22px;
     }
     .saved-locations li{
         font-size: 0.4em;
         gap: 8vw;
     }
     .saved-locations li p img{
-        width: 23px;
+        width: 22px;
     }
     .saved-locations li #removeloc{
         width: 19px;

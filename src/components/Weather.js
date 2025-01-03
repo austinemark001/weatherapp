@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Forecast from "./Forecast";
-import { getcodeDetails, toFahrenheit, toKmPerHour, toMiles,  uvHealth, convertlocaltime,
-        formatwind, formatTime, formatvisibility } from "../weatherConfig";
+import { getcodeDetails,  uvHealth, formatwind, formatvisibility } from "../weatherConfig";
+import { calculateAstro } from "../dateConfig";
 import './Weather.css'
 import { useLocation, useNavigate } from "react-router-dom";
 import { getWeatherData ,saveWeatherData, isWeatherDataExpired } from "./localstoragehelper";
@@ -18,6 +18,9 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
     const [dailyforecast, setdailyforecast] = useState(null);
     const [responsestatus, setresponse] = useState(false);
     const [iserror, seterror] = useState(false);
+    
+    //satro usestates
+    
     
     if (!location || iscurrent === undefined) {
         console.error("Cannot save weather data for invalid location:", location);
@@ -44,6 +47,7 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
 
             const fetchweatherdata = async()=>{
                 setresponse('refreshing')
+                if(navigator.onLine){
                 try {
                     requestInfo.location = `${location.lat}, ${location.lon}`;
 
@@ -69,6 +73,10 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
                    finally{
                        setTimeout(()=>{setresponse(false)}, 2000)
                    }
+                }else{
+                    setresponse('offline')
+                    setTimeout(()=>{setresponse(false)}, 2000)
+                }
                  }
             
           // Initially check for saved weather data from localStorage
@@ -96,50 +104,64 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
 
 
     
+    // astro usestates
     const [isday, setisday] = useState(false);
     const [astrotime, setastrotime] = useState({ first: 0, last: 0 })
-    const [astroposition, setastroposition] = useState({x: 0, y: 0})
+    const [astroposition, setastroposition] = useState({x: 0,y: 0})
+    const curveRef = useRef()
 
  
     useEffect(()=>{
         const astrocheck = ()=>{
-            const checkday = ()=>{
-                const currenttime =  new Date(current.startTime.slice(0, -6));
-                const sunrisetime = new Date(current.values.sunriseTime.slice(0, -1));
-                const sunsetime = new Date(current.values.sunsetTime.slice(0, -1));
-                return currenttime >= sunrisetime && currenttime < sunsetime;
-            }
-            if(checkday()){
-                setisday(true)
-            } 
-            let totalMinutes, minutesSinceSunrise, last, first, localtime;
-            setastroposition({x: 0, y: 0})
-            if(isday){
-                localtime = new Date(current.startTime.slice(0, -6)).getTime();
-                first = new  Date(current.values.sunriseTime.slice(0, -1)).getTime();
-                last = new Date(current.values.sunsetTime.slice(0, -1)).getTime();
-                totalMinutes = (last - first);
-                minutesSinceSunrise = (localtime - first);
-                const progress = (minutesSinceSunrise /totalMinutes) * 100;
-                const x = progress ;
-                const y = x<= 50 ? 50 - x : x - 50;
-                setastroposition({ x, y})
-            }else{
-                first = new Date(current.values.sunsetTime.slice(0, -1)).getTime();
-                last = new Date(current.values.sunriseTime.slice(0, -1)).getTime();
-                const x = 50
-                const y = 1
-                setastroposition({x, y})
-            
-            }
-            setastrotime({first, last})
+            const astrodata = calculateAstro(current.values.sunriseTime, current.values.sunsetTime, current.startTime);
+            setisday(astrodata.isDay)
+
+           if(curveRef.current){
+             const pathLength = curveRef.current.getTotalLength();
+             const point = curveRef.current.getPointAtLength((astrodata.progress /100) * pathLength)
+             setastroposition({x: point.x, y: point.y})
+           }
+            setastrotime({first: astrodata.first, last: astrodata.last})
         
         }
 
-    if(current && current.values.sunriseTime && current.values.sunrisetime){
+    if(current && current.values.sunriseTime && current.values.sunsetTime){
         astrocheck()
     }
-    },[current, setcurrent])
+    },[current, setcurrent, isday])
+
+
+    const temperatureUnit = (temp)=>{
+        if(settings.temp ==='fahren'){
+            return  `${Math.round((temp * 9/5) + 32)}°`
+        }
+        return `${Math.round(temp)}°`;
+    }
+    const temperatureUnitChart = (temp)=>{
+        if(settings.temp ==='fahren'){
+            return  Math.round((temp * 9/5) + 32);
+        }
+        return Math.round(temp)
+    }
+    const temperatureUnitDecimal = (temp)=>{
+        if(settings.temp ==='fahren'){
+            return  `${Math.round(((temp * 9/5) + 32) * 10)/10}°`
+        }
+        return `${Math.round(temp)}°`;
+    }
+    
+    const speedUnit = (spd)=>{
+        if(settings.speed === 'km'){
+            return `${Math.round(spd * 3.6)}km/h`
+        }
+        return `${Math.round(spd)}m/s`
+    }
+    const distanceUnit = (dst) =>{
+        if(settings.distance === 'm'){
+            return `${Math.round(dst *0.621371)}mi`
+        }
+        return `${Math.round(dst)}km`
+    }
 
 
     return(
@@ -162,21 +184,20 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
             <p id='currentlocation'>{iscurrent && <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="c"/>}{location.name}</p>
             <div className="current-end">
             <div className="current-details">
-                <p id='currenttemp'>{Math.round(settings.temp ==='celcius' ? `${current.values.temperature}`: `${toFahrenheit(current.values.temperature)}`)}<sup>°</sup> <sub></sub></p>
+                <p id='currenttemp'>{temperatureUnitChart(current.values.temperature)}<sup>°</sup> <sub></sub></p>
                 <p id="currentcondition"> {getcodeDetails[current.values.weatherCode].text}</p>
             </div>
             <div className="day-conditions">
                 <div>
-                <p id="feels-like"><img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="ico"/>feels like<span>{settings.temp ==='celcius' ? `${current.values.temperatureApparent}`: `${toFahrenheit(current.values.temperatureApparent)}`}°</span></p>
-                <p id="day-temprange"><img src={`${process.env.PUBLIC_URL}/images/temperature.png`} alt="c"/>{Math.round(settings.temp ==='celcius' ? `${dailyforecast[0].values.temperatureMax}`: `${toFahrenheit(dailyforecast[0].values.temperatureMax)}`)}° 
-                / {Math.round(settings.temp ==='celcius' ? `${dailyforecast[0].values.temperatureMin}`: `${toFahrenheit(dailyforecast[0].values.temperatureMin)}`)}°</p>
-                <p id="dayconditions" style={{color: `${uvHealth(current.values.uvIndex)}`}}> <img src={`${process.env.PUBLIC_URL}/images/uv.png`} alt="c"/>uv <span>{current.values.uvIndex}</span> </p>
+                <p id="feels-like"> feels like
+                <span>{temperatureUnitDecimal(current.values.temperatureApparent)}</span></p>
+                <p id="dayconditions" style={{color: `${uvHealth(current.values.uvIndex)}`}}> uv index<span>{current.values.uvIndex}</span> </p>
                 </div>
                 <div>
-                    <p><img src={`${process.env.PUBLIC_URL}/images/wind.png`} alt='icon'/>{formatwind(current.values.windSpeed)} 
-                    <span>{settings.speed === 'm' ? `${Math.floor(current.values.windSpeed)}m/s`: `${Math.floor(toKmPerHour(current.values.windSpeed))}km/h`}</span></p>
-                    <p><img src={`${process.env.PUBLIC_URL}/images/humidity.png`} alt='icon'/><span>{Math.round(current.values.humidity)}% </span></p>
-                    <p><img src={`${process.env.PUBLIC_URL}/images/visibility.png`} alt='icon'/><span>{settings.distance === 'km' ? `${Math.floor(current.values.visibility)}km`: `${Math.floor(toMiles(current.values.visibility))} mi`}</span>
+                    <p>{formatwind(current.values.windSpeed)}
+                    <span>{speedUnit(current.values.windSpeed)}</span></p>
+                    <p> humidity <span>{Math.round(current.values.humidity)}% </span></p>
+                    <p> visibility <span>{distanceUnit(current.values.visibility)}</span>
                         {formatvisibility(current.values.visibility)}</p>
                 </div>
             </div>
@@ -186,22 +207,10 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
         </div>
 
             { <Forecast dailyforecast={dailyforecast} hourlyforecast={hourlyforecast} currenttime={current.startTime}
-            sunrisetime={current.values.sunriseTime} sunsettime={current.values.sunsetTime} settings={settings}/> }
+            sunrisetime={current.values.sunriseTime} sunsettime={current.values.sunsetTime} settings={settings} 
+            astrodet= {{isday: isday, first: astrotime.first, last: astrotime.last, pos: astroposition}} curveRef={curveRef} 
+            temperatureUnit={temperatureUnit} temperatureUnitChart={temperatureUnitChart} distanceUnit={distanceUnit} speedUnit={speedUnit}/> }
            
-            <div className="astro-container">
-                <h4> <img src={`${process.env.PUBLIC_URL}/images/${isday ? 'sun': 'moon'}.png`} alt="ic"/> {isday ? 'day track': 'night track'}</h4>   
-                <div className='astro'>
-                    <div className="astro-position" style={{backgroundColor: `${isday ? '#ffffff80': '#00000080'}`}}>
-                    <img src={`${process.env.PUBLIC_URL}/images/icons/${isday ?  'sun': 'moon'}.png`} style={{left: `${astroposition.x}%`, top: `${astroposition.y}%` }} alt="sun"/>
-                    </div>
-                    <div className='astro-time'>
-                        <p id='sunrise'><span>{isday ? 'sunrise': 'sunset'}</span> <br/>{formatTime(astrotime.first)}</p>
-                        <p id="suntime"><span>current-time</span> <br/>{convertlocaltime(current.startTime)}</p>
-                        <p id='sunset'><span>{isday ? 'sunset': 'sunrise'}</span> <br/>{formatTime(astrotime.last)}</p>
-                    </div>
-                   
-                </div>
-            </div>
         </div> : <div className="no-weather"><img src={`${process.env.PUBLIC_URL}/images/cool.png`} alt="i"/> {iserror ? "things did't work out" : 'getting things ready...'}</div>}
         </>
     )
@@ -218,7 +227,7 @@ const requestInfo = {
     timesteps: ['current', '1h', '1d'],
     units: 'metric',
     startTime: 'now',
-    endTime: 'nowPlus96',
+    endTime: 'nowPlus96h',
     timezone: 'auto'
   }
 

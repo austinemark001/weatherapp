@@ -1,11 +1,11 @@
 .myheader{
     margin: 0;
     padding: 2vh 0;
-    padding-right: 15vw;
+    padding-right: 10vw;
     position: absolute;
     top: 0;
     left: 0;
-    width: 85%;
+    width: 90%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -20,7 +20,7 @@
     opacity: 0.8;
 }
 .toplink img{
-    width: 35px;
+    width: 30px;
 }
 
 .toplink:hover{
@@ -114,7 +114,7 @@
         font-size: 0.38em;
     }
     .toplink img{
-        width: 25px;
+        width: 20px;
     }
     .myheader .menubar{
         flex-direction: column;
