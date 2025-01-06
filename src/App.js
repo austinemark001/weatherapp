@@ -23,7 +23,7 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" exact element= {<Home />}/>
+        <Route path="/" exact element= {<Home currenttoken={currenttoken}/>}/>
         <Route path="/weather" element={<Weather settings={settings} currenttoken={currenttoken} setcurrenttoken={setcurrenttoken}/>} />
         <Route path="/settings" element={<Settings settings={settings} setsettings={setsettings}/>}/>
         <Route path='*' Component={NoPage} />

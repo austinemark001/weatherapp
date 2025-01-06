@@ -1,7 +1,7 @@
 .settingCont{
     position: relative;
     margin: 0;
-    padding: 0 15vw;
+    padding: 0 20vw;
     padding-top: 15vh;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     width: 85vw;
-    height: 85vh;
+    height: 99vh;
     z-index: -1;
     background-position: center;
     background-size: cover;
@@ -35,13 +35,13 @@
     padding: 0;
 }
 .settingscontent h3{
-    font-size: 0.5em;
+    font-size: 0.4em;
     opacity: 0.7;
     font-weight: lighter;
     
 }
 .settingscontent p{
-    font-size: 0.4em;
+    font-size: 0.35em;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -68,7 +68,7 @@
     padding: 0 ;
 }
 .aboutcontent h3{
-    font-size: 0.5em;
+    font-size: 0.4em;
     opacity: 0.7;
     font-weight: lighter;
 }
@@ -76,12 +76,12 @@
     width: 15vw;
 }
 .aboutcontent h4{
-    font-size: 0.45em;
+    font-size: 0.37em;
     opacity: 0.7;
     font-weight: lighter;
 }
 .aboutcontent p{
-    font-size: 0.35em;
+    font-size: 0.33em;
 }
 .aboutcontent a{
     text-decoration: none;
@@ -104,16 +104,19 @@
     flex-direction: row;
     margin: 0;
     padding: 0;
+    gap: 15vw;
 }
 .socialLinks li{
-    margin: 1vh 2vw;
+   border: #fdfdfd 1px solid;
+   border-radius: 50%;
+   padding: 5px;
 }
 .socialLinks img{
     width: 35px;
 }
 
 .myfooter #creator{
-    font-size: 0.35em;
+    font-size: 0.33em;
 }
 .myfooter #creator a{
     color: #359dce;

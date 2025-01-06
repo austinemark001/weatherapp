@@ -49,7 +49,7 @@ export function formatday(inputdate, currentdate){
         }else if(isTomorrow(filtered1, {comparisonDate: filtered2})){
             return 'Tomorrow';
         }else{
-            return format(filtered1, 'EEEE')
+            return format(filtered1, 'EEE')
         }
     
     }catch(err){

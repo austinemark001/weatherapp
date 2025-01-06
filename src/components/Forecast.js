@@ -79,7 +79,7 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
         //const cleanedValue = payload.temp.toString().replace(/^0+/, '');
         return(
             <g>
-            <image x={cx-10} y={cy-50} width={chartheight.w} height={chartheight.w} href={`/images/icons/${payload.icon}.png`}/>
+            <image x={cx-(chartheight.w/2)} y={cy-50} width={chartheight.w} height={chartheight.w} href={`/images/icons/${payload.icon}.png`}/>
             <circle cx={cx} cy={cy} r={3} fill="#ededed"/>
             <text x={cx} y={cy -10} textAnchor="middle" fill="#ededed" fontSize={'0.9em'}>{payload.temp}°</text>
             </g>
@@ -108,7 +108,7 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
     return(
         <div className='forecast-container'>
         <h3><img src={`${process.env.PUBLIC_URL}/images/forecast.png`} alt="f"/>Forecast | <span>{formatLocalDate(currenttime)}</span></h3>
-        <div className='daily-container'>
+        {dailyforecast && <div className='daily-container'>
             <h4> <img src={`${process.env.PUBLIC_URL}/images/daily.png`} alt="dy"/> next 5 days</h4>
             <div className="daily-forecast">
             <div className='daily-forecast-list'>
@@ -117,9 +117,8 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
                         <div className="day-start">
                         <p id='day-main'>{formatday(day.startTime, currenttime)}</p>
                         <div className="day-detail">
-                        {/*<p><img src={`${process.env.PUBLIC_URL}/images/temperature.png`} alt='icon'/>{Math.round(settings.temp ==='celcius' ? `${day.values.temperatureMax}`: `${toFahrenheit(day.values.temperatureMax)}`)}
-                        /{Math.round(settings.temp ==='celcius' ? `${day.values.temperatureMin}`:`${toFahrenheit(day.values.temperatureMin)}`)}°</p>*/}
-                        <p><img src={`${process.env.PUBLIC_URL}/images/temperature.png`} alt='icon'/>
+                       
+                        <p>
                        {temperatureUnit(day.values.temperatureMax)}/{temperatureUnit(day.values.temperatureMin)}</p>
                         <p id="day-condition">{truncateTextSentense(getcodeDetails[day.values.weatherCode].text)}</p>
                         </div>
@@ -132,8 +131,8 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
             </div>
             </div>
             <div className="daily-scroll"><button onClick={()=>scrolldaily('left')}>{'<'}</button><p>scroll or swipe</p><button onClick={()=>scrolldaily('right')}>{'>'}</button></div>
-        </div>
-        <div className="hourly-container">
+        </div>}
+        {hourlyforecast && <><div className="hourly-container">
             <h4><img src={`${process.env.PUBLIC_URL}/images/hourly.png`} alt="hr"/> today hourly</h4>
         <div className="hourly-chart">
             <h5>temperature range {settings.temp === 'celcius' ? '℃' : '℉'}</h5>
@@ -141,11 +140,12 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
             <div className="thee-chart">
         <ResponsiveContainer width={'100%'} height={chartheight.x} style={{overflow: 'visible'}} {...{overflow: 'visible'}}>
             <LineChart data={hourychartdata} margin={{left: 13, top: 50, right: 13, bottom: 10}} {...{overflow: 'visible'}}>
-            <XAxis dataKey={'time'} stroke="#ffffffb3"/>
+            <XAxis dataKey={'time'} stroke="#ffffffb3" strokeWidth={0.8} axisLine={{stroke: '#ffffff66', strokeWidth: 0.4}}/>
             <YAxis axisLine={false} hide={true} stroke="#ffffffb3" tickLine={false} />
             <Tooltip/>
             <CartesianGrid strokeDasharray={'3 3'} vertical={true} horizontal={false} stroke="#ffffff66" strokeWidth={0.5}/>
-            <Line type={'monotone'} dataKey={'temp'} data={hourychartdata} dot={<CustomDot/>} fill='url(#tempGradient)' stroke="#4ce0af"/>
+            <Line type={'monotone'} dataKey={'temp'} data={hourychartdata} dot={<CustomDot/>} fill='url(#tempGradient)' stroke="#ededed" 
+            activeDot={{fill:'#00000', stroke:'#333333', color: '#333333'}}/>
             </LineChart>
         </ResponsiveContainer>
         </div>
@@ -155,21 +155,19 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
         </div>
     
         <div className="prep-container">
-        <h4><img src={`${process.env.PUBLIC_URL}/images/prep.png`} alt="ico"/> precipitation forecast</h4>
+        <h4><img src={`${process.env.PUBLIC_URL}/images/prep.png`} alt="ico"/> precipitation </h4>
         <div className="prep-forecast-list">
         {prepresult.map((hour, index) =>(
             <p key={index} >{hour}</p>
         ))}
         </div>
-        </div>
+        </div></>}
 
-        <div className="astro-container">
+       <div className="astro-container">
             <h4><img src={`${process.env.PUBLIC_URL}/images/astro.png`} alt="ico"/> astro track | <span>{astrodet.isday ? 'day-time': 'night-time'}</span></h4>
             <div className="astro-time">
             <p id='sunrise'><span>{astrodet.isday ? 'sunrise': 'sunset'}</span> <br/>{astrodet.first}</p>
             <div className="astro-position">
-                {/*<div className="astro-track"></div>
-                <img src={`${process.env.PUBLIC_URL}/images/icons/sun.png`} alt="ico" style={{left: `${astrodet.pos}%`}} id="astro-item"/>*/}
                <svg width={'100%'} height={'100%'} viewBox="0 0 400 100" preserveAspectRatio="none">
                 <defs>
                     {astrodet.isday ? <linearGradient id="astro-gradient" x1={'0%'} x2={'0%'} y1={'0%'} y2={'100%'}>
@@ -177,7 +175,7 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
                         <stop offset={'50%'} stopColor="#ffffff" stopOpacity={0.1}/>
                         <stop offset={'70%'} stopColor="#ffffff" stopOpacity={0}/>
                     </linearGradient> : <linearGradient id="astro-gradient" x1={'0%'} x2={'0%'} y1={'0%'} y2={'100%'}>
-                        <stop offset={'0%'} stopColor="#191970" stopOpacity={0.3}/>
+                        <stop offset={'0%'} stopColor="#191970" stopOpacity={0.5}/>
                         <stop offset={'50%'} stopColor="#191970" stopOpacity={0.1}/>
                         <stop offset={'70%'} stopColor="#191970" stopOpacity={0}/>
                     </linearGradient>}

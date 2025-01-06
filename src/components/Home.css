@@ -1,6 +1,6 @@
 .homecontainer{
     position: relative;
-    padding: 0 15vw;
+    padding: 3vh 15vw;
     padding-top: 10vh;
     display: flex;
     flex-direction: column;
@@ -37,7 +37,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     width: 85vw;
-    height: 85vh;
+    height: 99vh;
     z-index: -1;
     background-position: center;
     background-size: cover;
@@ -51,8 +51,9 @@
     background-color: rgb(0, 0, 0, 0.5);
 }
 .homecontainer h2{
-    font-size: 0.45em;
+    font-size: 0.4em;
     margin: 0;
+    color: #ff7d41;
 }
 .current-name{
     font-size: 0.37em;
@@ -88,11 +89,11 @@
 .saved-locations-title button{
     background-color: transparent;
     border: none;
-    box-shadow: 3px 3px 4px black;
+    box-shadow: 4px 4px 7px black;
     padding: 1vh 3vw;
-    font-size: 0.7em;
+    font-size: 0.8em;
     border-radius: 10px;
-    color: inherit;
+    color: #0077ff;
     cursor: pointer;
 }
 .saved-locations-title button:hover{
@@ -196,7 +197,6 @@
     background-color: transparent;
     padding: 0;
     cursor: pointer;
-    /*border: #ededed 1px solid;*/
     border: none;
     color: inherit;
     font-size: 0.42em;
@@ -241,7 +241,6 @@
 .clearlocations{
     background-color: rgb(255, 51, 0, 0.5);
     border: none;
-   /* border: #fdfdfd 1px solid;*/
     align-self: flex-end;
     padding: 1vh 2vw;
     font-size: 0.3em;
@@ -282,7 +281,7 @@
         width: 95vw;
     }
     .homecontainer h2{
-        font-size: 0.5em;
+        font-size: 0.43em;
     }
     .searchform input{
         font-size: 0.4em;

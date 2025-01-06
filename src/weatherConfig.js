@@ -10,7 +10,7 @@ const getcodeDetails = {
     },
     1101: {text: 'partly cloudy',iconday: `${process.env.PUBLIC_URL}/images/icons/1101_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1101_night.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/cloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/cloudynight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/partlycloudyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/partlycloudynight.jpg`
    },
    1102: {text: 'mostly cloudy', iconday: `${process.env.PUBLIC_URL}/images/icons/1102_day.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/1102_night.png`,
@@ -34,7 +34,7 @@ const getcodeDetails = {
     },
     4001: {text: 'rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4001.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4001.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/thunderday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/thundernight.jpg`
     },
     4200: {text: 'light rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4200.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4200.png`,
@@ -42,7 +42,7 @@ const getcodeDetails = {
     },
     4201: {text: 'heavy rain', iconday: `${process.env.PUBLIC_URL}/images/icons/4201.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/4201.png`,
-        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/rainyday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/rainynight.jpg`
+        backgroundday: `${process.env.PUBLIC_URL}/images/backgrounds/thunderday.jpg`, backgroundnight: `${process.env.PUBLIC_URL}/images/backgrounds/thundernight.jpg`
     },
     5000: {text: 'snow', iconday: `${process.env.PUBLIC_URL}/images/icons/5000.png`,
         iconnight: `${process.env.PUBLIC_URL}/images/icons/5000.png`,

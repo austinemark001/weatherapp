@@ -25,7 +25,7 @@ export const saveLocation = (location) => {
   if (exists) return;
 
   // Limit to 5 locations
-  if (savedLocations.length >= 5) {
+  if (savedLocations.length >= 10) {
     savedLocations.shift(); // Remove the oldest location
   }
 
@@ -102,7 +102,7 @@ export const saveWeatherData = (location, data) => {
  * @param {Object} location - The location object (lat, lon)
  * @param {number} maxAge - Maximum allowed age in milliseconds (e.g., 1 hour = 3600000 ms)
  */
-export const isWeatherDataExpired = (location, maxAge = 3600000) => {
+export const isWeatherDataExpired = (location, maxAge = 21600000) => {
   const weather = getWeatherData(location);
   if (!weather) return true; // No weather data exists
 

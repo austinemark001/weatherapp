@@ -26,7 +26,7 @@
 .weatherDetails{
     position: relative;
     margin: 0;
-    padding: 3vh 0;
+    padding: 0;
     padding-top: 7vh;
     display: flex;
     flex-direction: column;
@@ -153,53 +153,7 @@
     opacity: 0.8;
 }
 
-.weatherDetails .otherDetails{
-    margin: 1vh 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding-left: 10vw;
-}
 
-
-.otherDetails h4 img{
-    width: 35px;
-}
-.otherDetails ul{
-    align-self: center;
-    list-style: none;
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 15vw;
-    row-gap: 5vh;
-    font-size: 0.35em;
-}
-.otherDetails li{
-    margin: 0;
-    padding: 3vh 2vw;
-    display: flex;
-    flex-direction: row;
-    gap: 1vw;
-    text-align: center;
-    justify-content: flex-start;
-    align-items: center;
-    /*background-color: rgb(83, 118, 146, 0.2);*/
-    border-radius: 20px;
-    width: 28vw;
-    background: radial-gradient(circle at top left, #8ca9d3 0%, #8ca9d300 90%);
-    background: radial-gradient(circle at top left, #425268 0%, #42526800 90%);
-}
-
-.otherDetails li img{
-    width: 70px;
-    margin: 0;
-}
-.otherDetails li span{
-    opacity: 0.7;
-    font-size: 0.9em;
-}
 
 
 @media screen and (max-width: 800px) {
@@ -249,24 +203,6 @@
     }
     .day-conditions img{
         width: 17px;
-    }
-    
-    
-    .weatherDetails .otherDetails{
-        padding-left: 3vw;
-    }
-    .otherDetails ul{
-        padding: 0;
-        column-gap: 10vw;
-        font-size: 0.43em;
-    }
-    .otherDetails li{
-        width: 33vw;
-       flex-direction: column;
-       gap: 2vh;
-    }
-    .otherDetails li img{
-        width: 35px;
     }
     
 }

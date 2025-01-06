@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getSavedLocations, saveLocation, saveCurrentLocation, clearLocations, getCurrentLocation, removeLocation } from './localstoragehelper';
 
 
-export default function Home(){
+export default function Home({ currenttoken }){
     const navigate = useNavigate();
     const [locations, setlocations] = useState([]);
     const [currentLocation, setCurrentLocation] = useState(null);
@@ -30,41 +30,43 @@ export default function Home(){
         if(lastcurrent){
           setCurrentLocation(lastcurrent)
         }
+        if(currenttoken){
         setresStatus('checking location change')
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const { latitude, longitude } = position.coords;
-            if(!lastcurrent || calculateDistance(lastcurrent.lat, lastcurrent.lon, latitude, longitude)){
-            try {
-              // Reverse geocoding using LocationIQ
-              const response = await axios.get(
-                `https://us1.locationiq.com/v1/reverse.php?key=${locationApi}&lat=${latitude}&lon=${longitude}&format=json`
-              );
-              const newLocation = {
-                name: response.data.address.city || response.data.address.town || 'Unknown Location',
-                lat: response.data.lat,
-                lon: response.data.lon,
-                id: `${response.data.lat},${response.data.lon}`, // Unique ID for the location
-              };
-    
-                setCurrentLocation(newLocation);
-                saveCurrentLocation(newLocation);
-                setresStatus('changed')
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              const { latitude, longitude } = position.coords;
+              if(!lastcurrent || calculateDistance(lastcurrent.lat, lastcurrent.lon, latitude, longitude)){
+              try {
+                // Reverse geocoding using LocationIQ
+                const response = await axios.get(
+                  `https://us1.locationiq.com/v1/reverse.php?key=${locationApi}&lat=${latitude}&lon=${longitude}&format=json`
+                );
+                const newLocation = {
+                  name: response.data.address.city || response.data.address.town || 'Unknown Location',
+                  lat: response.data.lat,
+                  lon: response.data.lon,
+                  id: `${response.data.lat},${response.data.lon}`, // Unique ID for the location
+                };
+      
+                  setCurrentLocation(newLocation);
+                  saveCurrentLocation(newLocation);
+                  setresStatus('changed')
 
-            } catch (error) {
-              console.error('Error fetching current location:', error);
-              setresStatus('error')
-            }finally{
-              setTimeout(()=>{setresStatus(false)}, 2000)
+              } catch (error) {
+                console.error('Error fetching current location:', error);
+                setresStatus('error')
+              }finally{
+                setTimeout(()=>{setresStatus(false)}, 2000)
+              }
             }
-          }
-          },
-          (error) => {
-            setresStatus('geo error')
-            console.error('Geolocation error:', error)
-          }
-        );
-        setTimeout(()=>{setresStatus(false)}, 3000)
+            },
+            (error) => {
+              setresStatus('geo error')
+              console.error('Geolocation error:', error)
+            }
+          );
+          setTimeout(()=>{setresStatus(false)}, 3000)
+      }
       };
 
     const searchLocation = async (e) =>{
@@ -144,14 +146,14 @@ export default function Home(){
         <div className="homecontainer">
            <h1>Nimbus Now <img src={`${process.env.PUBLIC_URL}/images/umbrella1.png`} alt='i'/></h1>
            {resStatus && <div className='home-response'>{resStatus}</div>}
-           <div className='home-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back1.jpg)`}}><div></div></div>
+           <div className='home-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back.jpg)`}}><div></div></div>
            <h2>Current location</h2>
            {currentLocation && <div className='current-name' onClick={()=> navigate('/weather',{ state: {location: currentLocation, iscurrent: true}})}>
            <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt='+'/> {currentLocation.name}
             </div>}
             <div className='saved-locations-container'>
-            <h2 className='saved-locations-title'>Saved {locations.length} {locations.length > 1 ? 'locations': 'location'} {locations.length < 5 ? '|' : ''}
-                {locations.length < 5 && <button onClick={()=> setsearch(true)} id="addlocation">+add new</button>}</h2>
+            <h2 className='saved-locations-title'>Saved {locations.length > 1 ? 'locations': 'location'}  {locations.length} 
+                {locations.length < 10 && <> | <button onClick={()=> setsearch(true)} id="addlocation">+add new</button></>}</h2>
             <ul className='saved-locations'>
                 {locations.map(loc => (
                     <li key={loc.id} >

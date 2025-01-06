@@ -48,7 +48,7 @@ export default function Settings({settings, setsettings}){
             <meta property="twitter:title" content='nimbusnow settings'/>
             <meta property="twitter:description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you' />
             </Helmet>
-            <div className='settings-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back2.jpg)`}}><div></div></div>
+            <div className='settings-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back.jpg)`}}><div></div></div>
             <div className="settingscontent">
                 <h3>unit settings</h3>
                 <p id="tempunit">temperature unit: <span>{settings.temp === 'celcius' ? '℃': '℉'}</span> 
@@ -63,12 +63,12 @@ export default function Settings({settings, setsettings}){
             <h3>Austine Mark - Software developer</h3>
             {/*<img src={`${process.env.PUBLIC_URL}/images/me.jpg`} alt='me'/>
             <h4>austine mark software developer</h4>*/}
-            <p>This WeatherApp is a showcase of React expertise and API integration,
+            <p>Nimbusnow is a showcase of my React expertise and API integration,
                  demonstrating my proficiency in modern web development.
                  With a sleek and responsive design, the app provides real-time weather
                   updates using external APIs, 
                  allowing users to stay informed about current conditions and forecasts worldwide. 
-                 This WeatherApp reflects a commitment to user-centric design, 
+                 Nimbusnow reflects a commitment to user-centric design, 
                  offering an intuitive interface and seamless navigation.<br/> <br/> For more projects showcasing Austine Mark's skills, 
                 visit <a href="https://austinemark.com">my website</a> and
                  experience the blend of functionality, aesthetics, and technical excellence firsthand.</p>

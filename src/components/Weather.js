@@ -30,20 +30,20 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
 
     useEffect(() => {
         const fetchWeather = () => {
-            const feeddata = (weatherdata)=>{
-                weatherdata.data.timelines.forEach(timeline => {
-                    const timestep = timeline.timestep
-                    if(timestep === '1d'){
-                        setdailyforecast(timeline.intervals);
-    
-                    }else if(timestep === '1h'){
-                        sethourlyforecast(timeline.intervals.slice(0, 24));
-    
-                    }else if(timestep === 'current'){
-                        setcurrent(timeline.intervals[0]);
-                    }
-                })
+            const filterdata = (weatherdata)=>{
+                const shifted_data = weatherdata.data.timelines ?? [];
+                return {
+                    current: shifted_data.find(t => t.timestep === 'current')?.intervals[0] ?? [],
+                    hourly: shifted_data.find(t=> t.timestep === '1h')?.intervals.slice(0, 24)?? [],
+                    daily: shifted_data.find(t => t.timestep === '1d')?.intervals ?? []
+                }     
             }
+
+            const feeddata =(filtereddata) =>{
+                setcurrent(filtereddata.current);
+                sethourlyforecast(filtereddata.hourly);
+                setdailyforecast(filtereddata.daily)
+            };
 
             const fetchweatherdata = async()=>{
                 setresponse('refreshing')
@@ -59,11 +59,13 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
                            });
                      
                      // Save the new weather data to localStorage
-                     
-                     const newWeatherData = response.data;
-                     saveWeatherData(location, newWeatherData);
-                     feeddata(newWeatherData)
+                     const filteredData = filterdata(response.data)
+                     saveWeatherData(location, filteredData);
+                     feeddata(filteredData)
                      setresponse('success')
+                     if(iscurrent && currenttoken){
+                        setcurrenttoken(false);
+                     }
                    } catch (error) {
                      console.error('Error fetching weather data:', error);
                      setresponse('error')
@@ -90,7 +92,6 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
           if(iscurrent){
              if(currenttoken){
                 fetchweatherdata();
-                setcurrenttoken(false);
              }
           }else{
             if (isWeatherDataExpired(location)) {
@@ -177,9 +178,8 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
             <meta property="twitter:description" content={`weather ${location.name}, today's weather ${location.name}, current weather ${location.name}`} />
         </Helmet>
         {responsestatus && <div className="weather-response">{responsestatus}</div>}
-        {(current && hourlyforecast && dailyforecast) ? <div className='weatherDetails'
+        {current ? <div className='weatherDetails'
         style={{backgroundImage: `url(${isday ? getcodeDetails[current.values.weatherCode].backgroundday :getcodeDetails[current.values.weatherCode].backgroundnight })`}}>
-           {/*<div className="weather-background"></div>*/}
            <div className='currentCondition'>
             <p id='currentlocation'>{iscurrent && <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="c"/>}{location.name}</p>
             <div className="current-end">
@@ -227,7 +227,7 @@ const requestInfo = {
     timesteps: ['current', '1h', '1d'],
     units: 'metric',
     startTime: 'now',
-    endTime: 'nowPlus96h',
+    endTime: 'nowPlus4d',
     timezone: 'auto'
   }
 
