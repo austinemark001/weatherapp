@@ -1,22 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { getcodeDetails, getprecipDetails, truncateTextSentense, formatwind, uvHealth, formatvisibility} from "../weatherConfig";
-import { XAxis, YAxis, ResponsiveContainer, Tooltip, Line, LineChart, CartesianGrid} from 'recharts';
-import { formattime, formatday, formathour, formatLocalDate, filterdate, addhour , formatSunriseSet} from "../dateConfig";
+import React, { useEffect, useState, useRef} from "react";
+import { getcodecondition, getcodeIconChart} from "../weatherConfig";
+import { XAxis, YAxis, ResponsiveContainer, Tooltip, Line, LineChart } from 'recharts';
+import { formatday, formatLocalDate, calculateAstro} from "../dateConfig";
+import { temperatureUnit, temperatureUnitChart } from "../settingsConfig";
 import './Forecast.css';
 
 
-export default function Forecast({dailyforecast, hourlyforecast, currenttime, astrodet, curveRef, temperatureUnit, temperatureUnitChart, 
-    distanceUnit, speedUnit, settings}){
-    const [hourychartdata, sethourlychartdata] = useState([]);
-    const [chartheight, setchartheight] = useState({x: 300, y: 40, w: 20});
-    const [prepresult, setprepresult] = useState([]);
-    const [dailyExtend, setdailyExtend] = useState(false);
+export default function Forecast({dailyforecast, currenttime, isDay }){
+    const [dailychartdata, setdaillychartdata] = useState([]);
+    const [chartheight, setchartheight] = useState(230);
+    const [astrotime, setastrotime] = useState({ first: 0, last: 0 })
+    const [astroposition, setastroposition] = useState({x: 0,y: 0})
+    const curveRef = useRef()
+    
+    useEffect(()=>{
+        const calculateastro = ()=>{
+        const astrodata = calculateAstro(dailyforecast.sunrise[0], dailyforecast.sunset[0], currenttime, isDay);
 
+           if(curveRef.current){
+             const pathLength = curveRef.current.getTotalLength();
+             const point = curveRef.current.getPointAtLength((astrodata.progress /100) * pathLength)
+             setastroposition({x: point.x, y: point.y})
+           }
+            setastrotime({first: astrodata.first, last: astrodata.last})
+        }
+        if(currenttime &&  dailyforecast.sunrise && dailyforecast.sunset){
+            calculateastro();
+        }
+    },[currenttime, isDay, dailyforecast])
     
     useEffect(()=>{
         const handleSize = ()=>{
-            if(window.innerWidth > 437 && window.innerWidth < 768) setchartheight((prev)=>({...prev,x:170,y: 30}));
-            if (window.innerWidth < 437) setchartheight((prev)=>({...prev,x:170,y: 27, w: 15}));
+            if (window.innerWidth < 768) setchartheight(220);
             
             
         };
@@ -28,67 +43,87 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
         }
     },[])
 
-    useEffect(()=>{
-        const newArray = hourlyforecast.filter(
-            (hour)=> hour.values.precipitationProbability > 1
-        )
-        const result= [];
-        let block = [];
-        newArray.forEach((interval, index)=>{
-            const precipitationProbability = interval.values.precipitationProbability;
-            const current = filterdate(interval.startTime);
-            const next = newArray[index + 1] ? filterdate(newArray[index + 1].startTime): null
-            if(precipitationProbability > 0){
-                block.push(interval);
-                if(!next || formattime(addhour(current, 1)) !== formattime(next)){
-                    const first = block[0];
-                    const startTime = first.startTime;
-                    const duration = block.length;
-                    const percentage = first.values.precipitationProbability
-                    const precipitationType = getprecipDetails(first.values.precipitationType)
-                    const description = duration > 1 ?
-                    `${duration}hrs ${precipitationType} outlook from ${formathour(startTime, currenttime)} (${percentage}% chance)
-                     ${formatday(startTime, currenttime).toLocaleLowerCase()}`:
-                    `${percentage}%  ${precipitationType} chance at ${formathour(startTime)} 
-                    ${formatday(startTime, currenttime).toLocaleLowerCase()}`
 
-                    result.push(description);
-                    block = []
-                }
+    // summaries
+    const precipitationSummary = ()=>{
+        const precipitationSum = dailyforecast.precipitation_sum;
+        const dates = dailyforecast.time;
+        const precipitationDays = precipitationSum.map((value, index)=> ({index: index, prep: value})).filter(day => day.prep > 0)
+        if(precipitationDays.length > 3){
+            return `wet days a head from ${formatday(dates[precipitationDays[0].index], currenttime)}`;
+        }else if(precipitationDays.length > 0){
+            const firstprepday = precipitationDays[0];
+            const amount  = firstprepday.prep;
+            const day = formatday(dates[firstprepday.index], currenttime)
+            let chance ;
+            if(amount < 0.3){
+                chance = 'low chance'
+            }else if(amount < 1){
+                chance = 'possible'
+            }else{
+               chance = 'expected'
             }
-        })
-        setprepresult(result)
-       
-    }, [hourlyforecast, currenttime])
+            return `${chance} ${(day === 'Yesterday'|| day === 'Today' || day === 'Tomorrow') ? day : `on ${day}`}`
+        }else{
+            return 'dry days a head'
+        }
+    }
+
+    const actvitySummary = ()=>{
+        if(dailyforecast.precipitation_sum[0] === 0  && dailyforecast.temperature_2m_max[0] >=15 && dailyforecast.temperature_2m_max[0] <=25) {
+            return 'hike or picnic'
+        }
+        if(dailyforecast.precipitation_sum[0] > 1){
+            return 'best for indoor activites'
+        }
+        return 'no activity to recommend'
+    }
+
+
 
     useEffect(()=>{
         let myarray = [];
-        hourlyforecast.forEach(dt=>{
-            const time = formathour(dt.startTime, currenttime);
+        dailyforecast.time.forEach((dt, index)=>{
+            const details = `${formatday(dt, currenttime)} ${temperatureUnit(dailyforecast.temperature_2m_max[index])}/${temperatureUnit(dailyforecast.temperature_2m_min[index])}`;
             //const temp =  Math.round(settings.temp === 'celcius' ? dt.values.temperature: toFahrenheit(dt.values.temperature));
-            const temp = temperatureUnitChart(dt.values.temperature);
-            const icon = dt.values.weatherCode;
-            myarray.push({time: time, temp: temp, icon: icon})
+            const temp = temperatureUnitChart(dailyforecast.temperature_2m_max[index]);
+            const icon = dailyforecast.weather_code[index];
+            const prep = dailyforecast.precipitation_probability_max[index]
+            myarray.push({day: details, temp: temp, icon: icon, prep: prep})
         })
-        sethourlychartdata(myarray)
-    }, [hourlyforecast, currenttime])
+        setdaillychartdata(myarray)
+    }, [dailyforecast, currenttime])
 
 
     const CustomDot = (props)=>{
         const {cx, cy, payload} = props;
         //const cleanedValue = payload.temp.toString().replace(/^0+/, '');
         return(
-            <g>
-            <image x={cx-(chartheight.w/2)} y={cy-50} width={chartheight.w} height={chartheight.w} href={`/images/icons/${payload.icon}.png`}/>
+            <g style={{backgroundColor: 'blue'}} fill="blue">
+            <image x={cx-20} y={cy- 100} width={60} height={60} href={getcodeIconChart(payload.icon)}/>
             <circle cx={cx} cy={cy} r={3} fill="#ededed"/>
             <text x={cx} y={cy -10} textAnchor="middle" fill="#ededed" fontSize={'0.9em'}>{payload.temp}°</text>
             </g>
         )
     }
+    const CustomXasis = ({x, y, payload})=>{
+        //const cleanedValue = payload.temp.toString().replace(/^0+/, '');
+        return(
+            <g transform={`translate(${x}, ${y})`}>
+            {dailychartdata.find(t => t.day === payload.value).prep > 0 &&<g>
+            <image x={-15} y={-5} width={20} height={20} href="/images/drop.png"/>
+            <text x={5} y={10} fill="#00b7ff">{dailychartdata.find(t => t.day === payload.value).prep}%</text>
+            </g>}
+            <text x={-15} y={60} dy={10} fill="#ededed" textAnchor="start">{payload.value}</text>
+            <text x={-15} y={75} dy={10} fill="#0ac0b1" textAnchor="start" fontSize={'0.9em'}>{ getcodecondition(dailychartdata.find(t => t.day === payload.value).icon)}</text>
+            </g>
+        )
+    }
+
     
     
     const scrollchart = (direction)=>{
-       const chartcontainer = document.querySelector('.chart-container');
+       const chartcontainer = document.querySelector('.temp-chart-container');
        if(chartcontainer){
         const scrolldistance = window.innerWidth / 3
         const scrollamount = direction === 'right' ? scrolldistance: -scrolldistance;
@@ -96,81 +131,57 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
        }
     }
 
-    const scrolldaily = (direction)=>{
-        const chartcontainer = document.querySelector('.daily-forecast');
-        if(chartcontainer){
-         const scrolldistance = window.innerWidth / 2;
-         const scrollamount = direction === 'right' ? scrolldistance: -scrolldistance;
-         chartcontainer.scrollBy({left: scrollamount, behavior: 'smooth'})
-        }
-     }
 
     return(
         <div className='forecast-container'>
-        <h3><img src={`${process.env.PUBLIC_URL}/images/forecast.png`} alt="f"/>Forecast | <span>{formatLocalDate(currenttime)}</span></h3>
-        {dailyforecast && <div className='daily-container'>
-            <h4> <img src={`${process.env.PUBLIC_URL}/images/daily.png`} alt="dy"/> next 5 days</h4>
-            <div className="daily-forecast">
-            <div className='daily-forecast-list'>
-                {dailyforecast.map(day=>(
-                    <div key={day.startTime} className='day-forecast-details' onClick={()=>setdailyExtend(day)}>
-                        <div className="day-start">
-                        <p id='day-main'>{formatday(day.startTime, currenttime)}</p>
-                        <div className="day-detail">
-                       
-                        <p>
-                       {temperatureUnit(day.values.temperatureMax)}/{temperatureUnit(day.values.temperatureMin)}</p>
-                        <p id="day-condition">{truncateTextSentense(getcodeDetails[day.values.weatherCode].text)}</p>
-                        </div>
-                        </div>
-                        <div className="day-end"><img src={getcodeDetails[day.values.weatherCode].iconday} alt='icon' id="day-icon"/>
-                        <p id='rainChance'><img src={`${process.env.PUBLIC_URL}/images/drop.png`} alt='icon'/>{day.values.precipitationProbability}%</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            </div>
-            <div className="daily-scroll"><button onClick={()=>scrolldaily('left')}>{'<'}</button><p>scroll or swipe</p><button onClick={()=>scrolldaily('right')}>{'>'}</button></div>
-        </div>}
-        {hourlyforecast && <><div className="hourly-container">
-            <h4><img src={`${process.env.PUBLIC_URL}/images/hourly.png`} alt="hr"/> today hourly</h4>
-        <div className="hourly-chart">
-            <h5>temperature range {settings.temp === 'celcius' ? '℃' : '℉'}</h5>
-        <div className="chart-container">
-            <div className="thee-chart">
-        <ResponsiveContainer width={'100%'} height={chartheight.x} style={{overflow: 'visible'}} {...{overflow: 'visible'}}>
-            <LineChart data={hourychartdata} margin={{left: 13, top: 50, right: 13, bottom: 10}} {...{overflow: 'visible'}}>
-            <XAxis dataKey={'time'} stroke="#ffffffb3" strokeWidth={0.8} axisLine={{stroke: '#ffffff66', strokeWidth: 0.4}}/>
+        <h3><img src={`${process.env.PUBLIC_URL}/images/forecast.png`} alt="f"/>Forecast next 7 days | <span>{formatLocalDate(currenttime)}</span></h3>
+
+        <div className="summary-container">
+          <h4> <img src={`${process.env.PUBLIC_URL}/images/prep.png`} alt="ico"/> summary</h4>
+          <div className="summaries">
+          <div className="precip-summary">
+            <h5><img src={`${process.env.PUBLIC_URL}/images/umbrella.png`} alt="ico"/>precipitation</h5>
+            <p>{precipitationSummary()}</p>
+          </div>
+          <div className="activity-summary">
+            <h5> <img src={`${process.env.PUBLIC_URL}/images/activity.png`} alt="ico"/>activity</h5>
+            <p>{actvitySummary()}</p>
+          </div>
+          </div>
+        </div>
+        <div className="daily-forecast">
+        <h4>day by day</h4>
+        <div className="temp-chart-container">
+        <div className="thee-temp-chart">
+        <ResponsiveContainer width={'100%'} height={chartheight}  {...{overflow: 'visible'}}>
+            <LineChart data={dailychartdata} margin={{left: 20, top: 80, right: 90, bottom: 70}}  {...{overflow: 'visible'}}>
+            <XAxis dataKey={'day'} stroke="#ffffffb3" strokeWidth={0.8} axisLine={false} interval={0} textAnchor="middle"
+            tick={<CustomXasis/>} tickLine={false} />
+
             <YAxis axisLine={false} hide={true} stroke="#ffffffb3" tickLine={false} />
-            <Tooltip/>
-            <CartesianGrid strokeDasharray={'3 3'} vertical={true} horizontal={false} stroke="#ffffff66" strokeWidth={0.5}/>
-            <Line type={'monotone'} dataKey={'temp'} data={hourychartdata} dot={<CustomDot/>} fill='url(#tempGradient)' stroke="#ededed" 
-            activeDot={{fill:'#00000', stroke:'#333333', color: '#333333'}}/>
+            <Tooltip content={null} cursor={false}/>
+            {/*<CartesianGrid strokeDasharray={'3 3'} vertical={true} horizontal={false} stroke="#ffffff66" strokeWidth={0.5}/>*/}
+            <Line type={'monotone'} dataKey={'temp'}  dot={<CustomDot/>}   stroke="#ededed" strokeWidth={3}
+            activeDot={false}/>
             </LineChart>
         </ResponsiveContainer>
         </div>
-      </div>
-      <div className="chart-scroll"><button onClick={()=>scrollchart('left')}>{'<'}</button><p>scroll or swipe</p><button onClick={()=>scrollchart('right')}>{'>'}</button></div>
-      </div>
         </div>
-    
-        <div className="prep-container">
-        <h4><img src={`${process.env.PUBLIC_URL}/images/prep.png`} alt="ico"/> precipitation </h4>
-        <div className="prep-forecast-list">
-        {prepresult.map((hour, index) =>(
-            <p key={index} >{hour}</p>
-        ))}
+        <div className="scroll-chart">
+            <button onClick={()=>scrollchart('left')}>{'<'}</button>
+            <p>scroll or swipe</p>
+            <button onClick={()=>scrollchart('right')}>{'>'}</button>
         </div>
-        </div></>}
+        </div>
 
        <div className="astro-container">
-            <h4><img src={`${process.env.PUBLIC_URL}/images/astro.png`} alt="ico"/> astro track | <span>{astrodet.isday ? 'day-time': 'night-time'}</span></h4>
+            <h4><img src={`${process.env.PUBLIC_URL}/images/astro.png`} alt="ico"/> astro track | <span>{isDay ? 'day-time': 'night-time'}</span></h4>
             <div className="astro-time">
-            <p id='sunrise'><span>{astrodet.isday ? 'sunrise': 'sunset'}</span> <br/>{astrodet.first}</p>
+            <p id='sunrise'><span>{isDay ? 'sunrise': 'sunset'}</span> <br/>{astrotime.first}</p>
             <div className="astro-position">
                <svg width={'100%'} height={'100%'} viewBox="0 0 400 100" preserveAspectRatio="none">
                 <defs>
-                    {astrodet.isday ? <linearGradient id="astro-gradient" x1={'0%'} x2={'0%'} y1={'0%'} y2={'100%'}>
+                    {isDay ? <linearGradient id="astro-gradient" x1={'0%'} x2={'0%'} y1={'0%'} y2={'100%'}>
                         <stop offset={'0%'} stopColor="#ffffff" stopOpacity={0.3}/>
                         <stop offset={'50%'} stopColor="#ffffff" stopOpacity={0.1}/>
                         <stop offset={'70%'} stopColor="#ffffff" stopOpacity={0}/>
@@ -181,13 +192,13 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
                     </linearGradient>}
                 </defs>
                <path ref={curveRef} d='M20 80 Q 200 -60, 380 80' fill="url(#astro-gradient)" />
-               <image href={`/images/${astrodet.isday ? 'sun': 'moon'}.png`} width={20} height={20}  x={astrodet.pos.x -10} y={astrodet.pos.y -10}/>
+               <image href={`/images/${isDay ? 'sun': 'star1'}.png`} width={20} height={20}  x={astroposition.x -10} y={astroposition.y -10}/>
             </svg>
             </div>
-            <p id='sunset'><span>{astrodet.isday ? 'sunset': 'sunrise'}</span> <br/>{astrodet.last}</p>
+            <p id='sunset'><span>{isDay ? 'sunset': 'sunrise'}</span> <br/>{astrotime.last}</p>
             </div>
         </div>
-   {dailyExtend && <div className="day-extended">
+   {/*dailyExtend && <div className="day-extended">
         <button onClick={()=>setdailyExtend(false)}>X</button>
         <p><span>{formatday(dailyExtend.startTime, currenttime)}</span> - {truncateTextSentense(getcodeDetails[dailyExtend.values.weatherCode].text)}</p>
         <p><img src={`${process.env.PUBLIC_URL}/images/temperature.png`} alt="ico"/> 
@@ -203,7 +214,8 @@ export default function Forecast({dailyforecast, hourlyforecast, currenttime, as
         </div>
         <p><img src={`${process.env.PUBLIC_URL}/images/astro.png`} alt="ico"/> sunrise- <span>{formatSunriseSet(dailyExtend.values.sunriseTime, currenttime)}</span>
         sunset- <span>{formatSunriseSet(dailyExtend.values.sunsetTime, currenttime)}</span></p>
-    </div>}
+    </div>*/}
 </div>
     )
 }
+

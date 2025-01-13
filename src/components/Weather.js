@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Forecast from "./Forecast";
-import { getcodeDetails,  uvHealth, formatwind, formatvisibility } from "../weatherConfig";
-import { calculateAstro } from "../dateConfig";
+import { getcodebackground, getcodecondition,  uvHealth, formatwind, formatwinddirection, formatvisibility } from "../weatherConfig";
 import './Weather.css'
 import { useLocation, useNavigate } from "react-router-dom";
-import { getWeatherData ,saveWeatherData, isWeatherDataExpired } from "./localstoragehelper";
+import { getWeatherData ,saveWeatherData, saveshortweatherData,isWeatherDataExpired } from "../localstoragehelper";
+import { temperatureUnit, speedUnit, distanceUnit, getAutoAge, temperatureUnitChart } from "../settingsConfig";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 
-export default function Weather({ currenttoken, setcurrenttoken, settings }){
+export default function Weather(){
     const locationState = useLocation();
     const navigate = useNavigate();
 
-    const {location, iscurrent} = locationState.state;
+    const location = locationState.state;
     const [current, setcurrent] = useState(null);
-    const [hourlyforecast, sethourlyforecast] = useState(null);
     const [dailyforecast, setdailyforecast] = useState(null);
     const [responsestatus, setresponse] = useState(false);
     const [iserror, seterror] = useState(false);
@@ -22,146 +21,92 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
     //satro usestates
     
     
-    if (!location || iscurrent === undefined) {
+    if (!location) {
         console.error("Cannot save weather data for invalid location:", location);
         navigate('/')
 
     }
 
     useEffect(() => {
-        const fetchWeather = () => {
-            const filterdata = (weatherdata)=>{
-                const shifted_data = weatherdata.data.timelines ?? [];
-                return {
-                    current: shifted_data.find(t => t.timestep === 'current')?.intervals[0] ?? [],
-                    hourly: shifted_data.find(t=> t.timestep === '1h')?.intervals.slice(0, 24)?? [],
-                    daily: shifted_data.find(t => t.timestep === '1d')?.intervals ?? []
-                }     
-            }
+        const fetchWeather = async() => {
 
-            const feeddata =(filtereddata) =>{
-                setcurrent(filtereddata.current);
-                sethourlyforecast(filtereddata.hourly);
-                setdailyforecast(filtereddata.daily)
-            };
-
-            const fetchweatherdata = async()=>{
-                setresponse('refreshing')
-                if(navigator.onLine){
-                try {
-                    requestInfo.location = `${location.lat}, ${location.lon}`;
-
-                     const response = await axios.get(
-                       'https://api.tomorrow.io/v4/timelines', {
-                               headers: {'Content-Type': 'application/json'},
-                               params: requestInfo,
-                       
-                           });
-                     
-                     // Save the new weather data to localStorage
-                     const filteredData = filterdata(response.data)
-                     saveWeatherData(location, filteredData);
-                     feeddata(filteredData)
-                     setresponse('success')
-                     if(iscurrent && currenttoken){
-                        setcurrenttoken(false);
-                     }
-                   } catch (error) {
-                     console.error('Error fetching weather data:', error);
-                     setresponse('error')
-                     seterror(true)
-                   
-                   }
-                   finally{
-                       setTimeout(()=>{setresponse(false)}, 2000)
-                   }
-                }else{
-                    setresponse('offline')
-                    setTimeout(()=>{setresponse(false)}, 2000)
-                }
-                 }
-            
           // Initially check for saved weather data from localStorage
           const cachedWeather = getWeatherData(location);
           
           if (cachedWeather) {
             // If cached data exists, display it immediately
             feeddata(cachedWeather.data);
-          }
-          // Check if weather data is expired (optional, you can adjust expiration time)
-          if(iscurrent){
-             if(currenttoken){
-                fetchweatherdata();
-             }
-          }else{
-            if (isWeatherDataExpired(location)) {
-                fetchweatherdata()
+            if (isWeatherDataExpired(location, getAutoAge())) {
+                setresponse('. . .')
+                const response = await fetchweatherdata();
+                if(response === true){
+                    setresponse('updated')
+                }else{
+                    setresponse('update failed')
+                }
+                setTimeout(()=> setresponse(false), 2000)
           } 
-        };
+          }else{
+            await fetchweatherdata()
+          }
+           
     }
     
         fetchWeather();
       }, [location]);
 
+    const feeddata =(filtereddata) =>{
+        setcurrent(filtereddata.current);
+        setdailyforecast(filtereddata.daily)
+    };
+    
 
+    const fetchweatherdata = async()=>{
+        try {
+            requestInfo.latitude = location.lat;
+            requestInfo.longitude = location.lon;
+
+             const response = await axios.get(
+               'https://api.open-meteo.com/v1/forecast', {
+                       headers: {'Content-Type': 'application/json'},
+                       params: requestInfo,
+               
+                   });
+             
+             const weatherData = {current: response.data.current?? [], daily: response.data.daily ?? []}
+             saveWeatherData(location.id, weatherData);
+             saveshortweatherData(location.id, weatherData.current.weather_code ?? 3)
+             feeddata(weatherData ?? [])
+             return true;
+             
+           } catch (error) {
+             console.error('Error fetching weather data:', error);
+             seterror(true)
+             return false; 
+         }
+    }
     
     // astro usestates
     const [isday, setisday] = useState(false);
-    const [astrotime, setastrotime] = useState({ first: 0, last: 0 })
-    const [astroposition, setastroposition] = useState({x: 0,y: 0})
-    const curveRef = useRef()
-
- 
     useEffect(()=>{
         const astrocheck = ()=>{
-            const astrodata = calculateAstro(current.values.sunriseTime, current.values.sunsetTime, current.startTime);
-            setisday(astrodata.isDay)
-
-           if(curveRef.current){
-             const pathLength = curveRef.current.getTotalLength();
-             const point = curveRef.current.getPointAtLength((astrodata.progress /100) * pathLength)
-             setastroposition({x: point.x, y: point.y})
-           }
-            setastrotime({first: astrodata.first, last: astrodata.last})
-        
+            setisday(Boolean(current.is_day) ?? false)
         }
 
-    if(current && current.values.sunriseTime && current.values.sunsetTime){
+    if(current){
         astrocheck()
     }
     },[current, setcurrent, isday])
 
-
-    const temperatureUnit = (temp)=>{
-        if(settings.temp ==='fahren'){
-            return  `${Math.round((temp * 9/5) + 32)}°`
+    const handleRefresh = async()=>{
+        setresponse('. . .');
+        const response = await fetchweatherdata();
+        if(response === true){
+            setresponse('updated')
+        }else{
+            setresponse('failed')
         }
-        return `${Math.round(temp)}°`;
-    }
-    const temperatureUnitChart = (temp)=>{
-        if(settings.temp ==='fahren'){
-            return  Math.round((temp * 9/5) + 32);
-        }
-        return Math.round(temp)
-    }
-    const temperatureUnitDecimal = (temp)=>{
-        if(settings.temp ==='fahren'){
-            return  `${Math.round(((temp * 9/5) + 32) * 10)/10}°`
-        }
-        return `${Math.round(temp)}°`;
-    }
-    
-    const speedUnit = (spd)=>{
-        if(settings.speed === 'km'){
-            return `${Math.round(spd * 3.6)}km/h`
-        }
-        return `${Math.round(spd)}m/s`
-    }
-    const distanceUnit = (dst) =>{
-        if(settings.distance === 'm'){
-            return `${Math.round(dst *0.621371)}mi`
-        }
-        return `${Math.round(dst)}km`
+        setTimeout(()=> setresponse(false), 2000)
     }
 
 
@@ -179,26 +124,29 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
         </Helmet>
         {responsestatus && <div className="weather-response">{responsestatus}</div>}
         {current ? <div className='weatherDetails'
-        style={{backgroundImage: `url(${isday ? getcodeDetails[current.values.weatherCode].backgroundday :getcodeDetails[current.values.weatherCode].backgroundnight })`}}>
+        style={{backgroundImage: `url(${getcodebackground(current.weather_code, isday)})`}}>
            <div className='currentCondition'>
-            <p id='currentlocation'>{iscurrent && <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="c"/>}{location.name}</p>
+            <div className="current-location">
+            <p id='currentlocation'>{location.current && <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="c"/>}{location.name}</p>
+            <button  id="refresh-weather" onClick={handleRefresh}><img src={`${process.env.PUBLIC_URL}/images/refresh.png`} alt="refresh" /></button>
+            </div>
             <div className="current-end">
             <div className="current-details">
-                <p id='currenttemp'>{temperatureUnitChart(current.values.temperature)}<sup>°</sup> <sub></sub></p>
-                <p id="currentcondition"> {getcodeDetails[current.values.weatherCode].text}</p>
+                <p id='currenttemp'>{temperatureUnitChart(current.temperature_2m)}<sup>°</sup> <sub></sub></p>
+                <p id="currentcondition"> {getcodecondition(current.weather_code)}</p>
             </div>
             <div className="day-conditions">
                 <div>
                 <p id="feels-like"> feels like
-                <span>{temperatureUnitDecimal(current.values.temperatureApparent)}</span></p>
-                <p id="dayconditions" style={{color: `${uvHealth(current.values.uvIndex)}`}}> uv index<span>{current.values.uvIndex}</span> </p>
+                <span>{temperatureUnit(current.apparent_temperature)}</span></p>
+                <p id="dayconditions" style={{color: `${uvHealth(current.uv_index)}`}}> uv index<span>{Math.round(current.uv_index)}</span> </p>
                 </div>
                 <div>
-                    <p>{formatwind(current.values.windSpeed)}
-                    <span>{speedUnit(current.values.windSpeed)}</span></p>
-                    <p> humidity <span>{Math.round(current.values.humidity)}% </span></p>
-                    <p> visibility <span>{distanceUnit(current.values.visibility)}</span>
-                        {formatvisibility(current.values.visibility)}</p>
+                    <p> {formatwinddirection(current.wind_direction_10m)} {formatwind(current.wind_speed_10m)}
+                    <span>{speedUnit(current.wind_speed_10m)}</span></p>
+                    {/*<p> humidity <span>{Math.round(current.humidity)}% </span></p>*/}
+                    <p> visibility <span>{distanceUnit(current.visibility)}</span>
+                        {formatvisibility(current.visibility / 1000)}</p>
                 </div>
             </div>
             </div>
@@ -206,10 +154,7 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
                
         </div>
 
-            { <Forecast dailyforecast={dailyforecast} hourlyforecast={hourlyforecast} currenttime={current.startTime}
-            sunrisetime={current.values.sunriseTime} sunsettime={current.values.sunsetTime} settings={settings} 
-            astrodet= {{isday: isday, first: astrotime.first, last: astrotime.last, pos: astroposition}} curveRef={curveRef} 
-            temperatureUnit={temperatureUnit} temperatureUnitChart={temperatureUnitChart} distanceUnit={distanceUnit} speedUnit={speedUnit}/> }
+           {dailyforecast && <Forecast dailyforecast={dailyforecast}  currenttime={current.time} isDay= {isday}/>}
            
         </div> : <div className="no-weather"><img src={`${process.env.PUBLIC_URL}/images/cool.png`} alt="i"/> {iserror ? "things did't work out" : 'getting things ready...'}</div>}
         </>
@@ -220,14 +165,12 @@ export default function Weather({ currenttoken, setcurrenttoken, settings }){
 
 
 const requestInfo = {
-    apikey: process.env.REACT_APP_WEATHER_API,
-    location: '',
-    fields: ['weatherCode','temperature', 'temperatureApparent', 'humidity', 'windSpeed' , 'precipitationProbability', 'precipitationType', 
-        'visibility', 'uvIndex' ,'temperatureMax', 'temperatureMin' , 'sunriseTime', 'sunsetTime'],
-    timesteps: ['current', '1h', '1d'],
-    units: 'metric',
-    startTime: 'now',
-    endTime: 'nowPlus4d',
+    longitude: 0,
+    latitude: 0,
+    current: ['temperature_2m', 'apparent_temperature', 'is_day', 'precipitation', 'weather_code', 
+        'visibility', 'wind_speed_10m', 'wind_direction_10m', 'uv_index'],
+    daily: ['weather_code', 'temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset',  'precipitation_sum',
+         'precipitation_probability_max'],
     timezone: 'auto'
   }
 

@@ -7,25 +7,15 @@ import './App.css'
 
 
 function App() {
-  const [currenttoken, setcurrenttoken] = useState(true);
-  const [settings, setsettings] = useState([]);
-  useEffect(()=>{
-    if(!localStorage.getItem('settings')){
-       localStorage.setItem('settings', JSON.stringify(initialunits))
-    }
-    const settingstore = JSON.parse(localStorage.getItem('settings'))
-    setsettings(settingstore)
-  }, [])
-
+  const [checkLocationtoken, setcheckLocationtoken] = useState(true);
   
-
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" exact element= {<Home currenttoken={currenttoken}/>}/>
-        <Route path="/weather" element={<Weather settings={settings} currenttoken={currenttoken} setcurrenttoken={setcurrenttoken}/>} />
-        <Route path="/settings" element={<Settings settings={settings} setsettings={setsettings}/>}/>
+        <Route path="/" exact element= {<Home checkLocationtoken={checkLocationtoken} setcheckLocationtoken={setcheckLocationtoken} />}/>
+        <Route path="/weather" element={<Weather />} />
+        <Route path="/settings" element={<Settings />}/>
         <Route path='*' Component={NoPage} />
       </Routes>
     </>
@@ -57,10 +47,5 @@ function NoPage(){
   )
 }
 
-const initialunits = {
-  temp: 'celcius',
-  speed: 'm',
-  distance: 'km',
-}
 
 export default App;

@@ -1,5 +1,8 @@
 import { format, parseISO, isToday, isYesterday, isTomorrow, getTime, isSameHour, addHours, addMinutes, addDays, 
-     getHours, getMinutes, isAfter, isBefore, differenceInMinutes, isSameDay} from "date-fns";
+     getHours, getMinutes, isAfter, isBefore, differenceInMinutes, isSameDay, differenceInDays,
+     formatDistanceToNow,
+     differenceInSeconds,
+     differenceInMilliseconds} from "date-fns";
 
 /*function removeOffset(inputdate){
    try{
@@ -39,18 +42,19 @@ export function filterdate(inputdate){
 //return the day
 export function formatday(inputdate, currentdate){
     try{
-        const filtered1 = filterdate(inputdate);
-        const  filtered2 = filterdate(currentdate);
+        const filtered1 = parseISO(inputdate);
+        const  filtered2 = parseISO(currentdate);
         
-        if(isToday(filtered1, {comparisonDate: filtered2})){
+       if(isToday(filtered1, filtered2)){
             return 'Today';
-        }else if(isYesterday(filtered1, {comparisonDate: filtered2})){
+        }else if(isYesterday(filtered1, filtered2)){
             return 'Yesterday';
-        }else if(isTomorrow(filtered1, {comparisonDate: filtered2})){
+        }else if(isTomorrow(filtered1, filtered2)){
             return 'Tomorrow';
         }else{
             return format(filtered1, 'EEE')
         }
+
     
     }catch(err){
         console.error(err)
@@ -61,7 +65,7 @@ export function formatday(inputdate, currentdate){
 // return to local date string such as 'sun 13:00 pm'
 export function formatLocalDate(inputdate){
     try{
-        const date = format(filterdate(inputdate), 'EEE hh:mm a').toLocaleLowerCase();
+        const date = format(parseISO(inputdate), 'EEE hh:mm a').toLocaleLowerCase();
         return date;
     }catch(err){
         console.error(err)
@@ -69,6 +73,16 @@ export function formatLocalDate(inputdate){
     }
 }
 
+
+export function getTimeDifference(inputime){
+    try{
+    const inputdate = new Date(inputime);
+    return formatDistanceToNow(inputdate, {addSuffix: true})
+    }catch(err){
+        console.error(err)
+        return 'uknown time ago'
+    }
+}
  // return hour
 
 export function formathour(inputdate, currentdate){
@@ -89,7 +103,7 @@ export function formathour(inputdate, currentdate){
 // return string time
 export function formatStringTime(inputdate){
     try{
-        const inputfiltered = filterdate(inputdate)
+        const inputfiltered = parseISO(inputdate)
         return format(inputfiltered, 'hh:mm a').toLocaleLowerCase()
     }catch(err){
         console.error(err)
@@ -194,41 +208,40 @@ function getTimeMinutes(date){
     return getHours(date)* 60 + getMinutes(date)
 }
 
-export function calculateAstro(first, last, currenttime){
+export function calculateAstro(first, last, currenttime, isDay){
     try{
-    const currenttime_filtered  = filterdate(currenttime);
-    const localFirst = adjustTime(first, currenttime)
-    const localLast = adjustTime(last, currenttime)
     let percentage, lasthour, firsthour;
     
-    const isDay = isAfter(currenttime_filtered, localFirst) && isBefore(currenttime_filtered, localLast)
+    //const isDay = isAfter(currenttime_filtered, localFirst) && isBefore(currenttime_filtered, localLast)
     if(isDay){
-        const daytotalminutes = differenceInMinutes(localLast, localFirst);
-        const dayelapsedminutes = Math.max(0, differenceInMinutes(currenttime_filtered, localFirst))
+        const daytotalminutes = differenceInMinutes(last, first);
+        console.log('total minutes:'+ daytotalminutes)
+        const dayelapsedminutes = Math.max(0, differenceInMinutes(currenttime, first))
+        console.log('elapased minute: '+ dayelapsedminutes)
         percentage = Math.min((dayelapsedminutes/daytotalminutes) * 100, 100)
-        lasthour = formatZuluTime(localLast)
-        firsthour = formatZuluTime(localFirst)
+        lasthour = formatStringTime(last)
+        firsthour = formatStringTime(first)
 
     }else{
-        let localRise = localFirst;
-        if(isSameDay(localLast, currenttime_filtered)){
+        let localRise = first;
+        if(isSameDay(last, currenttime)){
             localRise = addDays(localRise, 1)
         }
-        const nightTotalMinutes = differenceInMinutes(localRise, localLast);
-        let nightelapsedminutes = Math.max(0, differenceInMinutes(currenttime_filtered, localLast));
+        const nightTotalMinutes = differenceInMinutes(localRise, last);
+        let nightelapsedminutes = Math.max(0, differenceInMinutes(currenttime, last));
 
-        if(getTimeMinutes(currenttime_filtered) < getTimeMinutes(localLast)) {
-            nightelapsedminutes =  differenceInMinutes(addDays(currenttime_filtered, 1), localLast);
+        if(getTimeMinutes(currenttime) < getTimeMinutes(last)) {
+            nightelapsedminutes =  differenceInMinutes(addDays(currenttime, 1), last);
         }
         percentage = Math.min((nightelapsedminutes / nightTotalMinutes) *100, 100);
-        lasthour = formatZuluTime(localFirst)
-        firsthour = formatZuluTime(localLast)
+        lasthour = formatStringTime(first)
+        firsthour = formatStringTime(last)
     }
 
-    return {progress: percentage.toFixed(2), isDay: isDay, last: lasthour, first: firsthour}
+    return {progress: percentage.toFixed(2), last: lasthour, first: firsthour}
 }catch(err){
     console.error(err)
-    return {progress: 50, isDay: false, last: '06:00 pm', first: '06:00 am'}
+    return {progress: 50, last: '06:00 pm', first: '06:00 am'}
 }
 
 }
@@ -247,3 +260,13 @@ export function formatSunriseSet(inputdate, currentdate){
     }
 }
 
+//difference in timestamp 
+
+export function checkweatherdiffExpired(lastdate, hours){
+    const currenttime = Date.now();
+    const elapsed = differenceInMilliseconds(currenttime, lastdate);
+    console.log('elapesd: '+ elapsed)
+    console.log('total_hours' + hours)
+    console.log('testhours'+ hours*3600000)
+    return elapsed >= (hours*3600000)
+}

@@ -1,7 +1,6 @@
 .homecontainer{
     position: relative;
-    padding: 3vh 15vw;
-    padding-top: 10vh;
+    padding: 1vh 15vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,12 +9,12 @@
 }
 .homecontainer h1{
     font-size: 0.6em;
-    align-self: center;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 1vw;
+    margin: 0;
 }
 .homecontainer h1 img{
     width: 60px;
@@ -24,12 +23,14 @@
     font-size: 0.35em;
     padding: 1vh 3vw;
     position: fixed;
-    top: 20vh;
+    top: 15vh;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
     background-color: rgba(226, 60, 82, 0.3);
     border-radius: 15px;
+    background-color: rgba(235, 234, 234, 0.8);
+    color: rgb(10, 10, 10);
 }
 .homecontainer .home-background{
     position: fixed;
@@ -55,95 +56,156 @@
     margin: 0;
     color: #ff7d41;
 }
-.current-name{
-    font-size: 0.37em;
-    cursor: pointer;
+.homecontainer .geo-denied{
+    font-size: 0.33em;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 1vw;
 }
-.current-name:hover{
-    color: #0077ff;
-}
-.current-name img{
+.geo-denied img{
     width: 30px;
 }
-.saved-locations-container{
+
+/*loacations*/
+.homecontainer .locations-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 2vh;
-    padding: 0;
+    gap: 3vh;
 }
-.saved-locations-title{
+.locations-container .locations-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 64vw;
+    padding: 0 5vw 1vh 1vw;
+    border-bottom: #ffffff88 0.3px solid;
+
+}
+.locations-top div{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 1vw;
+    gap: 3vw;
+}
+.locations-top button{
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    color: inherit;
+    font-size: 0.3em;
     margin: 0;
 }
-.saved-locations-title button{
-    background-color: transparent;
-    border: none;
-    box-shadow: 4px 4px 7px black;
-    padding: 1vh 3vw;
-    font-size: 0.8em;
-    border-radius: 10px;
-    color: #0077ff;
-    cursor: pointer;
+.locations-top #add-location{
+  padding: 5px;
+  font-size: 0.6em;
+  border-radius: 50%;
+  box-shadow: 5px 5px 10px #000000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.saved-locations-title button:hover{
-    color: #09cc7b;
+
+.locations-top button img{
+ width: 30px;
 }
-.saved-locations{
+
+
+.locations-container .locations{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1vh;
+}
+.locations .location{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5vh 1vw;
+    background-color: rgb(0, 0, 0, 0.7);
+    border-radius: 15px;
+}
+.location .location-summary{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    padding-right: 1vw;
+    min-width: 40vw;
+}
+.location-summary h4{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     gap: 1vh;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    
+    font-size: 0.4em;
 }
-.saved-locations li{
-    cursor: pointer;
-    font-size: 0.37em;
+.location-summary h4 span{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    gap: 4vw;
+    gap: 0.5vw;
+    opacity: 0.7;
+    font-weight: lighter;
+    font-size: 0.8em;
 }
-.saved-locations li p{
-   display: flex;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
+.location-summary h4 img{
+    width: 18px;
 }
-.saved-locations li p:hover{
-    color: #0077ff;
+.location-summary .location-short-weather{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 1vh;
+    font-size: 0.35em;
 }
-.saved-locations li p img{
+.location-short-weather img{
+    width: 60px;
+    padding: 0;
+    margin: 0;
+}
+.location-short-weather p{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1vw;
+    margin: 0;
+}
+.location-summary #last-fetched{
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+.location-summary #no-short-weathers{
+    font-size: 0.33em;
+    opacity: 0.8;
+}
+.location .location-remove{
+    padding-left: 3vw;
+    border-left: rgb(255, 255, 255, 0.5) 1px solid;
+}
+.location-remove img{
     width: 30px;
 }
-.saved-locations li #removeloc{
-    width: 28px;
-}
-
-
 .homecontainer .addCont{
     min-width: 60vw;
     max-width: 80vw;
     height: 80vh;
     padding: 3vh 5vw;
     position: fixed;
-    bottom: 5vh;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -151,8 +213,7 @@
     gap: 5vh;
     z-index: 7;
     overflow-y: auto;
-    background-color: rgb(29, 63, 88, 0.97);
-    background-color: #111111f2;
+    background-color: rgba(17, 17, 17, 0.97);
 }
 .addCont .addContent{
     display: flex;
@@ -160,6 +221,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 1vw;
+    border-bottom: #eeeeee57 0.8px solid;
     
 }
 .addContent button{
@@ -200,7 +262,8 @@
     border: none;
     color: inherit;
     font-size: 0.42em;
-    padding: 10px;
+    padding: 0 1vw;
+    border-left: #eeeeee4d 0.5px solid;
 }
 .searchform input[type='search']::-webkit-search-cancel-button{
     display: none;
@@ -261,12 +324,10 @@
 }
 
 @media screen and (max-width: 768px) {
-    .homecontainer .addCont{
-        padding: 3vh 3vw;
-        max-width: unset;
-        width: 90vw;
-
+    .homecontainer {
+        padding: 1vh 3vw;
     }
+    
     .homecontainer h1{
         font-size: 0.65em;
     }
@@ -278,10 +339,41 @@
         font-size: 0.4em;
     }
     .homecontainer .home-background{
-        width: 95vw;
+        width: 100vw;
+        height: 100vh;
     }
     .homecontainer h2{
         font-size: 0.43em;
+    }
+    .homecontainer .geo-denied{
+        font-size: 0.37em;
+    }
+    .geo-denied img{
+        width: 22px;
+    }
+    .locations-container .locations-top{
+        min-width: 90vw;
+        padding-right: 2vw;
+    }
+    .locations-top button img{
+        width: 20px;
+    }
+    .locations .location{
+        padding: 0.5vh 2vw;
+    }
+    .location .location-summary{
+        min-width: 70vw;
+        padding-right: 3vw;
+    }
+    .location .location-remove img{
+        width: 17px;
+    }
+
+    .homecontainer .addCont{
+        padding: 3vh 3vw;
+        max-width: unset;
+        width: 93.8vw;
+
     }
     .searchform input{
         font-size: 0.4em;
@@ -295,27 +387,6 @@
     .searchresults #searchresponse{
         font-size: 0.4em;
     }
-    .current-name{
-        font-size: 0.4em;
-    }
-    .current-name img{
-        width: 22px;
-    }
-    .saved-locations li{
-        font-size: 0.4em;
-        gap: 8vw;
-    }
-    .saved-locations li p img{
-        width: 22px;
-    }
-    .saved-locations li #removeloc{
-        width: 19px;
-    }
-    .clearlocations{
-        font-size: 0.4em;
-    }
-    .clearlocations img{
-        width: 20px;
-    }
+    
     
 }

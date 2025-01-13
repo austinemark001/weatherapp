@@ -7,7 +7,9 @@
     transform: translateX(-50%);
     z-index: 100;
     background-color: rgba(226, 60, 82, 0.3);
+    background-color: rgba(235, 234, 234, 0.8);
     border-radius: 15px;
+    color: rgb(10, 10, 10);
 }
 .no-weather{
     display: flex;
@@ -37,9 +39,7 @@
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-}
-.weatherDetails *{
-    z-index: 1;
+    color: #fff;
 }
 .weatherDetails .weather-background{
    position: fixed;
@@ -56,7 +56,8 @@
     margin: 0;
     width: 70vw;
     height: 60vh;
-    background-color: rgb(13, 0, 37, 0.4);
+    background-color: rgba(44, 44, 44, 0.3);
+    backdrop-filter: blur(1px);
     padding: 5vh 5vw;
     border-radius: 30px;
     display: flex;
@@ -64,13 +65,20 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 1vh;
-    color: #fdfdfd;
 }
 .currentCondition *{
     margin: 0;
     padding: 0;
 }
-.currentCondition #currentlocation{
+.currentCondition .current-location{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+}
+.current-location p{
     font-size: 0.7em;
     grid-column: 1 /span 2 ;
     padding: 0;
@@ -87,11 +95,21 @@
     font-size: 0.4em;
     opacity: 0.7;
 }
-#currentlocation img{
+.current-location p  img{
     width: 20px;
     font-size: 0.23em;
     color: rgb(83, 118, 146);
     opacity: 0.7;
+}
+.current-location button{
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    color: inherit;
+    font-size: 0.3em;
+}
+.current-location button img{
+    width: 30px;
 }
 
 .currentCondition .current-end{
@@ -144,7 +162,7 @@
     align-items: center;
     gap: 1vw;
     padding: 0 0.5vw;
-    border-right: rgba(7, 181, 250, 0.5) 1px solid;
+    border-right: rgba(0, 20, 27, 0.5) 1px solid;
 }
 .day-conditions img{
     width: 30px;
@@ -169,19 +187,26 @@
         gap: 7vh;
     }
     .weatherDetails .currentCondition{
-        padding: 2vh 3vw;
-        width: 93.8vw;
+        padding: 2vh 1vw;
+        width: 97.8vw;
         height: 65vh;
         margin: 0;
         border-radius: 0 0 10px 10px;
     }
-    .currentCondition #currentlocation{
+    .current-location p{
         font-size: 0.7em;
         align-self: flex-start;
-        padding-left: 5vw;
+        padding-left: 1vw;
     }
-    #currentlocation img{
+    .current-location p img{
         width: 15px;
+    }
+    .current-location button{
+        z-index: 5;
+        margin-right: 35vw;
+    }
+    .current-location button img{
+        width: 20px;
     }
     .currentCondition #currenttemp{
         font-size: 2em;
