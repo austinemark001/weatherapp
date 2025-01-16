@@ -1,6 +1,7 @@
 .homecontainer{
     position: relative;
     padding: 1vh 15vw;
+    padding-top: 15vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,8 +38,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 85vw;
-    height: 99vh;
+    width: 100%;
+    height: 100%;
     z-index: -1;
     background-position: center;
     background-size: cover;
@@ -127,8 +128,9 @@
 .locations .location{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    gap: 1vw;
     padding: 0.5vh 1vw;
     background-color: rgb(0, 0, 0, 0.7);
     border-radius: 15px;
@@ -139,7 +141,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 0;
-    padding-right: 1vw;
     min-width: 40vw;
 }
 .location-summary h4{
@@ -326,6 +327,7 @@
 @media screen and (max-width: 768px) {
     .homecontainer {
         padding: 1vh 3vw;
+        padding-top:  15vh;
     }
     
     .homecontainer h1{
@@ -335,6 +337,7 @@
         width: 45px;
     }
     .home-response{
+        top: 10vh;
         padding: 1vh 5vw;
         font-size: 0.4em;
     }
@@ -364,6 +367,9 @@
     .location .location-summary{
         min-width: 70vw;
         padding-right: 3vw;
+    }
+    .location .location-remove{
+        padding-left: 6vw;
     }
     .location .location-remove img{
         width: 17px;

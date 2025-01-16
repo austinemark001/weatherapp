@@ -8,11 +8,19 @@
     padding: 1vh 5vw;
     padding-bottom: 3vh;
     margin: 0;
-    background-color: rgba(58, 58, 58, 0.9);
+    background-color: rgba(58, 58, 58, 0.97);
     border-radius: 15px 15px 0 0;
 }
+.forecast-container .forecast-title{
+    border-bottom: #ffffff66 1px solid;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
 
-.forecast-container h3{
+.forecast-title h3{
     font-size: 0.45em;
     font-weight: lighter;
     display: flex;
@@ -20,13 +28,17 @@
    justify-content: flex-start;
    align-items: center;
    gap: 1vw;
-   width: 100%;
-   padding: 1vh 0;
    margin: 0;
-   border-bottom: #ffffff66 1px solid;
+   
 }
-.forecast-container h3 img{
+.forecast-title img{
     width: 33px;
+}
+.forecast-title button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.31em;
 }
 .forecast-container h3 span{
     font-size: 0.8em;
@@ -71,7 +83,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     gap: 3vw;
     font-size: 0.37em;
 }
@@ -80,7 +92,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background-color: rgba(78, 78, 78, 0.8);
+    background-color: rgba(99, 99, 99, 0.5);
     padding: 0.5vh 3vw;
     border-radius: 15px;
     gap: 1vh;
@@ -247,7 +259,7 @@
         margin: 0 0.5vw;
         padding: 0 2vw;
     }
-    .forecast-container h3 img{
+    .forecast-title img{
         width: 23px;
     }
     .forecast-container h4 img{

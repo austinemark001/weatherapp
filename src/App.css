@@ -1,19 +1,47 @@
 .myheader{
     margin: 0;
     padding: 2vh 0;
-    padding-right: 10vw;
     position: absolute;
     top: 0;
-    left: 0;
-    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80vw;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    gap: 10vw;
     z-index: 3;
 }
-.myheader .toplink{
+.myheader h1{
+    font-size: 0.7em;
+    font-weight: lighter;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5vw;
+    justify-content: center;
+    align-items: center;
+}
+.myheader #title-home img{
+    width: 50px;
+}
+.myheader #title-weather{
+    align-self: flex-start;
+}
+.myheader #title-weather img{
+    width: 20px;
+}
+.myheader #title-settings img{
+    width: 40px;
+}
+.myheader .header-links{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10vw;
+}
+ .toplink{
     font-size: 0.3em;
     color: inherit;
     text-decoration: none;
@@ -21,6 +49,11 @@
 }
 .toplink img{
     width: 30px;
+}
+.myheader button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .toplink:hover{
@@ -107,10 +140,15 @@
 
 @media screen and (max-width: 800px) {
     .myheader{
-        width: 95%;
-        padding-right: 5vw;
+        width: 96%;
     }
-    .myheader .toplink{
+    .myheader #title-weather img{
+        width: 13px;
+    }
+    .myheader #title-settings img{
+        width: 27px;
+    }
+    .header-links .toplink{
         font-size: 0.38em;
     }
     .toplink img{

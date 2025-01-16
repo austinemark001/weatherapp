@@ -1,18 +1,8 @@
 import { format, parseISO, isToday, isYesterday, isTomorrow, getTime, isSameHour, addHours, addMinutes, addDays, 
-     getHours, getMinutes, isAfter, isBefore, differenceInMinutes, isSameDay, differenceInDays,
+     getHours, getMinutes, differenceInMinutes, isSameDay,
      formatDistanceToNow,
-     differenceInSeconds,
      differenceInMilliseconds} from "date-fns";
 
-/*function removeOffset(inputdate){
-   try{
-        const newDate  = inputdate.slice(0, -6);
-        return parseISO(newDate);
-   }catch(err){
-    console.error(err)
-   return '2025-01-01T00:00:00'
-   }
-}*/
 
 export function filterdate(inputdate){
     try{
@@ -215,9 +205,7 @@ export function calculateAstro(first, last, currenttime, isDay){
     //const isDay = isAfter(currenttime_filtered, localFirst) && isBefore(currenttime_filtered, localLast)
     if(isDay){
         const daytotalminutes = differenceInMinutes(last, first);
-        console.log('total minutes:'+ daytotalminutes)
         const dayelapsedminutes = Math.max(0, differenceInMinutes(currenttime, first))
-        console.log('elapased minute: '+ dayelapsedminutes)
         percentage = Math.min((dayelapsedminutes/daytotalminutes) * 100, 100)
         lasthour = formatStringTime(last)
         firsthour = formatStringTime(first)

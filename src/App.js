@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Home from './components/Home';
 import Weather from './components/Weather';
 import Settings from './components/Settings';
@@ -24,12 +24,18 @@ function App() {
 
 
 function Header(){
- 
+  const location = useLocation();
   return(
       <>
       <header className="myheader">
-        <Link id='toplinkfirst' className='toplink' to='/'><img src={`${process.env.PUBLIC_URL}/images/locations3.png`} alt='locations'/></Link>
-        <Link to="/settings" id='toplinklast' className='toplink'><img src={`${process.env.PUBLIC_URL}/images/settings1.png`} alt='settings'/></Link>
+        {location.pathname === '/weather' && <h1 id='title-weather'>{location.state.current && <sup><img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt='o'/></sup>} 
+        {location.state.name ? location.state.name : 'unknown location'}</h1>}
+        {location.pathname === '/' &&  <h1 id='title-home'>Nimbus Now <img src={`${process.env.PUBLIC_URL}/images/umbrella1.png`} alt='i'/></h1>}
+        {location.pathname === '/settings' && <h1 id='title-settings'><img src={`${process.env.PUBLIC_URL}/images/setting.png`} alt='i'/>Settings</h1>}
+        <div className='header-links'>
+        <Link id='toplinkfirst' className='toplink' to='/'><img src={`${process.env.PUBLIC_URL}/images/locations.png`} alt='locations'/></Link>
+        <Link to="/settings" id='toplinklast' className='toplink'><img src={`${process.env.PUBLIC_URL}/images/settings.png`} alt='settings'/></Link>
+        </div>
       </header>
       </>
   )

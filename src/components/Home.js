@@ -18,18 +18,20 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
     const [searchresponse, setsearchresponse] = useState(false);
     const [searchresults, setsearchresults] = useState([]);
     const [resStatus, setresStatus] = useState(null);
+    const [radiusT, setradiusT] = useState(4000)
     const [geoDenied, setgeoDenied] = useState(false);
     const locationApi = process.env.REACT_APP_LOCATION_IQ;
 
+
     const searchRef = useRef(null);
     const inputref = useRef(false);
-    const  RADIUS_THRESHOLD = getThreshold() || 5000;
 
 
     useEffect(() => {
        const existingLocations = getLocations()
         setlocations(sortedLocations(existingLocations));
-        setshortweathers(getshortweathers())
+        setshortweathers(getshortweathers() || 3000)
+        setradiusT(getThreshold())
 
     const checkLocation = async () => {
         const lastcurrent = existingLocations.find(loc => loc.current === true);
@@ -38,13 +40,12 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
               if(!lastcurrent || calculateDistance(lastcurrent.lat, lastcurrent.lon, geo_location.latitude, geo_location.longitude)){
                 const response = await  updatecurrentlocation(geo_location.latitude, geo_location.longitude)
                 if(response === true){
-                  setcheckLocationtoken(false)
                   setresStatus('location changed')
+                  setTimeout(()=> setresStatus(false), 2000)
                 }
-                setTimeout(()=> setresStatus(false), 2000)
             }
           }
-
+          setcheckLocationtoken(false)
       }
         if(checkLocationtoken){
         checkLocation();
@@ -105,10 +106,9 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
     const handlesaveclick = (loc)=>{
       saveLocation(loc)
       setsearch(false)
-      const newLocs = getLocations();
+      /*const newLocs = getLocations();
       setlocations(newLocs)
-      console.log(newLocs)
-      navigate('/weather', {state: newLocs.find(loca => loca.id === loc.place_id)})
+      navigate('/weather', {state: newLocs.find(loca => loca.id === loc.place_id)})*/
     }
     const handleclearall = ()=>{
       clearLocations()
@@ -121,22 +121,19 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
     }
     
     const calculateDistance = (lat1, lon1, lat2, lon2)=>{
-        /*const lat1dp = Math.floor(lat1 * 10)/10;
-        const lon1dp = Math.floor(lon1 * 10)/10;
-        const lat2dp = Math.floor(lat2 * 10)/10;
-        const lon2dp = Math.floor(lon2 * 10)/10;
-        const latdif = Math.abs(lat2dp - lat1dp);
-        const londif = Math.abs(lon2dp - lon1dp)
-
-        return latdif > 0.01 || londif > 0.01*/
-        const toRadians = (deg) => (deg * Math.PI) / 180;
+        const toRadians = (deg) => deg * (Math.PI / 180);
         const R = 6371000
-        const dLat = toRadians(lat2 -lat1);
-        const dLon = toRadians(lon2, lon1);
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        const lat1R = toRadians(lat1)
+        const lat2R = toRadians(lat2)
+        const lon1R = toRadians(lon1)
+        const lon2R = toRadians(lon2);
+
+        const dLat = lat2R -lat1R;
+        const dLon = lon2R -lon1R;
+        const a = Math.sin(dLat / 2) **2 + Math.cos(lat1R) * Math.cos(lat2R) * Math.sin(dLon / 2) ** 2
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return (R * c) > RADIUS_THRESHOLD
+        const distance = R * c
+        return distance > radiusT
     }
     
 
@@ -186,10 +183,9 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
 
     return(
         <div className="homecontainer">
-          <h1>Nimbus Now <img src={`${process.env.PUBLIC_URL}/images/umbrella1.png`} alt='i'/></h1>
            {resStatus && <div className='home-response'>{resStatus}</div>}
            {geoDenied && <p className='geo-denied'><img src={`${process.env.PUBLIC_URL}/images/warning.png`} alt='o'/> geolocation is not allowed, update browser settings for site to access auto current</p>}
-           <div className='home-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back.jpg)`}}><div></div></div>
+           <div className='home-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/background.jpg)`}}><div></div></div>
            {locations && <div className='locations-container'>
             <div> <div className='locations-top'>
               <div className='locations-top-first'>

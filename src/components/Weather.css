@@ -29,7 +29,7 @@
     position: relative;
     margin: 0;
     padding: 0;
-    padding-top: 7vh;
+    padding-top: 15vh;
     display: flex;
     flex-direction: column;
     gap: 10vh;
@@ -54,72 +54,26 @@
 .weatherDetails .currentCondition{
     align-self: center;
     margin: 0;
-    width: 70vw;
-    height: 60vh;
-    background-color: rgba(44, 44, 44, 0.3);
-    backdrop-filter: blur(1px);
+    min-width: 40vw;
+    height: 40vh;
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+    border: #ffffff23 1px solid;
     padding: 5vh 5vw;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: space-between;
-    gap: 1vh;
+    justify-content: end;
+    gap: 10vh;
+    color: #ffffff;
 }
 .currentCondition *{
     margin: 0;
     padding: 0;
 }
-.currentCondition .current-location{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    position: relative;
-}
-.current-location p{
-    font-size: 0.7em;
-    grid-column: 1 /span 2 ;
-    padding: 0;
-    margin: 0;
-    align-self: flex-start;
-    justify-self: top;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 0.5vw;
-}
-#currentlocation span{
-    font-size: 0.4em;
-    opacity: 0.7;
-}
-.current-location p  img{
-    width: 20px;
-    font-size: 0.23em;
-    color: rgb(83, 118, 146);
-    opacity: 0.7;
-}
-.current-location button{
-    background-color: transparent;
-    cursor: pointer;
-    border: none;
-    color: inherit;
-    font-size: 0.3em;
-}
-.current-location button img{
-    width: 30px;
-}
 
-.currentCondition .current-end{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 10vh;
-}
-.current-end .current-details{
+.currentCondition .current-details{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -139,7 +93,7 @@
 }
 
 
-.current-end .day-conditions{
+.currentCondition .day-conditions{
     font-size: 0.33em;
     display: flex;
     flex-direction: column;
@@ -176,6 +130,7 @@
 
 @media screen and (max-width: 800px) {
     .weather-response{
+        top: 10vh;
         padding: 1vh 5vw;
         font-size: 0.4em;
     }
@@ -183,15 +138,13 @@
         width: 75px;
     }
     .weatherDetails{
-        padding-top: 0;
         gap: 7vh;
     }
     .weatherDetails .currentCondition{
-        padding: 2vh 1vw;
-        width: 97.8vw;
-        height: 65vh;
+        padding: 2vh 3vw;
+        min-width: 70vw;
         margin: 0;
-        border-radius: 0 0 10px 10px;
+        border-radius: 10px;
     }
     .current-location p{
         font-size: 0.7em;

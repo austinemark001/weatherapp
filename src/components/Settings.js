@@ -58,7 +58,6 @@ export default function Settings(){
             <meta property="twitter:description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you' />
             </Helmet>
             <div className='settings-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back.jpg)`}}><div></div></div>
-            <h1> nimbusnow settings</h1>
             <div className="settings-list">
                 {Object.entries(settings).map(([key, value])=>(
                     <div key={key} className='setting'>
@@ -69,7 +68,7 @@ export default function Settings(){
                         <button onClick={() =>handelOpenChangeCard(key)}>change</button>
                     </div>
                 ))}
-             <button onClick={handlereset} className='reset-settings'>reset setting</button>
+             <button onClick={handlereset} className='reset-settings'> <img src={`${process.env.PUBLIC_URL}/images/reset.png`} alt='ico'/>reset setting</button>
             </div>
 
             {showchangeCard && <div className='settings-change-card'>
@@ -103,11 +102,6 @@ export default function Settings(){
                  experience the blend of functionality, aesthetics, and technical excellence firsthand.</p>
             </div>
             <footer className="myfooter">
-            <ul className="socialLinks">
-                <li><a href='https://github.com/austinemark001'> <img src={`${process.env.PUBLIC_URL}/images/github.png`} alt='git'/> </a></li> 
-                <li><a href='https://x.com/Austine19251417?t=XC13lUeb9F9VZrc50dxVqQ&s=09'> <img src={`${process.env.PUBLIC_URL}/images/x.png`} alt='x'/></a></li>
-                <li><a href='https://www.linkedin.com/in/austine-mark-abb7282aa'><img src={`${process.env.PUBLIC_URL}/images/linkedin.png`} alt='ln'/></a></li>
-            </ul>
             <p id="creator">created by austine mark - <a href="https://austinemark.com">see others</a></p>
     </footer>
         </div>

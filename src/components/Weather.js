@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Forecast from "./Forecast";
 import { getcodebackground, getcodecondition,  uvHealth, formatwind, formatwinddirection, formatvisibility } from "../weatherConfig";
 import './Weather.css'
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { getWeatherData ,saveWeatherData, saveshortweatherData,isWeatherDataExpired } from "../localstoragehelper";
 import { temperatureUnit, speedUnit, distanceUnit, getAutoAge, temperatureUnitChart } from "../settingsConfig";
 import axios from "axios";
@@ -11,7 +11,6 @@ import { Helmet } from "react-helmet";
 export default function Weather(){
     const locationState = useLocation();
     const navigate = useNavigate();
-
     const location = locationState.state;
     const [current, setcurrent] = useState(null);
     const [dailyforecast, setdailyforecast] = useState(null);
@@ -108,6 +107,11 @@ export default function Weather(){
         }
         setTimeout(()=> setresponse(false), 2000)
     }
+    /*useEffect(()=> {
+        if(seachParams.get('runFunction')=== 'true'){
+            handleRefresh()
+        }
+    }, [seachParams])*/
 
 
     return(
@@ -126,11 +130,6 @@ export default function Weather(){
         {current ? <div className='weatherDetails'
         style={{backgroundImage: `url(${getcodebackground(current.weather_code, isday)})`}}>
            <div className='currentCondition'>
-            <div className="current-location">
-            <p id='currentlocation'>{location.current && <img src={`${process.env.PUBLIC_URL}/images/currentlocation.png`} alt="c"/>}{location.name}</p>
-            <button  id="refresh-weather" onClick={handleRefresh}><img src={`${process.env.PUBLIC_URL}/images/refresh.png`} alt="refresh" /></button>
-            </div>
-            <div className="current-end">
             <div className="current-details">
                 <p id='currenttemp'>{temperatureUnitChart(current.temperature_2m)}<sup>°</sup> <sub></sub></p>
                 <p id="currentcondition"> {getcodecondition(current.weather_code)}</p>
@@ -139,7 +138,8 @@ export default function Weather(){
                 <div>
                 <p id="feels-like"> feels like
                 <span>{temperatureUnit(current.apparent_temperature)}</span></p>
-                <p id="dayconditions" style={{color: `${uvHealth(current.uv_index)}`}}> uv index<span>{Math.round(current.uv_index)}</span> </p>
+                <p  style={{color: `${uvHealth(current.uv_index)}`}}> uv index<span>{Math.round(current.uv_index)}</span> </p>
+                <p id="humidity">humidity <span>{Math.floor(current.relative_humidity_2m)}</span></p>
                 </div>
                 <div>
                     <p> {formatwinddirection(current.wind_direction_10m)} {formatwind(current.wind_speed_10m)}
@@ -149,12 +149,11 @@ export default function Weather(){
                         {formatvisibility(current.visibility / 1000)}</p>
                 </div>
             </div>
-            </div>
             
                
         </div>
 
-           {dailyforecast && <Forecast dailyforecast={dailyforecast}  currenttime={current.time} isDay= {isday}/>}
+           {dailyforecast && <Forecast dailyforecast={dailyforecast}  currenttime={current.time} isDay= {isday} handleRefresh={handleRefresh}/>}
            
         </div> : <div className="no-weather"><img src={`${process.env.PUBLIC_URL}/images/cool.png`} alt="i"/> {iserror ? "things did't work out" : 'getting things ready...'}</div>}
         </>
@@ -168,9 +167,9 @@ const requestInfo = {
     longitude: 0,
     latitude: 0,
     current: ['temperature_2m', 'apparent_temperature', 'is_day', 'precipitation', 'weather_code', 
-        'visibility', 'wind_speed_10m', 'wind_direction_10m', 'uv_index'],
+        'visibility', 'wind_speed_10m', 'wind_direction_10m', 'uv_index', 'relative_humidity_2m'],
     daily: ['weather_code', 'temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset',  'precipitation_sum',
-         'precipitation_probability_max'],
+         'precipitation_probability_max', 'uv_index_max'],
     timezone: 'auto'
   }
 

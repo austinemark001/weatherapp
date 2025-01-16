@@ -1,7 +1,8 @@
 .settingCont{
     position: relative;
     margin: 0;
-    padding: 1vh 10vw;
+    padding: 1vh 15vw;
+    padding-top: 15vh;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -12,8 +13,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 85vw;
-    height: 99vh;
+    width: 0%;
+    height: 0%;
     z-index: -1;
     background-position: center;
     background-size: cover;
@@ -44,7 +45,7 @@
     align-items: center;
     min-width: 40vw;
     font-size: 0.35em;
-    background-color: rgba(22, 2, 2, 0.7);
+    background-color: rgba(2, 11, 22, 0.7);
     padding: 1vh 1vw;
     border-radius: 15px;
 }
@@ -77,6 +78,16 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5vw;
+    box-shadow: 3px 3px 7px #000000;
+    border-radius: 10px;
+}
+.reset-settings img{
+    width: 30px;
 }
 
 
@@ -226,9 +237,7 @@
 @media screen and (max-width: 800px) {
     .settingCont{
         padding: 2vh 3vw;
-    }
-    .settingCont .settings-background{
-        width: 95vw;
+        padding-top: 10vh;
     }
     .settingscontent p{
         font-size: 0.45em;
@@ -238,6 +247,9 @@
         min-width: 80vw;
         font-size: 0.38em;
         padding: 1vw 2vw;
+    }
+    .reset-settings img{
+        width: 20px;
     }
     .settingCont .settings-change-card{
         min-width: 80vw;

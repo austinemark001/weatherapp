@@ -5,7 +5,7 @@ const defaultsettings = {
     speed: 'km/h',
     distance: 'metres',
     autorefreshduration: 3,
-    radiusthreshold: 5000 
+    radiusthreshold: 10000 
 };
 
 const savedefaultSettings = ()=>{
@@ -39,7 +39,7 @@ export const settingsunits = {
         units: [1, 2, 3, 6, 12, 24, 48]
     },
     radiusthreshold: {
-        units: [500, 1000, 2000, 5000, 10000, 20000]
+        units: [1000, 2000, 5000, 10000, 20000, 40000, 80000]
     }
 }
 

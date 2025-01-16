@@ -14,9 +14,9 @@
             codes: [2], icon: 'p-cloudy.png', iconnight: 'p-cloudy-night.png',
             background: 'p-cloudy.jpg', backgroundnight: 'p-cloudy-night.jpg'
         },
-        'overcast': {
-            codes: [3], icon: 'overcast.png', iconnight: 'overcast.png',
-            background: 'overcast.jpg', backgroundnight: 'overcast-night.jpg'
+        'cloudy': {
+            codes: [3], icon: 'cloudy.png', iconnight: 'cloudy.png',
+            background: 'cloudy.jpg', backgroundnight: 'cloudy-night.jpg'
         },
         'fog': {
             codes: [45, 48], icon: 'fog.png', iconnight: 'fog.png',
@@ -24,7 +24,7 @@
         },
         'drizzle': {
             codes: [51, 53, 55, 56, 57], icon: 'drizzle.png', iconnight: 'drizzle.png',
-            background: 'drizzle.jpg', backgroundnight: 'drizzle-night.jpg'
+            background: 'rain.jpg', backgroundnight: 'rain-night.jpg'
         },
         'rain': {
             codes: [61, 63, 65, 66, 67], icon: 'rain.png', iconnight: 'rain.png',
@@ -39,16 +39,12 @@
             codes: [80, 81, 82], icon: 'rain.png', iconnight: 'rain.png',
             background: 'rain.jpg', backgroundnight: 'rain-night.jpg'
         },'snow showers': {
-            codes: [45, 48], icon: 'snow.png', iconnight: 'snow.png',
+            codes: [85, 86], icon: 'snow.png', iconnight: 'snow.png',
             background: 'snow.jpg', backgroundnight: 'snow-night.jpg'
         },
         'thunderstorm': {
-            codes: [95, 96], icon: 'thunderstorm.png', iconnight: 'thunderstorm.png',
-            background: 'thunderstormn.jpg', backgroundnight: 'thunderstorm-night.jpg'
-        },
-        'hail thunderstorm': {
-            codes: [99], icon: 'thunderstorm.png', iconnight: 'thunderstorm.png',
-            background: 'thunderstorm.jpg', backgroundnight: 'thunderstorm.jpg'
+            codes: [95, 96, 99], icon: 'thunderstorm.png', iconnight: 'thunderstorm.png',
+            background: 'thunderstorm.jpg', backgroundnight: 'thunderstorm-night.jpg'
         },
     
     }

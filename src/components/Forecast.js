@@ -6,7 +6,7 @@ import { temperatureUnit, temperatureUnitChart } from "../settingsConfig";
 import './Forecast.css';
 
 
-export default function Forecast({dailyforecast, currenttime, isDay }){
+export default function Forecast({dailyforecast, currenttime, isDay, handleRefresh }){
     const [dailychartdata, setdaillychartdata] = useState([]);
     const [chartheight, setchartheight] = useState(230);
     const [astrotime, setastrotime] = useState({ first: 0, last: 0 })
@@ -70,13 +70,22 @@ export default function Forecast({dailyforecast, currenttime, isDay }){
     }
 
     const actvitySummary = ()=>{
-        if(dailyforecast.precipitation_sum[0] === 0  && dailyforecast.temperature_2m_max[0] >=15 && dailyforecast.temperature_2m_max[0] <=25) {
+        if(dailyforecast.precipitation_sum[0] === 0  && dailyforecast.temperature_2m_max[0] >=15 && dailyforecast.temperature_2m_max[0] <=25 && 
+            dailyforecast.uv_index_max <= 7) {
             return 'hike or picnic'
         }
         if(dailyforecast.precipitation_sum[0] > 1){
             return 'best for indoor activites'
         }
         return 'no activity to recommend'
+    }
+
+    const cautionSummary = ()=>{
+        if(dailyforecast.precipitation_sum[0] >= 10) return 'extreme precipitation';
+        if(dailyforecast.uv_index_max[0] > 7) return 'high uv, limit outdoor';
+        if(dailyforecast.temperature_2m_min[0] < -5) return 'extreme cold, stay warm';
+        if(dailyforecast.temperature_2m_max[0] > 35) return 'extreme hot, stay hydrated';
+        return 'good day'
     }
 
 
@@ -134,10 +143,13 @@ export default function Forecast({dailyforecast, currenttime, isDay }){
 
     return(
         <div className='forecast-container'>
+        <div className="forecast-title">
         <h3><img src={`${process.env.PUBLIC_URL}/images/forecast.png`} alt="f"/>Forecast next 7 days | <span>{formatLocalDate(currenttime)}</span></h3>
+        <button onClick={handleRefresh}><img src={`${process.env.PUBLIC_URL}/images/reload.png`} alt="refresh"/></button>
+        </div>
 
         <div className="summary-container">
-          <h4> <img src={`${process.env.PUBLIC_URL}/images/prep.png`} alt="ico"/> summary</h4>
+          <h4> <img src={`${process.env.PUBLIC_URL}/images/summary.png`} alt="ico"/> summary</h4>
           <div className="summaries">
           <div className="precip-summary">
             <h5><img src={`${process.env.PUBLIC_URL}/images/umbrella.png`} alt="ico"/>precipitation</h5>
@@ -147,10 +159,14 @@ export default function Forecast({dailyforecast, currenttime, isDay }){
             <h5> <img src={`${process.env.PUBLIC_URL}/images/activity.png`} alt="ico"/>activity</h5>
             <p>{actvitySummary()}</p>
           </div>
+          <div className="caution-summary">
+            <h5> <img src={`${process.env.PUBLIC_URL}/images/caution.png`} alt="ico"/>caution</h5>
+            <p>{cautionSummary()}</p>
+          </div>
           </div>
         </div>
         <div className="daily-forecast">
-        <h4>day by day</h4>
+        <h4><img src={`${process.env.PUBLIC_URL}/images/day.png`} alt="ico"/>day by day</h4>
         <div className="temp-chart-container">
         <div className="thee-temp-chart">
         <ResponsiveContainer width={'100%'} height={chartheight}  {...{overflow: 'visible'}}>
@@ -192,29 +208,12 @@ export default function Forecast({dailyforecast, currenttime, isDay }){
                     </linearGradient>}
                 </defs>
                <path ref={curveRef} d='M20 80 Q 200 -60, 380 80' fill="url(#astro-gradient)" />
-               <image href={`/images/${isDay ? 'sun': 'star1'}.png`} width={20} height={20}  x={astroposition.x -10} y={astroposition.y -10}/>
+               <image href={`/images/${isDay ? 'sun': 'star'}.png`} width={20} height={20}  x={astroposition.x -10} y={astroposition.y -10}/>
             </svg>
             </div>
             <p id='sunset'><span>{isDay ? 'sunset': 'sunrise'}</span> <br/>{astrotime.last}</p>
             </div>
         </div>
-   {/*dailyExtend && <div className="day-extended">
-        <button onClick={()=>setdailyExtend(false)}>X</button>
-        <p><span>{formatday(dailyExtend.startTime, currenttime)}</span> - {truncateTextSentense(getcodeDetails[dailyExtend.values.weatherCode].text)}</p>
-        <p><img src={`${process.env.PUBLIC_URL}/images/temperature.png`} alt="ico"/> 
-        temperature range {temperatureUnit(dailyExtend.values.temperatureMax)}/{temperatureUnit(dailyExtend.values.temperatureMin)}</p>
-        <p>precipiation  chance <span>{dailyExtend.values.precipitationProbability}%
-            {dailyExtend.values.precipitationProbability > 0 ? `(${getprecipDetails(dailyExtend.values.precipitationType)})`: ''} </span></p>
-        <div>
-            <p><img src={`${process.env.PUBLIC_URL}/images/visibility.png`} alt="ico"/> 
-            visibility-{distanceUnit(dailyExtend.values.visibility)} <span>{formatvisibility(dailyExtend.values.visibility)}</span></p>
-           <p><img src={`${process.env.PUBLIC_URL}/images/wind.png`} alt="ico"/>  
-           wind- {speedUnit(dailyExtend.values.windSpeed)} <span>{formatwind(dailyExtend.values.windSpeed)}</span></p>
-           <p style={{color: `${uvHealth(dailyExtend.values.uvIndex)}`}}><img src={`${process.env.PUBLIC_URL}/images/uv.png`} alt="ico"/> uv - {dailyExtend.values.uvIndex}</p>
-        </div>
-        <p><img src={`${process.env.PUBLIC_URL}/images/astro.png`} alt="ico"/> sunrise- <span>{formatSunriseSet(dailyExtend.values.sunriseTime, currenttime)}</span>
-        sunset- <span>{formatSunriseSet(dailyExtend.values.sunsetTime, currenttime)}</span></p>
-    </div>*/}
 </div>
     )
 }
