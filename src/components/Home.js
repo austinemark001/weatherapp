@@ -104,11 +104,10 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
     
 
     const handlesaveclick = (loc)=>{
-      saveLocation(loc)
+      const newLocs = saveLocation(loc)
       setsearch(false)
-      /*const newLocs = getLocations();
       setlocations(newLocs)
-      navigate('/weather', {state: newLocs.find(loca => loca.id === loc.place_id)})*/
+      /*navigate('/weather', {state: newLocs.find(loca => loca.id === loc.place_id)})*/
     }
     const handleclearall = ()=>{
       clearLocations()
@@ -184,7 +183,7 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
     return(
         <div className="homecontainer">
            {resStatus && <div className='home-response'>{resStatus}</div>}
-           {geoDenied && <p className='geo-denied'><img src={`${process.env.PUBLIC_URL}/images/warning.png`} alt='o'/> geolocation is not allowed, update browser settings for site to access auto current</p>}
+           {geoDenied && <p className='geo-denied'><img src={`${process.env.PUBLIC_URL}/images/warning.png`} alt='o'/> geolocation is not allowed, auto current location disabled</p>}
            <div className='home-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/background.jpg)`}}><div></div></div>
            {locations && <div className='locations-container'>
             <div> <div className='locations-top'>

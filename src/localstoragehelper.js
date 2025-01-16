@@ -52,7 +52,7 @@ export const saveLocation = (location, iscurrent) => {
     const exists = existingLocations.find(
       (loc) => loc.id === location.place_id
     );
-    if (exists) return;
+    if (exists) return existingLocations;
   }
 
   // Limit to 5 locations
@@ -82,6 +82,7 @@ export const saveLocation = (location, iscurrent) => {
   existingLocations.push(newLocation);
   }
   localStorage.setItem(SAVED_LOCATIONS_KEY, JSON.stringify(existingLocations));
+  return existingLocations;
 };
 
 export const saveWeatherData = (location, data) => {
