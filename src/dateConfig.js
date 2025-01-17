@@ -253,8 +253,5 @@ export function formatSunriseSet(inputdate, currentdate){
 export function checkweatherdiffExpired(lastdate, hours){
     const currenttime = Date.now();
     const elapsed = differenceInMilliseconds(currenttime, lastdate);
-    console.log('elapesd: '+ elapsed)
-    console.log('total_hours' + hours)
-    console.log('testhours'+ hours*3600000)
     return elapsed >= (hours*3600000)
 }

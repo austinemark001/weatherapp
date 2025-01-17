@@ -75,7 +75,7 @@ export const speedUnit = (spd)=>{
 export const distanceUnit = (dst) =>{
     switch(settings.distance){
         case 'kilometers': return `${Math.round(dst / 1000)}km`;
-        case 'miles' : return `${Math.round(dst * 1609.344)}mi`;
+        case 'miles' : return `${Math.round(dst / 1609.344)}mi`;
         default: return `${Math.round(dst)}m`
     }
 

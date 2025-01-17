@@ -88,18 +88,23 @@ export default function Settings(){
 
         
             <div className="aboutcontent">
-            <h3>Austine Mark - Software developer</h3>
-            {/*<img src={`${process.env.PUBLIC_URL}/images/me.jpg`} alt='me'/>
-            <h4>austine mark software developer</h4>*/}
+            <h3>About nimbus now</h3>
             <p>Nimbusnow is a showcase of my React expertise and API integration,
                  demonstrating my proficiency in modern web development.
                  With a sleek and responsive design, the app provides real-time weather
                   updates using external APIs, 
                  allowing users to stay informed about current conditions and forecasts worldwide. 
                  Nimbusnow reflects a commitment to user-centric design, 
-                 offering an intuitive interface and seamless navigation.<br/> <br/> For more projects showcasing Austine Mark's skills, 
+                 offering an intuitive interface and seamless navigation.<br/> <br/> For more projects showcasing my  skills, 
                 visit <a href="https://austinemark.com">my website</a> and
                  experience the blend of functionality, aesthetics, and technical excellence firsthand.</p>
+                <h4>contributers</h4>
+                <p><span> Main Developer</span> Austine Mark</p>
+                <p><span>Location features</span> nominatim via openstreetmap,org</p>
+                <p><span>Weather Data</span> open-meteo.com</p>
+                <p><span>navigation icons</span> flaticon.com</p>
+                <p><span>weather background images</span> pixabay.com</p>
+                <p><span>weather icons</span> Bas Milius via meteocons</p>
             </div>
             <footer className="myfooter">
             <p id="creator">created by austine mark - <a href="https://austinemark.com">see others</a></p>

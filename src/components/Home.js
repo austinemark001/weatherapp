@@ -20,7 +20,6 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
     const [resStatus, setresStatus] = useState(null);
     const [radiusT, setradiusT] = useState(4000)
     const [geoDenied, setgeoDenied] = useState(false);
-    const locationApi = process.env.REACT_APP_LOCATION_IQ;
 
 
     const searchRef = useRef(null);
@@ -71,7 +70,7 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
   const updatecurrentlocation = async (latitude, longitude)=>{
     try {
       const response = await axios.get(
-        `https://us1.locationiq.com/v1/reverse.php?key=${locationApi}&lat=${latitude}&lon=${longitude}&format=json`
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
       );
       saveLocation(response.data, true)
       setlocations(sortedLocations(getLocations()))
@@ -87,7 +86,7 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
         e.preventDefault();
         try{
           setsearchresponse('. . .')
-          const response = await axios.get(`https://us1.locationiq.com/v1/search?key=${locationApi}&q=${encodeURIComponent(searchQuery)}&format=json`);
+          const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchQuery)}&format=json&limit=5`);
           const data = await response.data;
           if(data && data.length > 0){
             setsearchresults(data);

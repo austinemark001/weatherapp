@@ -61,7 +61,7 @@ export const saveLocation = (location, iscurrent) => {
   }
   let name, country;
   if(iscurrent){
-    name = location.address.city || location.address.town || location.address.village || 'uknown';
+    name = location.address.city || location.address.town || location.address.village || location.name || 'uknown location';
     country = location.address.country;
   }else{
     const nameparts = location.display_name.split(',');

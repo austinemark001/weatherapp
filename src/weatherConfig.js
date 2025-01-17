@@ -169,7 +169,7 @@ const formatvisibility = (vis)=>{
 
 const formatwinddirection = (deg)=>{
     if(deg >= 337 || deg < 22.5) return 'north';
-    if(deg >= 22.5 && deg < 67.5) return 'norhteast';
+    if(deg >= 22.5 && deg < 67.5) return 'northeast';
     if(deg >= 67.5 && deg < 112.5) return 'east';
     if(deg >= 112.5 && deg < 157.5) return 'Southeast';
     if(deg >= 157.5 && deg < 202.5) return 'south';
