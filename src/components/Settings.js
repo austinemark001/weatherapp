@@ -48,14 +48,9 @@ export default function Settings(){
 
     return(
         <div className="settingCont">
-            <Helmet><title>nimbusnow settings</title>
+            <Helmet><title>weatherrush settings</title>
             <meta name="description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you'/>
             <meta name="keywords" content='change weather settings, celcuis to fahrenheit'/>
-            <meta property='og:title' content='nimbusnow settings'/>
-            <meta property="og:description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you'/>
-            <meta property='og:url' content='https://numbusnow.austinemark.com/weather/settings' />
-            <meta property="twitter:title" content='nimbusnow settings'/>
-            <meta property="twitter:description" content='change weather settings like the temperature value, speed unit and distance unit to what suits you' />
             </Helmet>
             <div className='settings-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/back.jpg)`}}><div></div></div>
             <div className="settings-list">
@@ -88,26 +83,27 @@ export default function Settings(){
 
         
             <div className="aboutcontent">
-            <h3>About nimbus now</h3>
-            <p>Nimbusnow is a showcase of my React expertise and API integration,
+            <h3>About weather rush</h3>
+            <p>Weather rush is a showcase of my React expertise and API integration,
                  demonstrating my proficiency in modern web development.
                  With a sleek and responsive design, the app provides real-time weather
                   updates using external APIs, 
                  allowing users to stay informed about current conditions and forecasts worldwide. 
-                 Nimbusnow reflects a commitment to user-centric design, 
+                 Weather rush reflects a commitment to user-centric design, 
                  offering an intuitive interface and seamless navigation.<br/> <br/> For more projects showcasing my  skills, 
-                visit <a href="https://austinemark.com">my website</a> and
+                visit <a href="https://austinemark.netlify.app">my website</a> and
                  experience the blend of functionality, aesthetics, and technical excellence firsthand.</p>
-                <h4>contributers</h4>
+                <h4>contributors</h4>
                 <p><span> Main Developer</span> Austine Mark</p>
                 <p><span>Location features</span> nominatim via openstreetmap,org</p>
                 <p><span>Weather Data</span> open-meteo.com</p>
                 <p><span>navigation icons</span> flaticon.com</p>
-                <p><span>weather background images</span> pixabay.com</p>
+                <p><span>weather background images</span> deep ai</p>
+                <p><span>background images</span> pixabay.com</p>
                 <p><span>weather icons</span> Bas Milius via meteocons</p>
             </div>
             <footer className="myfooter">
-            <p id="creator">created by austine mark - <a href="https://austinemark.com">see others</a></p>
+            <p id="creator">created by austine mark - <a href="https://austinemark.netlify.app">see others</a></p>
     </footer>
         </div>
     )

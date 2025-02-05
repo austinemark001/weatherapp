@@ -79,7 +79,11 @@ export const saveLocation = (location, iscurrent) => {
   if(iscurrent){
     existingLocations.unshift(newLocation)
   }else{
-  existingLocations.push(newLocation);
+    if(existingLocations.length > 1){
+      existingLocations.splice(1, 0, newLocation)
+    }else{
+      existingLocations.push(newLocation);
+    }
   }
   localStorage.setItem(SAVED_LOCATIONS_KEY, JSON.stringify(existingLocations));
   return existingLocations;

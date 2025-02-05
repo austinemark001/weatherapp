@@ -12,7 +12,7 @@
         },
         'partly cloudy': {
             codes: [2], icon: 'p-cloudy.png', iconnight: 'p-cloudy-night.png',
-            background: 'p-cloudy.jpg', backgroundnight: 'p-cloudy-night.jpg'
+            background: 'thunderstorm.jpg', backgroundnight: 'p-cloudy-night.jpg'
         },
         'cloudy': {
             codes: [3], icon: 'cloudy.png', iconnight: 'cloudy.png',

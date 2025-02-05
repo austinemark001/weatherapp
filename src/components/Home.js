@@ -7,6 +7,7 @@ import { getLocations, saveLocation, clearLocations, getshortweathers, removeLoc
 import { getcodeIcon, getcodecondition } from '../weatherConfig';
 import { getThreshold } from '../settingsConfig';
 import { getTimeDifference } from '../dateConfig';
+import { Helmet } from "react-helmet";
 
 
 export default function Home({ checkLocationtoken, setcheckLocationtoken }){
@@ -181,6 +182,9 @@ export default function Home({ checkLocationtoken, setcheckLocationtoken }){
 
     return(
         <div className="homecontainer">
+          <Helmet>
+            <title>locations- weather rush</title>
+            </Helmet>
            {resStatus && <div className='home-response'>{resStatus}</div>}
            {geoDenied && <p className='geo-denied'><img src={`${process.env.PUBLIC_URL}/images/warning.png`} alt='o'/> geolocation is not allowed, auto current location disabled</p>}
            <div className='home-background' style={{backgroundImage: `url(${process.env.PUBLIC_URL}/images/background.jpg)`}}><div></div></div>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef} from "react";
+import React, { useEffect, useState } from "react";
 import { getcodecondition, getcodeIconChart} from "../weatherConfig";
-import { XAxis, YAxis, ResponsiveContainer, Tooltip, Line, LineChart } from 'recharts';
+import { XAxis, YAxis, ResponsiveContainer, Line, LineChart } from 'recharts';
 import { formatday, formatLocalDate, calculateAstro} from "../dateConfig";
 import { temperatureUnit, temperatureUnitChart } from "../settingsConfig";
 import './Forecast.css';
@@ -10,18 +10,14 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
     const [dailychartdata, setdaillychartdata] = useState([]);
     const [chartheight, setchartheight] = useState(230);
     const [astrotime, setastrotime] = useState({ first: 0, last: 0 })
-    const [astroposition, setastroposition] = useState({x: 0,y: 0})
-    const curveRef = useRef()
+    const [astroposition, setastroposition] = useState(0)
     
     useEffect(()=>{
         const calculateastro = ()=>{
         const astrodata = calculateAstro(dailyforecast.sunrise[0], dailyforecast.sunset[0], currenttime, isDay);
 
-           if(curveRef.current){
-             const pathLength = curveRef.current.getTotalLength();
-             const point = curveRef.current.getPointAtLength((astrodata.progress /100) * pathLength)
-             setastroposition({x: point.x, y: point.y})
-           }
+            setastroposition(astrodata.progress)
+            console.log(astrodata.progress)
             setastrotime({first: astrodata.first, last: astrodata.last})
         }
         if(currenttime &&  dailyforecast.sunrise && dailyforecast.sunset){
@@ -124,7 +120,7 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
             <text x={5} y={10} fill="#00b7ff">{dailychartdata.find(t => t.day === payload.value).prep}%</text>
             </g>}
             <text x={-15} y={60} dy={10} fill="#ededed" textAnchor="start">{payload.value}</text>
-            <text x={-15} y={75} dy={10} fill="#0ac0b1" textAnchor="start" fontSize={'0.9em'}>{ getcodecondition(dailychartdata.find(t => t.day === payload.value).icon)}</text>
+            <text x={-15} y={75} dy={10} fill="#ffffff99" textAnchor="start" fontSize={'0.9em'}>{ getcodecondition(dailychartdata.find(t => t.day === payload.value).icon)}</text>
             </g>
         )
     }
@@ -175,9 +171,8 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
             tick={<CustomXasis/>} tickLine={false} />
 
             <YAxis axisLine={false} hide={true} stroke="#ffffffb3" tickLine={false} />
-            <Tooltip content={null} cursor={false}/>
             {/*<CartesianGrid strokeDasharray={'3 3'} vertical={true} horizontal={false} stroke="#ffffff66" strokeWidth={0.5}/>*/}
-            <Line type={'monotone'} dataKey={'temp'}  dot={<CustomDot/>}   stroke="#ededed" strokeWidth={3}
+            <Line type={'monotone'} dataKey={'temp'}  dot={<CustomDot/>} stroke="#ededed" strokeWidth={3}
             activeDot={false}/>
             </LineChart>
         </ResponsiveContainer>
@@ -194,22 +189,9 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
             <h4><img src={`${process.env.PUBLIC_URL}/images/astro.png`} alt="ico"/> astro track | <span>{isDay ? 'day-time': 'night-time'}</span></h4>
             <div className="astro-time">
             <p id='sunrise'><span>{isDay ? 'sunrise': 'sunset'}</span> <br/>{astrotime.first}</p>
-            <div className="astro-position">
-               <svg width={'100%'} height={'100%'} viewBox="0 0 400 100" preserveAspectRatio="none">
-                <defs>
-                    {isDay ? <linearGradient id="astro-gradient" x1={'0%'} x2={'0%'} y1={'0%'} y2={'100%'}>
-                        <stop offset={'0%'} stopColor="#ffffff" stopOpacity={0.3}/>
-                        <stop offset={'50%'} stopColor="#ffffff" stopOpacity={0.1}/>
-                        <stop offset={'70%'} stopColor="#ffffff" stopOpacity={0}/>
-                    </linearGradient> : <linearGradient id="astro-gradient" x1={'0%'} x2={'0%'} y1={'0%'} y2={'100%'}>
-                        <stop offset={'0%'} stopColor="#191970" stopOpacity={0.5}/>
-                        <stop offset={'50%'} stopColor="#191970" stopOpacity={0.1}/>
-                        <stop offset={'70%'} stopColor="#191970" stopOpacity={0}/>
-                    </linearGradient>}
-                </defs>
-               <path ref={curveRef} d='M20 80 Q 200 -60, 380 80' fill="url(#astro-gradient)" />
-               <image href={`/images/${isDay ? 'sun': 'star'}.png`} width={20} height={20}  x={astroposition.x -10} y={astroposition.y -10}/>
-            </svg>
+            <div className="astro-pos" >
+                <div className="astro-back" style={{background: `radial-gradient(circle at top,${isDay ? '#2cb8f0' : '#0d0d3d'} 10%, transparent 90%)`}}></div>
+                <img src={`${process.env.PUBLIC_URL}/images/${isDay ? 'sun' : 'star'}.png`} alt="ico" style={{left: `${astroposition}%`}}/>
             </div>
             <p id='sunset'><span>{isDay ? 'sunset': 'sunrise'}</span> <br/>{astrotime.last}</p>
             </div>

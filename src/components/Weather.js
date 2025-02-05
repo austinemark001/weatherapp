@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Forecast from "./Forecast";
 import { getcodebackground, getcodecondition,  uvHealth, formatwind, formatwinddirection, formatvisibility } from "../weatherConfig";
 import './Weather.css'
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getWeatherData ,saveWeatherData, saveshortweatherData,isWeatherDataExpired } from "../localstoragehelper";
 import { temperatureUnit, speedUnit, distanceUnit, getAutoAge, temperatureUnitChart } from "../settingsConfig";
 import axios from "axios";
@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 export default function Weather(){
     const locationState = useLocation();
     const navigate = useNavigate();
-    const location = locationState.state;
+    const location = locationState.state || false;
     const [current, setcurrent] = useState(null);
     const [dailyforecast, setdailyforecast] = useState(null);
     const [responsestatus, setresponse] = useState(false);
@@ -20,15 +20,14 @@ export default function Weather(){
     //satro usestates
     
     
-    if (!location) {
-        console.error("Cannot save weather data for invalid location:", location);
-        navigate('/')
-
-    }
 
     useEffect(() => {
+        if (!location) {
+            console.error("Cannot save weather data for invalid location:", location);
+            navigate('/')
+    
+        }
         const fetchWeather = async() => {
-
           // Initially check for saved weather data from localStorage
           const cachedWeather = getWeatherData(location);
           
@@ -50,8 +49,9 @@ export default function Weather(){
           }
            
     }
-    
-        fetchWeather();
+        if(location){
+         fetchWeather();
+        }
       }, [location]);
 
     const feeddata =(filtereddata) =>{
@@ -116,7 +116,7 @@ export default function Weather(){
 
     return(
         <>
-        <Helmet>
+        {location && <Helmet>
             <title>weather {location.name}</title>
             <meta name="description" content={`weather for ${location.name}, ${location.country} showing current, hourly forecast, daily forecast and astro details`}/>
             <meta name="keywords" content={`weather ${location.name}, today's weather ${location.name}, current weather ${location.name}`}/>
@@ -125,7 +125,7 @@ export default function Weather(){
             <meta property='og:url' content={`https://numbusnow.austinemark.com/weather/${location.name}`} />
             <meta property="twitter:title" content={`weather ${location.name}`}/>
             <meta property="twitter:description" content={`weather ${location.name}, today's weather ${location.name}, current weather ${location.name}`} />
-        </Helmet>
+        </Helmet>}
         {responsestatus && <div className="weather-response">{responsestatus}</div>}
         {current ? <div className='weatherDetails'
         style={{backgroundImage: `url(${getcodebackground(current.weather_code, isday)})`}}>
