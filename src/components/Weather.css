@@ -116,7 +116,7 @@
     align-items: center;
     gap: 1vw;
     padding: 0 0.5vw;
-    border-right: rgba(0, 20, 27, 0.5) 1px solid;
+    border-right: rgba(201, 201, 201, 0.795) 1px solid;
 }
 .day-conditions img{
     width: 30px;

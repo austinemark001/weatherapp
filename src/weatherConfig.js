@@ -12,7 +12,7 @@
         },
         'partly cloudy': {
             codes: [2], icon: 'p-cloudy.png', iconnight: 'p-cloudy-night.png',
-            background: 'thunderstorm.jpg', backgroundnight: 'p-cloudy-night.jpg'
+            background: 'p-cloudy.jpg', backgroundnight: 'p-cloudy-night.jpg'
         },
         'cloudy': {
             codes: [3], icon: 'cloudy.png', iconnight: 'cloudy.png',
@@ -24,7 +24,7 @@
         },
         'drizzle': {
             codes: [51, 53, 55, 56, 57], icon: 'drizzle.png', iconnight: 'drizzle.png',
-            background: 'rain.jpg', backgroundnight: 'rain-night.jpg'
+            background: 'drizzle.jpg', backgroundnight: 'drizzle-night.jpg'
         },
         'rain': {
             codes: [61, 63, 65, 66, 67], icon: 'rain.png', iconnight: 'rain.png',

@@ -1,6 +1,6 @@
 {
-  "short_name": "nimbusnow",
-  "name": "nimbus-now-weather",
+  "short_name": "weather",
+  "name": "weather rush",
   "icons": [
     {
       "src": "favicon.ico",

@@ -17,7 +17,6 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
         const astrodata = calculateAstro(dailyforecast.sunrise[0], dailyforecast.sunset[0], currenttime, isDay);
 
             setastroposition(astrodata.progress)
-            console.log(astrodata.progress)
             setastrotime({first: astrodata.first, last: astrodata.last})
         }
         if(currenttime &&  dailyforecast.sunrise && dailyforecast.sunset){
@@ -106,7 +105,7 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
         return(
             <g style={{backgroundColor: 'blue'}} fill="blue">
             <image x={cx-20} y={cy- 100} width={60} height={60} href={getcodeIconChart(payload.icon)}/>
-            <circle cx={cx} cy={cy} r={3} fill="#ededed"/>
+            {/*<circle cx={cx} cy={cy} r={1.5} fill="#ededed"/>*/}
             <text x={cx} y={cy -10} textAnchor="middle" fill="#ededed" fontSize={'0.9em'}>{payload.temp}°</text>
             </g>
         )
@@ -116,8 +115,8 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
         return(
             <g transform={`translate(${x}, ${y})`}>
             {dailychartdata.find(t => t.day === payload.value).prep > 0 &&<g>
-            <image x={-15} y={-5} width={20} height={20} href="/images/drop.png"/>
-            <text x={5} y={10} fill="#00b7ff">{dailychartdata.find(t => t.day === payload.value).prep}%</text>
+            <image x={-15} y={-5} width={17} height={17} href="/images/drop.png"/>
+            <text x={5} y={10} fill="#ffffff99">{dailychartdata.find(t => t.day === payload.value).prep}%</text>
             </g>}
             <text x={-15} y={60} dy={10} fill="#ededed" textAnchor="start">{payload.value}</text>
             <text x={-15} y={75} dy={10} fill="#ffffff99" textAnchor="start" fontSize={'0.9em'}>{ getcodecondition(dailychartdata.find(t => t.day === payload.value).icon)}</text>
@@ -172,7 +171,7 @@ export default function Forecast({dailyforecast, currenttime, isDay, handleRefre
 
             <YAxis axisLine={false} hide={true} stroke="#ffffffb3" tickLine={false} />
             {/*<CartesianGrid strokeDasharray={'3 3'} vertical={true} horizontal={false} stroke="#ffffff66" strokeWidth={0.5}/>*/}
-            <Line type={'monotone'} dataKey={'temp'}  dot={<CustomDot/>} stroke="#ededed" strokeWidth={3}
+            <Line type={'monotone'} dataKey={'temp'}  dot={<CustomDot/>} stroke="#d3d3d3cc" strokeWidth={2}
             activeDot={false}/>
             </LineChart>
         </ResponsiveContainer>
